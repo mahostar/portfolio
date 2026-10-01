@@ -153,6 +153,11 @@ export function ContactForm({ email, note }: { email: string; note: string }) {
           {errors.form}
         </p>
       )}
+      {errors.form && email && (
+        <a className="text-link contact-email-fallback" href={`mailto:${email}`}>
+          Send an email instead <ArrowUpRight size={16} />
+        </a>
+      )}
       <Button className="send-button" type="submit" disabled={sending}>
         {sending ? (
           <>

@@ -6,15 +6,8 @@ import { Eyebrow } from "./section-heading";
 const icons = { robotics: Bot, ai: Cpu, pcb: CircuitBoard, research: Microscope };
 
 export function ExperienceArchive() {
-  const entries = [
-    ...getImpact().map((entry) => ({
-      ...entry,
-      period: "2025–2026",
-      mediaLabel: entry.photoLabel,
-      videoUrl: "",
-    })),
-    ...getArchive(),
-  ];
+  const teaching = getImpact();
+  const entries = getArchive();
   return (
     <section
       id="impact"
@@ -24,8 +17,12 @@ export function ExperienceArchive() {
       <div className="container">
         <div className="story-heading archive-heading">
           <div>
-            <Eyebrow>Projects, workshops &amp; outcomes</Eyebrow>
-            <h2 id="archive-heading">My Stories &amp; Milestones</h2>
+            <Eyebrow>05 / Work beyond the screen</Eyebrow>
+            <h2 id="archive-heading">
+              Build it.
+              <br />
+              Teach it. Share it.
+            </h2>
           </div>
           <p>
             Projects, teaching, research, and the moments behind them. Every card
@@ -71,6 +68,14 @@ export function ExperienceArchive() {
                   </div>
                   <h3>{entry.title}</h3>
                   <p>{entry.description}</p>
+                  {teaching.find((item) => item.motif === entry.motif) && (
+                    <details>
+                      <summary>Behind the workshop</summary>
+                      <p>
+                        {teaching.find((item) => item.motif === entry.motif)?.description}
+                      </p>
+                    </details>
+                  )}
                   {entry.videoUrl && (
                     <a
                       className="text-link"

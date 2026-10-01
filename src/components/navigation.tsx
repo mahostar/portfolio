@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ArrowRight, Folder, Home, Mail, UserRound, Sparkles } from "lucide-react";
 import { NavigationGlass } from "./navigation-glass";
+import styles from "./signal-navigation.module.css";
 
 const items = [
   { id: "home", label: "Home", Icon: Home },
@@ -43,19 +44,48 @@ export function Navigation({ monogram, name }: { monogram: string; name: string 
   }, []);
   useEffect(() => {
     if (!onHome) return;
-    // Only primary navigation anchors set the active tab. Supporting sections
-    // stay within the preceding primary section instead of jumping back to About.
-    const sections = items
-      .map(({ id }) => document.getElementById(id))
+    const groups: Record<string, string> = {
+      home: "home",
+      work: "work",
+      about: "about",
+      journey: "about",
+      interests: "about",
+      impact: "impact",
+      skills: "impact",
+      certificates: "impact",
+      contact: "contact",
+    };
+    const sections = Object.keys(groups)
+      .map((id) => document.getElementById(id))
       .filter((element): element is HTMLElement => !!element);
+    const header = document.querySelector<HTMLElement>(".site-header");
+    const bar = document.querySelector<HTMLElement>(".bottom-nav");
+    const hero = document.getElementById("home");
     let frame = 0;
+    let lastScroll = window.scrollY;
     const observe = () => {
       frame = 0;
       const anchor = window.innerHeight * 0.38;
       const current = sections
         .filter((element) => element.getBoundingClientRect().top <= anchor)
         .at(-1);
-      setSection(window.scrollY <= 2 ? "home" : current?.id || "home");
+      const group = window.scrollY <= 2 ? "home" : groups[current?.id || "home"];
+      setSection(group);
+      const lower =
+        !hero || hero.getBoundingClientRect().bottom <= (header?.offsetHeight || 64);
+      if (header) {
+        header.dataset.signalLower = String(lower);
+        if (Math.abs(scrollY - lastScroll) > 4)
+          header.dataset.scrollDirection = scrollY > lastScroll ? "down" : "up";
+      }
+      if (bar) bar.dataset.signalLower = String(lower);
+      lastScroll = scrollY;
+      for (const nav of [header?.querySelector<HTMLElement>(".desktop-nav"), bar]) {
+        const selected = nav?.querySelector<HTMLAnchorElement>(`a[href="#${group}"]`);
+        if (!nav || !selected) continue;
+        nav.style.setProperty("--signal-indicator-x", `${selected.offsetLeft}px`);
+        nav.style.setProperty("--signal-indicator-width", `${selected.offsetWidth}px`);
+      }
     };
     const schedule = () => {
       if (!frame) frame = requestAnimationFrame(observe);
@@ -64,6 +94,7 @@ export function Navigation({ monogram, name }: { monogram: string; name: string 
     sections.forEach((element) => observer.observe(element));
     window.addEventListener("scroll", schedule, { passive: true });
     window.addEventListener("resize", schedule, { passive: true });
+    void document.fonts.ready.then(schedule);
     observe();
     return () => {
       observer.disconnect();
@@ -72,10 +103,36 @@ export function Navigation({ monogram, name }: { monogram: string; name: string 
       window.removeEventListener("resize", schedule);
     };
   }, [onHome]);
+  useEffect(() => {
+    if (onHome) return;
+    let cancelled = false;
+    const measure = () => {
+      if (cancelled) return;
+      for (const nav of document.querySelectorAll<HTMLElement>(
+        ".desktop-nav,.bottom-nav",
+      )) {
+        const selected = nav.querySelector<HTMLAnchorElement>("a.active");
+        if (!selected) continue;
+        nav.style.setProperty("--signal-indicator-x", `${selected.offsetLeft}px`);
+        nav.style.setProperty("--signal-indicator-width", `${selected.offsetWidth}px`);
+      }
+    };
+    measure();
+    void document.fonts.ready.then(measure);
+    window.addEventListener("resize", measure, { passive: true });
+    return () => {
+      cancelled = true;
+      window.removeEventListener("resize", measure);
+    };
+  }, [onHome, active]);
   const href = (id: string) => (onHome ? `#${id}` : `/#${id}`);
   return (
     <>
-      <header className="site-header" data-scroll-state="top">
+      <header
+        className={`site-header ${styles.header}`}
+        data-scroll-state="top"
+        data-signal-lower={onHome ? undefined : "true"}
+      >
         <NavigationGlass />
         <div className="container nav-inner">
           <Link
@@ -100,7 +157,7 @@ export function Navigation({ monogram, name }: { monogram: string; name: string 
                 className={active === id ? "active" : ""}
                 aria-current={active === id ? "page" : undefined}
               >
-                {label}
+                {id === "impact" && active !== "home" ? "Proof" : label}
               </Link>
             ))}
           </nav>
@@ -110,7 +167,11 @@ export function Navigation({ monogram, name }: { monogram: string; name: string 
           </Link>
         </div>
       </header>
-      <nav className="bottom-nav" aria-label="Mobile navigation">
+      <nav
+        className={`bottom-nav ${styles.bottom}`}
+        aria-label="Mobile navigation"
+        data-signal-lower={onHome ? undefined : "true"}
+      >
         {items.map(({ id, label, Icon }) => (
           <Link
             key={id}
@@ -123,7 +184,7 @@ export function Navigation({ monogram, name }: { monogram: string; name: string 
               strokeWidth={1.7}
               fill={active === id && id === "home" ? "currentColor" : "none"}
             />
-            <span>{label}</span>
+            <span>{id === "impact" && active !== "home" ? "Proof" : label}</span>
           </Link>
         ))}
       </nav>

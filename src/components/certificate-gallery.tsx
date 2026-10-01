@@ -28,7 +28,7 @@ export function CertificateGallery({
       <div className="container">
         <div className="story-heading certificates-heading">
           <div>
-            <Eyebrow>02 / Formal credentials</Eyebrow>
+            <Eyebrow>07 / Formal credentials</Eyebrow>
             <h2 id="certificates-heading">Official Certificates</h2>
           </div>
           <p>
@@ -91,7 +91,7 @@ export function CertificateGallery({
               </div>
               <div className="certificate-copy">
                 <h3>{slot.title}</h3>
-                <p>Details and previews coming soon.</p>
+                <p>{slot.description}</p>
               </div>
             </article>
           ))}

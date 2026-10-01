@@ -8,7 +8,7 @@
 >
 > Follow the P3–P6 visual blueprint below: cobalt navigation, sliding indicators, the five-domain skill board, signal-based card interactions, editorial story/interest sections, rail and polished footer. Preserve the header/bottom-bar appearance and clearance while the hero is visible. Unconfirmed capabilities, credentials and project pipelines must not be invented. Keep contact usable without unavailable external services.
 >
-> Before implementation, commit and push the verified current website as a recovery point. Then finish the authorized lower redesign without stopping for routine phase approvals. Work component by component; replace working features completely before deleting old code. Use quick visual checks during work and meaningful final functional/build checks. The old P2/P3/P4 stop-for-review instructions are superseded by this execution authorization.
+> The owner has already pushed the stable recovery version. Continue the authorized lower redesign without stopping for routine phase approvals, and save the redesign separately from that recovery point. Work component by component; replace working features completely before deleting old code. Use quick visual checks during work and meaningful final functional/build checks. The old P2/P3/P4 stop-for-review instructions are superseded by this execution authorization.
 >
 > Compare the hero before/after and repair every attributable regression. Never reset the owner's tree or reapply rejected phase commits. Historical measurements below are not current results.
 

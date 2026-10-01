@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { site, monogram } from "@/content/site";
 import { hasCv } from "@/lib/content";
+import styles from "./footer.module.css";
 
 const links = [
   ["Work", "work"],
@@ -15,7 +16,8 @@ const links = [
 ];
 export function Footer() {
   return (
-    <footer className="site-footer">
+    <footer className={`site-footer ${styles.footer}`}>
+      <span className={styles.watermark} aria-hidden="true" />
       <div className="container">
         <div className="footer-grid">
           <div className="footer-intro">

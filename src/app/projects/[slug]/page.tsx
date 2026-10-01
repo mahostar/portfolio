@@ -9,6 +9,7 @@ import { TechLogo } from "@/components/tech-logo";
 import { Eyebrow } from "@/components/section-heading";
 import { sections } from "@/lib/content-schema";
 import type { ComponentPropsWithoutRef } from "react";
+import styles from "./case-study.module.css";
 
 const sectionId = (title: string) =>
   title
@@ -41,12 +42,19 @@ export async function generateMetadata({
     openGraph: {
       title: project.title,
       description: project.summary,
-      images: [{ url: project.cover }],
+      images: [
+        {
+          url: `/projects/${slug}/opengraph-image`,
+          width: 1200,
+          height: 630,
+          alt: project.title,
+        },
+      ],
     },
     twitter: {
       title: project.title,
       description: project.summary,
-      images: [project.cover],
+      images: [`/projects/${slug}/opengraph-image`],
     },
   };
 }
@@ -126,7 +134,10 @@ export default async function CaseStudy({
         )}
       </div>
       <div className="case-reading-layout">
-        <nav className="case-contents" aria-label="In this case study">
+        <nav
+          className={`case-contents ${styles.contents}`}
+          aria-label="In this case study"
+        >
           <p className="eyebrow">In this project</p>
           {sections.map((title, index) => (
             <a href={`#${sectionId(title)}`} key={title}>

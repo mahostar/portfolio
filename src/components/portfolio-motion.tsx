@@ -17,6 +17,9 @@ export function PortfolioMotion() {
     if (!main) return;
     const reduced = matchMedia("(prefers-reduced-motion: reduce)");
     const fine = matchMedia("(hover: hover) and (pointer: fine)");
+    const motionPaused = () =>
+      main.querySelector<HTMLElement>("[data-signal-site]")?.dataset.motionPaused ===
+      "true";
     const surfaces = new Map<HTMLElement, () => void>();
     const observed = new Set<HTMLElement>();
     const animations = new Map<Animation, HTMLElement>();
@@ -26,7 +29,7 @@ export function PortfolioMotion() {
           const element = entry.target as HTMLElement;
           if (!entry.isIntersecting) continue;
           enter.unobserve(element);
-          if (reduced.matches) continue;
+          if (reduced.matches || motionPaused()) continue;
           const delay = (Number(element.dataset.motionOrder || 0) % 3) * 65;
           const animation = element.animate(
             [
@@ -51,7 +54,7 @@ export function PortfolioMotion() {
       if (surfaces.has(element)) return;
       let frame = 0;
       const move = (event: PointerEvent) => {
-        if (!fine.matches || reduced.matches) return;
+        if (!fine.matches || reduced.matches || motionPaused()) return;
         cancelAnimationFrame(frame);
         frame = requestAnimationFrame(() => {
           const bounds = element.getBoundingClientRect();
@@ -105,10 +108,19 @@ export function PortfolioMotion() {
 
     let scrollFrame = 0;
     let refreshFrame = 0;
+    const journey = main.querySelector<HTMLElement>(".journey-list");
+    const journeyItems = [...(journey?.querySelectorAll<HTMLElement>("li") || [])];
+    const headings = [...main.querySelectorAll<HTMLElement>(".case-body h2[id]")];
+    const contentsLinks = [
+      ...main.querySelectorAll<HTMLAnchorElement>(".case-contents a"),
+    ];
     const progress = () => {
       scrollFrame = 0;
-      const journey = main.querySelector<HTMLElement>(".journey-list");
-      if (journey) {
+      if (
+        journey &&
+        journey.getBoundingClientRect().top <= innerHeight &&
+        journey.getBoundingClientRect().bottom >= 0
+      ) {
         const bounds = journey.getBoundingClientRect();
         const value = Math.max(
           0,
@@ -118,13 +130,12 @@ export function PortfolioMotion() {
           "--journey-progress",
           reduced.matches ? "1" : String(value),
         );
-        journey.querySelectorAll<HTMLElement>("li").forEach((item) => {
+        journeyItems.forEach((item) => {
           item.dataset.reached = String(
             item.getBoundingClientRect().top < innerHeight * 0.62,
           );
         });
       }
-      const headings = [...main.querySelectorAll<HTMLElement>(".case-body h2[id]")];
       if (headings.length) {
         const anchor =
           (document.querySelector(".site-header")?.getBoundingClientRect().bottom || 80) +
@@ -133,7 +144,7 @@ export function PortfolioMotion() {
           headings
             .filter((heading) => heading.getBoundingClientRect().top <= anchor)
             .at(-1) || headings[0];
-        main.querySelectorAll<HTMLAnchorElement>(".case-contents a").forEach((link) => {
+        contentsLinks.forEach((link) => {
           if (link.hash === `#${current.id}`)
             link.setAttribute("aria-current", "location");
           else link.removeAttribute("aria-current");
@@ -152,7 +163,7 @@ export function PortfolioMotion() {
         });
     });
     const changeMotion = () => {
-      if (reduced.matches) {
+      if (reduced.matches || motionPaused()) {
         animations.forEach((_, animation) => animation.cancel());
         animations.clear();
         surfaces.forEach((_, element) => {
@@ -167,10 +178,31 @@ export function PortfolioMotion() {
     window.addEventListener("scroll", schedule, { passive: true });
     window.addEventListener("resize", schedule, { passive: true });
     reduced.addEventListener("change", changeMotion);
+    document.addEventListener("portfolio-motion-change", changeMotion);
+    const cards = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          const card = entry.target as HTMLElement;
+          if (
+            entry.isIntersecting &&
+            !fine.matches &&
+            !reduced.matches &&
+            !motionPaused()
+          )
+            card.dataset.inView = "true";
+          else delete card.dataset.inView;
+        }
+      },
+      { threshold: 0.55 },
+    );
+    main
+      .querySelectorAll<HTMLElement>(".project-card")
+      .forEach((card) => cards.observe(card));
     refresh();
     progress();
     return () => {
       enter.disconnect();
+      cards.disconnect();
       mutations.disconnect();
       animations.forEach((_, animation) => animation.cancel());
       surfaces.forEach((cleanup) => cleanup());
@@ -179,6 +211,7 @@ export function PortfolioMotion() {
       window.removeEventListener("scroll", schedule);
       window.removeEventListener("resize", schedule);
       reduced.removeEventListener("change", changeMotion);
+      document.removeEventListener("portfolio-motion-change", changeMotion);
     };
   }, [pathname]);
   return null;

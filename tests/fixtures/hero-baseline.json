@@ -1,0 +1,146 @@
+{
+  "390": {
+    "box": {
+      "x": 0,
+      "y": 65,
+      "width": 390,
+      "height": 547.453125
+    },
+    "text": "EMBEDDED / EDGE AI ENGINEER\n\nHi, I'm\n\nMED WASSIM\nMBAREK.\nIoT\nAI\nRobotics\nPCB\nPROJECTS\nBUILT\n8+\nYEARS\nBUILDING\n5+\nTECHNOLOGIES\nUSED\n14+\nEngineer. Builder. Educator.\nFrom circuits to software\nEmbedded systems & edge AI\nRobotics, PCB design & AI training\nIdeas turned into working systems\nEight years on the windsurf board",
+    "parts": [
+      {
+        "class": "hero-background",
+        "box": {
+          "x": 0,
+          "y": 65,
+          "width": 390,
+          "height": 501.453125
+        }
+      },
+      {
+        "class": "hero-copy",
+        "box": {
+          "x": 20,
+          "y": 83,
+          "width": 350,
+          "height": 131.453125
+        }
+      },
+      {
+        "class": "portrait",
+        "box": {
+          "x": 30,
+          "y": 214.453125,
+          "width": 330,
+          "height": 352
+        }
+      },
+      {
+        "class": "hero-stats",
+        "box": {
+          "x": 20,
+          "y": 490.453125,
+          "width": 350,
+          "height": 66
+        }
+      }
+    ],
+    "background": "fill"
+  },
+  "1440": {
+    "box": {
+      "x": 0,
+      "y": 81,
+      "width": 1440,
+      "height": 627.15625
+    },
+    "text": "EMBEDDED / EDGE AI ENGINEER\n\nHi, I'm\n\nMED WASSIM\nMBAREK.\n\nFROM CIRCUITS TO SOFTWARE.\nBUILDING THE WHOLE CHAIN.\n\nIoT\nAI\nRobotics\nPCB\nPROJECTS\nBUILT\n8+\nYEARS\nBUILDING\n5+\nTECHNOLOGIES\nUSED\n14+\nView projects\nEngineer. Builder. Educator.\nFrom circuits to software\nEmbedded systems & edge AI\nRobotics, PCB design & AI training\nIdeas turned into working systems\nEight years on the windsurf board",
+    "parts": [
+      {
+        "class": "hero-background",
+        "box": {
+          "x": 0,
+          "y": 81,
+          "width": 1440,
+          "height": 579.15625
+        }
+      },
+      {
+        "class": "hero-copy",
+        "box": {
+          "x": 80,
+          "y": 125,
+          "width": 649.515625,
+          "height": 351.578125
+        }
+      },
+      {
+        "class": "portrait",
+        "box": {
+          "x": 781.515625,
+          "y": 170.15625,
+          "width": 566.484375,
+          "height": 490
+        }
+      },
+      {
+        "class": "hero-stats",
+        "box": {
+          "x": 80,
+          "y": 476.578125,
+          "width": 649.515625,
+          "height": 93.578125
+        }
+      }
+    ],
+    "background": "cover"
+  },
+  "3440": {
+    "box": {
+      "x": 0,
+      "y": 81,
+      "width": 3440,
+      "height": 632.734375
+    },
+    "text": "EMBEDDED / EDGE AI ENGINEER\n\nHi, I'm\n\nMED WASSIM\nMBAREK.\n\nFROM CIRCUITS TO SOFTWARE.\nBUILDING THE WHOLE CHAIN.\n\nIoT\nAI\nRobotics\nPCB\nPROJECTS\nBUILT\n8+\nYEARS\nBUILDING\n5+\nTECHNOLOGIES\nUSED\n14+\nView projects\nEngineer. Builder. Educator.\nFrom circuits to software\nEmbedded systems & edge AI\nRobotics, PCB design & AI training\nIdeas turned into working systems\nEight years on the windsurf board",
+    "parts": [
+      {
+        "class": "hero-background",
+        "box": {
+          "x": 0,
+          "y": 81,
+          "width": 3440,
+          "height": 584.734375
+        }
+      },
+      {
+        "class": "hero-copy",
+        "box": {
+          "x": 1060,
+          "y": 125,
+          "width": 670.46875,
+          "height": 357.15625
+        }
+      },
+      {
+        "class": "portrait",
+        "box": {
+          "x": 1782.46875,
+          "y": 175.734375,
+          "width": 585.53125,
+          "height": 490
+        }
+      },
+      {
+        "class": "hero-stats",
+        "box": {
+          "x": 1060,
+          "y": 482.15625,
+          "width": 670.46875,
+          "height": 93.578125
+        }
+      }
+    ],
+    "background": "cover"
+  }
+}

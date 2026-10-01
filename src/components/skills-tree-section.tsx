@@ -1,6 +1,6 @@
-import { SkillTree } from "@/app/test-dev/skill-tree";
+import { SkillBoard } from "./skill-board";
 import { techGroups } from "@/content/tech";
-import { getTechnologies } from "@/lib/content";
+import { getTechnologies, getProjects } from "@/lib/content";
 import { TechLogo } from "./tech-logo";
 
 const descriptions: Record<(typeof techGroups)[number], string> = {
@@ -17,6 +17,7 @@ const descriptions: Record<(typeof techGroups)[number], string> = {
 
 export function SkillsTreeSection() {
   const technologies = getTechnologies();
+  const projects = getProjects();
   const groups = techGroups
     .map((name, index) => ({
       id: `branch-${index}`,
@@ -29,8 +30,15 @@ export function SkillsTreeSection() {
           name: technology.name,
           logo: <TechLogo id={technology.id} withName />,
         })),
+      projects: projects
+        .filter((project) =>
+          project.tech.some((id) =>
+            technologies.some((tool) => tool.group === name && tool.id === id),
+          ),
+        )
+        .map((project) => ({ slug: project.slug, title: project.title })),
     }))
     .filter((group) => group.tools.length);
 
-  return <SkillTree groups={groups} />;
+  return <SkillBoard groups={groups} />;
 }
