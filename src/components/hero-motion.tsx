@@ -1,12 +1,11 @@
 "use client";
 
 import { useEffect, useRef, type CSSProperties } from "react";
-import { useReducedMotion } from "motion/react";
-import * as m from "motion/react-m";
+import { useMotionPreference } from "@/lib/use-motion-preference";
 
 export function HeroMotion({ children }: { children: React.ReactNode }) {
   const ref = useRef<HTMLDivElement>(null);
-  const reduced = useReducedMotion();
+  const reduced = useMotionPreference();
   useEffect(() => {
     const node = ref.current;
     const copy = node?.querySelector<HTMLElement>(".hero-copy");
@@ -105,52 +104,12 @@ export function HeroMotion({ children }: { children: React.ReactNode }) {
     };
   }, [reduced]);
   return (
-    <m.div
+    <div
       ref={ref}
       className="hero-scene"
-      initial={false}
       style={{ "--px": 0, "--py": 0 } as CSSProperties}
     >
       {children}
-    </m.div>
-  );
-}
-
-export function Reveal({
-  children,
-  className = "",
-}: {
-  children: React.ReactNode;
-  className?: string;
-}) {
-  const ref = useRef<HTMLDivElement>(null);
-  const reduced = useReducedMotion();
-  useEffect(() => {
-    const node = ref.current;
-    if (!node || reduced) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (!entry.isIntersecting) return;
-        node.animate(
-          [
-            { transform: "translateY(24px)", opacity: 0.4 },
-            { transform: "translateY(0)", opacity: 1 },
-          ],
-          { duration: 400, easing: "ease-out" },
-        );
-        observer.disconnect();
-      },
-      { threshold: 0.06 },
-    );
-    observer.observe(node);
-    return () => {
-      observer.disconnect();
-      node.getAnimations().forEach((animation) => animation.cancel());
-    };
-  }, [reduced]);
-  return (
-    <m.div ref={ref} initial={false} className={className}>
-      {children}
-    </m.div>
+    </div>
   );
 }

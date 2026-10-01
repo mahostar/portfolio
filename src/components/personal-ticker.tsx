@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Pause, Play } from "lucide-react";
 import styles from "./personal-ticker.module.css";
+import { setMotionPaused } from "@/lib/motion";
 
 export function PersonalTicker({ phrases }: { phrases: string[] }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -20,10 +21,19 @@ export function PersonalTicker({ phrases }: { phrases: string[] }) {
     });
     observer.observe(element);
     document.addEventListener("visibilitychange", sync);
+    const motion = new MutationObserver(() =>
+      setPaused(document.documentElement.dataset.motion === "paused"),
+    );
+    motion.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["data-motion"],
+    });
+    setPaused(document.documentElement.dataset.motion === "paused");
     sync();
     return () => {
       observer.disconnect();
       document.removeEventListener("visibilitychange", sync);
+      motion.disconnect();
     };
   }, []);
   return (
@@ -62,8 +72,8 @@ export function PersonalTicker({ phrases }: { phrases: string[] }) {
       <button
         className={styles["ticker-toggle"]}
         type="button"
-        onClick={() => setPaused((value) => !value)}
-        aria-label={paused ? "Resume scrolling text" : "Pause scrolling text"}
+        onClick={() => setMotionPaused(!paused)}
+        aria-label={paused ? "Resume site motion" : "Pause site motion"}
         aria-pressed={paused}
       >
         {paused ? (

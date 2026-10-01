@@ -2,9 +2,11 @@
 
 import { useEffect } from "react";
 import { usePathname } from "next/navigation";
+import { motionAllowed } from "@/lib/motion";
+import { reveal } from "@/lib/reveal";
 
 const entranceSelector =
-  ".project-card,.journey-list li,.impact-card,.interest-card,.certificate-card,.skill-group,.story-heading,.section-header,.catalog-heading,.case-heading,.case-body h2,.case-next";
+  "[data-reveal],.project-card,.journey-list li,.impact-card,.interest-card,.certificate-card,.skill-group,.story-heading,.section-header,.catalog-heading,.case-heading,.case-body h2,.case-next";
 const surfaceSelector =
   ".project-card,.impact-card,.certificate-card,.interest-card,.case-next";
 
@@ -26,20 +28,9 @@ export function PortfolioMotion() {
           const element = entry.target as HTMLElement;
           if (!entry.isIntersecting) continue;
           enter.unobserve(element);
-          if (reduced.matches) continue;
+          if (!motionAllowed()) continue;
           const delay = (Number(element.dataset.motionOrder || 0) % 3) * 65;
-          const animation = element.animate(
-            [
-              { opacity: 0.3, transform: "translateY(18px)" },
-              { opacity: 1, transform: "translateY(0)" },
-            ],
-            {
-              duration: 550,
-              delay,
-              easing: "cubic-bezier(.16,1,.3,1)",
-              fill: "backwards",
-            },
-          );
+          const animation = reveal(element, delay);
           animations.set(animation, element);
           animation.onfinish = () => animations.delete(animation);
         }
@@ -51,7 +42,7 @@ export function PortfolioMotion() {
       if (surfaces.has(element)) return;
       let frame = 0;
       const move = (event: PointerEvent) => {
-        if (!fine.matches || reduced.matches) return;
+        if (!fine.matches || !motionAllowed()) return;
         cancelAnimationFrame(frame);
         frame = requestAnimationFrame(() => {
           const bounds = element.getBoundingClientRect();
@@ -152,7 +143,7 @@ export function PortfolioMotion() {
         });
     });
     const changeMotion = () => {
-      if (reduced.matches) {
+      if (!motionAllowed()) {
         animations.forEach((_, animation) => animation.cancel());
         animations.clear();
         surfaces.forEach((_, element) => {
@@ -163,6 +154,11 @@ export function PortfolioMotion() {
       }
       schedule();
     };
+    const switchObserver = new MutationObserver(changeMotion);
+    switchObserver.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["data-motion"],
+    });
     mutations.observe(main, { childList: true, subtree: true });
     window.addEventListener("scroll", schedule, { passive: true });
     window.addEventListener("resize", schedule, { passive: true });
@@ -170,6 +166,7 @@ export function PortfolioMotion() {
     refresh();
     progress();
     return () => {
+      switchObserver.disconnect();
       enter.disconnect();
       mutations.disconnect();
       animations.forEach((_, animation) => animation.cancel());

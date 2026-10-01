@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState, type ReactNode } from "react";
-import { useReducedMotion } from "motion/react";
-import * as m from "motion/react-m";
+import { useMotionPreference } from "@/lib/use-motion-preference";
+
 import {
   ArrowUpRight,
   Box,
@@ -48,7 +48,7 @@ function route(points: [number, number][]) {
 
 export function SkillTree({ groups }: { groups: Group[] }) {
   const canvas = useRef<HTMLDivElement>(null);
-  const reduced = useReducedMotion();
+  const reduced = useMotionPreference();
   const [wires, setWires] = useState<Wire[]>([]);
   const [selection, setSelection] = useState<{ group: string; tool?: string } | null>(
     () => (groups.length ? { group: (groups[1] ?? groups[0]).id } : null),
@@ -190,13 +190,7 @@ export function SkillTree({ groups }: { groups: Group[] }) {
                 wire.tool === selection.tool);
             return (
               <g key={wire.id} data-active={active}>
-                <m.path
-                  d={wire.d}
-                  className={styles.wire}
-                  initial={{ pathLength: reduced ? 1 : 0 }}
-                  animate={{ pathLength: 1 }}
-                  transition={{ duration: reduced ? 0 : 0.8, ease: "easeOut" }}
-                />
+                <path d={wire.d} className={styles.wire} pathLength={100} />
                 {active && <path d={wire.d} className={styles.signal} pathLength={100} />}
               </g>
             );

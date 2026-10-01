@@ -4,7 +4,6 @@ import { Hero } from "@/components/hero";
 import { Eyebrow } from "@/components/section-heading";
 import { ProjectCard } from "@/components/project-card";
 import { ContactForm } from "@/components/contact-form";
-import { Reveal } from "@/components/hero-motion";
 import {
   getProjects,
   getSite,
@@ -70,7 +69,7 @@ export default function Home() {
         aria-labelledby="about-heading"
       >
         <div className="container">
-          <Reveal>
+          <div data-reveal>
             <Eyebrow>Behind the work</Eyebrow>
             <div className="about-grid">
               <div>
@@ -99,7 +98,7 @@ export default function Home() {
                 )}
               </div>
             </div>
-          </Reveal>
+          </div>
         </div>
       </section>
       <Journey />
@@ -110,7 +109,7 @@ export default function Home() {
         aria-labelledby="skills-heading"
       >
         <div className="container">
-          <Reveal>
+          <div data-reveal>
             <div className="section-header">
               <div>
                 <Eyebrow>The toolkit</Eyebrow>
@@ -118,7 +117,7 @@ export default function Home() {
               </div>
             </div>
             <SkillsTreeSection />
-          </Reveal>
+          </div>
         </div>
       </section>
       <BeyondEngineering />

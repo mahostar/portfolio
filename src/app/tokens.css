@@ -1,0 +1,37 @@
+:root {
+  --ink-950: #050d26;
+  --navy-900: #0b1944;
+  --navy-800: #102557;
+  --cobalt-700: #0139b4;
+  --electric-500: #1f3bff;
+  --sky-300: #9bd2ff;
+  --ice-100: #d4e8ff;
+  --signal-400: #ffd400;
+  --signal-200: #ffe568;
+  --paper-50: #f7f9fe;
+  --line: #d6deef;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-signal: linear;
+  --t-micro: 160ms;
+  --t-ui: 380ms;
+  --t-enter: 700ms;
+  --t-hero: 1200ms;
+  --stagger: 70ms;
+  --step--1: clamp(0.75rem, 0.72rem + 0.15vw, 0.875rem);
+  --step-0: clamp(0.875rem, 0.82rem + 0.25vw, 1rem);
+  --step-1: clamp(1rem, 0.9rem + 0.5vw, 1.25rem);
+  --step-2: clamp(1.25rem, 1.1rem + 0.75vw, 1.75rem);
+  --step-3: clamp(1.5rem, 1.25rem + 1.25vw, 2.25rem);
+  --step-4: clamp(1.75rem, 1.3rem + 2.25vw, 3rem);
+  --step-5: clamp(2.25rem, 1.5rem + 3.75vw, 4rem);
+  --step-6: clamp(3rem, 2rem + 5vw, 6rem);
+  --header-h: 80px;
+  --bottom-nav-h: 0px;
+}
+@media (max-width: 767px) {
+  :root {
+    --header-h: 64px;
+    --bottom-nav-h: 64px;
+  }
+}

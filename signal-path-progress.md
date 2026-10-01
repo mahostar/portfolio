@@ -22,6 +22,21 @@ and pauses at the first checkpoint. Later phases remain pending review.
 
 ## Review notes
 
+## P1 — foundation
+
+- Shared color, fluid type, and motion tokens are in `src/app/tokens.css`.
+- The three overriding stylesheets are consolidated into scoped hero, nav,
+  card, and section modules. Shared resets and utilities stay in globals.
+- Archivo loads its variable width axis; headings use readable tracking and
+  word spacing. JetBrains Mono replaces platform-dependent monospace fonts.
+- Removed MotionProvider and Reveal; native CSS and the shared WAAPI reveal
+  helper handle UI animation. The legacy tree uses SVG/CSS while awaiting P4.
+- The ticker control pauses site motion, persisted when storage is available.
+  Reduced motion takes precedence. The old hero canvas observes that switch
+  until its P2 removal; the header shader remains scheduled for P3.
+- Typecheck, lint, production build, and the 11-size screenshot pass succeed.
+  Reports are in `artifacts/signal-path/P1/`.
+
 - Existing mobile artwork crops out J1. Anchor selection must use components
   actually present in each crop or re-export the crop and regenerate its mask.
 - Identity and experience continue to come from existing owner-provided data.

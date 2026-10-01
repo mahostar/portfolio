@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { motionAllowed } from "@/lib/motion";
 
 type Point = { x: number; y: number };
 type Trace = {
@@ -100,7 +101,7 @@ export function HeroCircuit() {
         context.arc(end.x, end.y, 3, 0, Math.PI * 2);
         context.stroke();
         const distance = (elapsed * trace.speed + trace.phase) % (trace.total + 110);
-        if (distance > trace.total || motion.matches) continue;
+        if (distance > trace.total || !motionAllowed()) continue;
         const head = at(trace, distance);
         const proximity = Math.max(
           0,
@@ -121,7 +122,7 @@ export function HeroCircuit() {
     };
     const tick = (time: number) => {
       frame = 0;
-      if (!visible || document.hidden || motion.matches) {
+      if (!visible || document.hidden || !motionAllowed()) {
         lastTime = 0;
         return;
       }
@@ -137,7 +138,7 @@ export function HeroCircuit() {
       frame = 0;
       lastTime = 0;
       paint();
-      if (visible && !document.hidden && !motion.matches)
+      if (visible && !document.hidden && !!motionAllowed())
         frame = requestAnimationFrame(tick);
     };
     const resize = new ResizeObserver(() => {
@@ -153,6 +154,11 @@ export function HeroCircuit() {
       pointer.x = (event.clientX - bounds.left) / bounds.width;
       pointer.y = (event.clientY - bounds.top) / bounds.height;
     };
+    const switchObserver = new MutationObserver(sync);
+    switchObserver.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["data-motion"],
+    });
     build();
     sync();
     resize.observe(host);
@@ -162,6 +168,7 @@ export function HeroCircuit() {
     motion.addEventListener("change", sync);
     return () => {
       cancelAnimationFrame(frame);
+      switchObserver.disconnect();
       resize.disconnect();
       intersection.disconnect();
       host.removeEventListener("pointermove", move);
