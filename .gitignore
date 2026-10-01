@@ -55,3 +55,5 @@ next-env.d.ts
 /CLAUDE.md
 /plan.md
 /SKILL-spec-plan-writer.md
+
+/scripts/.out/

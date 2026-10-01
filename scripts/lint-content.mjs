@@ -1,10 +1,10 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import matter from 'gray-matter';
-import { site, siteUrl } from '../src/content/site.ts';
+import { site, siteUrl, heroAnchors } from '../src/content/site.ts';
 import { technologies } from '../src/content/tech.ts';
 import { journey, impact, interests, certificates, certificateSlots } from '../src/content/expansion.ts';
-import { siteSchema, techSchema, journeySchema, impactSchema, interestSchema, certificateSchema, certificateSlotSchema, projectSchema, validateEditorial, sections } from '../src/lib/content-schema.ts';
+import { siteSchema, techSchema, journeySchema, impactSchema, interestSchema, certificateSchema, certificateSlotSchema, projectSchema, heroAnchorsSchema, validateEditorial, sections } from '../src/lib/content-schema.ts';
 
 const errors = [];
 // Validate every content source, including newly added data files, not just
@@ -28,6 +28,7 @@ const check = (schema, value, name) => {
 const image = (src) => { if (typeof src !== 'string' || !src.startsWith('/images/') || !fs.existsSync(path.join(process.cwd(), 'public', src))) errors.push(`Missing local image: ${src}`); };
 const unique = (values, name) => { if (new Set(values).size !== values.length) errors.push(`Duplicate ${name}`); };
 check(siteSchema, site, 'site');
+check(heroAnchorsSchema, heroAnchors, 'hero anchors');
 [site.heroBg, site.heroBgMobile, site.portrait].forEach(image);
 technologies.forEach((item) => check(techSchema, item, `technology:${item.id}`));
 for (const [name, records, schema] of [['journey', journey, journeySchema], ['impact', impact, impactSchema], ['interests', interests, interestSchema], ['certificates', certificates, certificateSchema], ['certificate slots', certificateSlots, certificateSlotSchema]]) {
