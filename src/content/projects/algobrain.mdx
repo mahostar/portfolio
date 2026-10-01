@@ -1,0 +1,28 @@
+---
+title: "AlgoBrain BCI"
+slug: "algobrain"
+category: "Electronics + BCI"
+summary: "A custom bio-amplifier and embedded signal-processing prototype for device control."
+cover: "/images/projects/algobrain.svg"
+year: 2023
+tech: ["arduino","cplusplus","pcb","python"]
+featured: true
+featuredOrder: 4
+links: {}
+role: "Project designer & R&D developer"
+placeholder: false
+---
+## Problem
+Using biological signals to control an electrical device requires more than a software classifier. Small signals need amplification, filtering, sampling, and a reliable control path.
+
+## What I built
+I designed a TL074 bio-amplifier on a custom PCB and developed Arduino signal-processing firmware. The prototype explores EEG/EMG envelope processing and real-time device control.
+
+## How it works
+The analog front-end amplifies the input signal. Firmware samples at 500 Hz, applies filtering and envelope processing, and translates the output into control commands. Serial communication and an infrared control path connect the prototype stages.
+
+## Result
+The prototype placed fourth among more than 150 teams at the national innovation competition in Rades. It connects a custom analog front-end, embedded signal processing, and a real-time device-control path.
+
+## What I would improve
+Further work should document the signal protocol, distinguish EEG from muscle contributions, and evaluate noise and repeatability. An improved amplifier and synchronized data collection are useful next experiments.

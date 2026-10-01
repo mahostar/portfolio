@@ -1,0 +1,16 @@
+import { chromium } from '@playwright/test';
+import fs from 'node:fs/promises';
+const origin = 'http://localhost:3001';
+const browser = await chromium.launch({ channel: process.env.PLAYWRIGHT_CHANNEL || 'chrome', headless: true });
+const context = await browser.newContext({ viewport: { width: 390, height: 844 }, reducedMotion: 'reduce' });
+const page = await context.newPage();
+const response = await page.goto(origin, { waitUntil: 'networkidle' });
+const headers = response.headers();
+const scripts = await page.evaluate(() => performance.getEntriesByType('resource').filter((entry) => entry.initiatorType === 'script').map((entry) => ({ url: entry.name, bytes: entry.encodedBodySize })));
+const jsBytes = scripts.reduce((total, entry) => total + entry.bytes, 0);
+const contact = await context.request.post(`${origin}/api/contact`, { data: { name: 'Production test', email: 'preview@example.com', message: 'Production configuration check; do not send an email.', website: '', loadedAt: Date.now() - 4000 } });
+const report = { homepageStatus: response.status(), compressedJavaScriptBytes: jsBytes, compressedJavaScriptKB: +(jsBytes / 1024).toFixed(1), within180KB: jsBytes <= 180 * 1024, scripts, headers: { 'x-content-type-options': headers['x-content-type-options'], 'x-frame-options': headers['x-frame-options'], 'referrer-policy': headers['referrer-policy'] }, productionContactWithoutCredentials: contact.status() };
+await fs.mkdir('artifacts', { recursive: true });
+await fs.writeFile('artifacts/production-audit.json', JSON.stringify(report, null, 2));
+console.log(JSON.stringify(report, null, 2));
+await browser.close();

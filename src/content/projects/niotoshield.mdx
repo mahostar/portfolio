@@ -1,0 +1,27 @@
+---
+title: "NiotoShield"
+slug: "niotoshield"
+category: "IoT + Security"
+summary: "Connected vehicle-security research with Raspberry Pi and face-embedding firmware."
+cover: "/images/projects/niotoshield.svg"
+year: 2025
+tech: ["python","raspberrypi","supabase","pcb"]
+featured: false
+links: {"github":"https://github.com/mahostar/NiotoShield-Firmware"}
+role: "Graduation project engineer"
+placeholder: false
+---
+## Problem
+A connected security device needs an updatable recognition pipeline and a clear separation between device credentials and user data.
+
+## What I built
+I worked on NiotoShield as a graduation project, combining Raspberry Pi, custom sensor electronics, and a software pipeline. The public firmware repository documents product-key-gated profile retrieval and face embedding generation.
+
+## How it works
+The firmware checks its product key against Supabase, retrieves associated profile images, and updates local face embeddings when the profile changes. InsightFace provides embedding and matching capabilities; environment configuration holds service credentials.
+
+## Result
+The firmware connects profile updates to local embedding generation and recognition. The public repository includes the workflow, configuration guidance, and update tracking for the device software.
+
+## What I would improve
+Deployment review should test authentication boundaries, credential rotation, update recovery, and recognition errors on the intended hardware.

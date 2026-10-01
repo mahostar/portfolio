@@ -1,0 +1,28 @@
+---
+title: "SmartHart"
+slug: "smarthart"
+category: "AI + IoT"
+summary: "BiLSTM anomaly detection with generated vital-sign data and a live dashboard."
+cover: "/images/projects/smarthart.svg"
+year: 2025
+tech: ["python","tensorflow"]
+featured: true
+featuredOrder: 3
+links: {"github":"https://github.com/mahostar/SmartHart"}
+role: "Designer & developer · academic project"
+placeholder: false
+---
+## Problem
+A monitoring system needs to detect changes across several vital signs and display them clearly over time. SmartHart explores that pipeline with generated physiological data.
+
+## What I built
+I built a data generator, a BiLSTM anomaly-detection model, and a Tkinter dashboard for blood pressure, heart rate, oxygen saturation, and respiration. The repository contains separate generation, training, and model-running tools.
+
+## How it works
+The generator creates timestamped vital-sign sequences with anomaly scenarios. A two-layer BiLSTM learns from those sequences. The dashboard runs the model on incoming windows and visualizes the readings and predictions.
+
+## Result
+The project reports 98.34% accuracy and AUC 1.00 in its generated-data evaluation, with about 93% accuracy on a ten-point window. These results concern a research prototype and synthetic data; they are not clinical validation. Reinforcement-learning resource optimization remains future work.
+
+## What I would improve
+The next study should test external, properly sourced datasets, quantify false alarms, and evaluate missing or noisy readings. Clinical use would require a separate validation process.

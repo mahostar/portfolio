@@ -1,0 +1,27 @@
+---
+title: "Remote PC Power Control"
+slug: "remote-pc-power"
+category: "IoT + Hardware"
+summary: "An ESP32-ETH01 relay, cloud state, and a mobile app for remote computer access."
+cover: "/images/projects/remote-pc-power.svg"
+year: 2024
+tech: ["espressif","cplusplus","firebase","nodejs","flutter"]
+featured: false
+links: {}
+role: "Hardware, firmware & app developer"
+placeholder: false
+---
+## Problem
+Remote desktop access is only useful when the computer can be powered on and its availability can be checked.
+
+## What I built
+I connected an ESP32-ETH01 and relay to the computer power-button circuit, with Firebase Realtime Database, a Node.js heartbeat service, and a Flutter control app. Tailscale supports remote access.
+
+## How it works
+The app writes control state to the cloud. The embedded device reads that state and operates the power-button relay. A heartbeat indicates whether the computer is reachable, and remote desktop provides access after startup.
+
+## Result
+I use the system to power on and access my computer remotely. The embedded relay, heartbeat service, and mobile app have supported this workflow over multiple years.
+
+## What I would improve
+More structured logging, command acknowledgement, and recovery tests would help distinguish a network outage from a powered-off or unresponsive computer.

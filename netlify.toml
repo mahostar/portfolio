@@ -1,0 +1,9 @@
+[build]
+  command = "pnpm build"
+  publish = ".next"
+
+[build.environment]
+  NODE_VERSION = "24"
+  PNPM_FLAGS = "--shamefully-hoist"
+
+# Netlify automatically installs its OpenNext adapter for this Next.js project.

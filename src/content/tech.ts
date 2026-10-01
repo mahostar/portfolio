@@ -1,0 +1,20 @@
+// Tools from the supplied CV, project records, and the owner's updates.
+export const techGroups = ["Hardware and PCB", "Firmware and IoT", "AI and Agents", "Full-stack", "3D and Design"] as const;
+export const technologies = [
+  { id: "python", name: "Python", group: "AI and Agents", logo: "simple:python", placeholder: false },
+  { id: "pytorch", name: "PyTorch", group: "AI and Agents", logo: "simple:pytorch", placeholder: false },
+  { id: "tensorflow", name: "TensorFlow", group: "AI and Agents", logo: "simple:tensorflow", placeholder: false },
+  { id: "opencv", name: "OpenCV", group: "AI and Agents", logo: "simple:opencv", placeholder: false },
+  { id: "cplusplus", name: "C++", group: "Firmware and IoT", logo: "simple:cplusplus", placeholder: false },
+  { id: "espressif", name: "ESP32", group: "Firmware and IoT", logo: "simple:espressif", placeholder: false },
+  { id: "arduino", name: "Arduino", group: "Firmware and IoT", logo: "simple:arduino", placeholder: false },
+  { id: "raspberrypi", name: "Raspberry Pi", group: "Firmware and IoT", logo: "simple:raspberrypi", placeholder: false },
+  { id: "pcb", name: "PCB design", group: "Hardware and PCB", logo: "", placeholder: false },
+  { id: "supabase", name: "Supabase", group: "Full-stack", logo: "simple:supabase", placeholder: false },
+  { id: "firebase", name: "Firebase", group: "Full-stack", logo: "simple:firebase", placeholder: false },
+  { id: "flutter", name: "Flutter", group: "Full-stack", logo: "simple:flutter", placeholder: false },
+  { id: "nodejs", name: "Node.js", group: "Full-stack", logo: "simple:nodedotjs", placeholder: false },
+  { id: "blender", name: "Blender", group: "3D and Design", logo: "simple:blender", placeholder: false },
+  { id: "cad", name: "3D printing", group: "3D and Design", logo: "simple:bambulab", placeholder: false },
+  { id: "solidworks", name: "SOLIDWORKS", group: "3D and Design", logo: "local:solidworks-cube", placeholder: false },
+];

@@ -1,0 +1,28 @@
+---
+title: "EasyShield"
+slug: "easyshield"
+category: "AI + Edge"
+summary: "A complete face anti-spoofing pipeline, from dataset preparation to live testing."
+cover: "/images/projects/easyshield.svg"
+year: 2025
+tech: ["python","pytorch","opencv"]
+featured: true
+featuredOrder: 1
+links: {"github":"https://github.com/mahostar/EasyShield_v2.5"}
+role: "Lead developer · graduation research"
+placeholder: false
+---
+## Problem
+Printed photographs and replayed videos can fool a face recognition system. My graduation research focused on detecting these presentation attacks with a lightweight model and a repeatable evaluation workflow.
+
+## What I built
+I developed EasyShield around YOLOv12-nano, with tools for face extraction, augmentation, filtering, dataset preparation, training, and live GUI testing. The tools connect data preparation to an inspectable prediction.
+
+## How it works
+MTCNN extracts face crops. The preparation tools organize and augment the images into a YOLO dataset. The trainer produces model weights, and the testing application classifies incoming faces as real or fake.
+
+## Result
+The repository reports 92.30% accuracy, 98.61% AUC, and 6.25% equal error rate on its 8,000-image test dataset. Reported average inference time is 75.47 ms in that evaluation. These are project benchmark results; they do not establish performance on every camera or deployment.
+
+## What I would improve
+The next evaluation should publish hardware specifications, dataset splits, and tests on unseen cameras and lighting conditions. That would make both the accuracy and deployment tradeoffs easier to reproduce.
