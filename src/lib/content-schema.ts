@@ -2,9 +2,6 @@ import { z } from "zod";
 
 export const bannedWords = ["expert", "mastered", "guru", "passionate", "world-class", "cutting-edge", "innovative", "genius", "best", "rockstar", "ninja", "10x"];
 export const sections = ["Problem", "What I built", "How it works", "Result", "What I would improve"];
-const normalizedAnchor = z.strictObject({ u: z.number().min(0).max(1), v: z.number().min(0).max(1) });
-const anchorTable = z.strictObject({ chip: normalizedAnchor, io: normalizedAnchor, ai: normalizedAnchor, pcb: normalizedAnchor, robotics: normalizedAnchor });
-export const heroAnchorsSchema = z.strictObject({ desktop: anchorTable, mobile: anchorTable });
 const localImage = z.string().regex(/^\/images\/[a-zA-Z0-9/_-]+\.(webp|png|jpg|jpeg|svg)$/);
 const url = z.url().refine((value) => /^https?:\/\//.test(value), "Use an HTTP or HTTPS URL");
 const optionalUrl = z.union([url, z.literal("")]).optional();
