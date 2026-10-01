@@ -1,0 +1,141 @@
+/* The yellow signature band sits outside the hero effects, edge to edge. */
+.personal-ticker {
+  position: relative;
+  color: #0b1944;
+  background: #ffd400;
+  border-top: 1px solid #ffeb6a;
+  border-bottom: 1px solid #dcb900;
+  min-height: 46px;
+  overflow: hidden;
+}
+.ticker-window {
+  overflow: hidden;
+  margin-right: 44px;
+}
+.ticker-track {
+  display: flex;
+  width: max-content;
+  animation: personal-ticker-flow 34s linear infinite;
+}
+.ticker-group {
+  display: flex;
+  align-items: center;
+  flex: 0 0 auto;
+  min-width: 100vw;
+  min-height: 46px;
+}
+.ticker-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 28px;
+  padding-right: 28px;
+  white-space: nowrap;
+  font-size: 13px;
+  font-weight: 750;
+  letter-spacing: -0.015em;
+}
+.ticker-item svg {
+  flex-shrink: 0;
+}
+.ticker-toggle {
+  display: grid;
+  place-items: center;
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 44px;
+  min-height: 44px;
+  background: #ffd400;
+  border: 0;
+  border-left: 1px solid #0b194420;
+  color: #0b1944;
+}
+.ticker-toggle::before {
+  content: "";
+  position: absolute;
+  right: 100%;
+  top: 0;
+  bottom: 0;
+  width: 24px;
+  background: linear-gradient(90deg, #ffd40000, #ffd400);
+  pointer-events: none;
+}
+.ticker-toggle:hover {
+  background: #ffdf3e;
+}
+.ticker-toggle:focus-visible {
+  outline-color: #0b1944;
+  outline-offset: -5px;
+}
+.personal-ticker[data-paused="true"] .ticker-track,
+.personal-ticker[data-visible="false"] .ticker-track {
+  animation-play-state: paused;
+}
+@keyframes personal-ticker-flow {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (max-width: 767px) {
+  .personal-ticker,
+  .ticker-group {
+    min-height: 44px;
+  }
+  .ticker-item {
+    font-size: 12px;
+    gap: 22px;
+    padding-right: 22px;
+  }
+  .ticker-item svg {
+    width: 14px;
+    height: 14px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ticker-track {
+    animation: none;
+    width: 100%;
+  }
+  .ticker-window {
+    margin-right: 0;
+  }
+  .ticker-group {
+    flex-wrap: wrap;
+    min-width: 0;
+    padding: 8px 12px;
+    gap: 6px 0;
+  }
+  .ticker-group[aria-hidden="true"],
+  .ticker-toggle {
+    display: none;
+  }
+  .ticker-item {
+    white-space: normal;
+    font-size: 11px;
+    gap: 12px;
+    padding-right: 12px;
+  }
+  .ticker-item svg {
+    width: 10px;
+    height: 10px;
+  }
+}
+@media (forced-colors: active) {
+  .personal-ticker {
+    background: Canvas;
+    color: CanvasText;
+    border-color: CanvasText;
+  }
+  .ticker-toggle {
+    color: ButtonText;
+    background: ButtonFace;
+  }
+  .ticker-toggle::before {
+    display: none;
+  }
+}

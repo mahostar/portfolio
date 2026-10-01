@@ -8,8 +8,8 @@
     "start": "next start",
     "lint": "eslint src scripts tests playwright.config.ts next.config.ts",
     "typecheck": "tsc --noEmit",
-    "check:content": "node scripts/check-content.mjs",
-    "prebuild": "pnpm check:content",
+    "check:content": "node scripts/lint-content.mjs",
+    "prebuild": "node scripts/lint-content.mjs",
     "make-images": "node scripts/make-images.mjs",
     "test": "playwright test",
     "test:content": "node --test tests/content.test.mjs",
@@ -49,6 +49,7 @@
     "eslint": "^10.11.0",
     "eslint-config-next": "16.3.7",
     "lighthouse": "^13.5.0",
+    "prettier": "^3.9.9",
     "sharp": "^0.35.5",
     "tailwindcss": "^4",
     "typescript": "npm:@typescript/typescript6@^6.0.2"

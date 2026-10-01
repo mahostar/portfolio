@@ -9,7 +9,7 @@ export const technologies = [
   { id: "espressif", name: "ESP32", group: "Firmware and IoT", logo: "simple:espressif", placeholder: false },
   { id: "arduino", name: "Arduino", group: "Firmware and IoT", logo: "simple:arduino", placeholder: false },
   { id: "raspberrypi", name: "Raspberry Pi", group: "Firmware and IoT", logo: "simple:raspberrypi", placeholder: false },
-  { id: "pcb", name: "PCB design", group: "Hardware and PCB", logo: "", placeholder: false },
+  { id: "pcb", name: "PCB design", group: "Hardware and PCB", logo: "local:pcb-desing", placeholder: false },
   { id: "supabase", name: "Supabase", group: "Full-stack", logo: "simple:supabase", placeholder: false },
   { id: "firebase", name: "Firebase", group: "Full-stack", logo: "simple:firebase", placeholder: false },
   { id: "flutter", name: "Flutter", group: "Full-stack", logo: "simple:flutter", placeholder: false },

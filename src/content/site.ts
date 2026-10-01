@@ -1,10 +1,12 @@
 // Identity and biography: CVs/cv formation.pdf, CVs/cv.pdf and
-// CVs/CVs_data_presentation.md §9. Preferred public name: Wassim.
+// Public identity and biography confirmed by the owner in the expansion request.
 export const site = {
   placeholder: false,
-  firstName: "Wassim",
+  firstName: "Med Wassim",
   lastName: "Mbarek",
-  fullName: "Mouhamed Wassim Mbarek",
+  fullName: "Med Wassim Mbarek",
+  greeting: "Hi, I'm",
+  initials: "WM",
   roleLabel: "Embedded / Edge AI Engineer",
   tagline: "From circuits to software.\nBuilding the whole chain.",
   careerStartYear: 2021 as number | null,
@@ -14,19 +16,20 @@ export const site = {
   github: "https://github.com/mahostar",
   linkedin: "https://www.linkedin.com/in/mouhamed-wassim-mbarek-b09601334/",
   heroTags: ["IoT", "AI", "Robotics", "PCB"],
-  aboutText: "I’m Wassim, a computer engineering graduate specializing in IoT and embedded systems. I build across the full chain: electronics, firmware, data, models, and the software around them. My work includes face anti-spoofing, brain–computer interface prototypes, connected hardware, and hydroponic systems. At FabLab Mahdia, I prototype embedded systems and teach AI, PCB design, and robotics. I like taking an idea all the way to something I can assemble, test, and explain.",
+  tickerPhrases: ["Engineer. Builder. Educator.", "From circuits to software", "Embedded systems & edge AI", "Robotics, PCB design & AI training", "Ideas turned into working systems", "Eight years on the windsurf board"],
+  aboutText: "I’m Med Wassim Mbarek, a computer engineering graduate from ISIMA Mahdia, specializing in embedded systems and IoT. I build across electronics, firmware, AI, and software. After graduating in June 2025, I developed robotics, PCB design, and AI courses at FabLab Mahdia, took on technical leadership at Plantini, and led software development at KaTEK. These overlapping roles made for an intensive year of building and teaching. My next academic chapter is a planned master’s degree in Advanced Computing in Embedded Systems in Romania. I like taking an idea all the way to something I can assemble, test, and explain.",
   aboutHeading: "From the circuit\nto the complete system.",
   aboutNote: "Electronics → firmware → models → working products.",
-  contactHeading: "Let’s build\nsomething useful.",
+  contactHeading: "Let’s build",
   contactCopy: "Have an embedded system, an AI project, or a product to build? Tell me what you’re working on.",
-  contactNote: "You can also reach me directly by email.",
+  contactNote: "",
   projectsIntro: "Embedded hardware, machine learning, and software built around real problems.",
   heroBg: "/images/hero-bg.webp",
   heroBgMobile: "/images/hero-bg-mobile.webp",
   portrait: "/images/portrait.webp",
 };
 
-export const monogram = `${site.firstName.charAt(0)}${site.lastName.charAt(0)}`;
+export const monogram = site.initials;
 export const fullName = site.fullName;
 const netlifyUrl = process.env.NETLIFY === "true"
   ? (process.env.CONTEXT === "production" ? process.env.URL : process.env.DEPLOY_PRIME_URL || process.env.URL)

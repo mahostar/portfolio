@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { spawnSync } from 'node:child_process';
-import { getStats, validateEditorial, projectSchema, timelineSchema } from '../src/lib/content-schema.ts';
+import { getStats, validateEditorial, projectSchema, impactSchema, certificateSchema } from '../src/lib/content-schema.ts';
 
 test('samples never inflate stats; one real project counts once', () => {
   assert.deepEqual(getStats([{ placeholder: true, tech: ['python'] }], null, 2026), { projects: 0, years: null, technologies: 0 });
@@ -11,9 +11,11 @@ test('banned words match whole words and ignore innocent substrings', () => {
   assert.deepEqual(validateEditorial('An EXPERT using cutting-edge tools'), ['expert', 'cutting-edge']);
   assert.deepEqual(validateEditorial('The board has a masterpiece-shaped mounting plate'), []);
 });
-test('invalid project fields and timeline months are rejected', () => {
+test('invalid projects and public previews without alt text are rejected', () => {
   assert.equal(projectSchema.safeParse({ title: 'Sample' }).success, false);
-  assert.equal(timelineSchema.safeParse({ date: '2026-13', title: 'Example', issuer: 'Sample', type: 'education', placeholder: true }).success, false);
+  assert.equal(certificateSchema.safeParse({ id: 'test', title: 'Test', issuer: 'Issuer', date: '2026', summary: 'Summary', image: '/images/test.webp', alt: '', url: '' }).success, false);
+  assert.equal(impactSchema.safeParse({ id: 'test', category: 'Teaching', title: 'Test', description: 'Description', motif: 'ai', photoLabel: 'Photo coming soon', image: '/images/test.webp', alt: '' }).success, false);
+  assert.deepEqual(validateEditorial('A planned master’s degree in embedded systems'), []);
 });
 
 test('featured project ordering supports twenty projects and beyond', () => {

@@ -50,6 +50,7 @@ next-env.d.ts
 # Netlify local state and private source documents
 /.netlify/
 /CVs/
+/remainn/
 /mockup.png
 /CLAUDE.md
 /plan.md

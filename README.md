@@ -8,9 +8,13 @@ Run `pnpm make-images` after replacing the source assets.
 
 ## Your content
 Edit identity, copy, and links in `src/content/site.ts`.
-Edit technology records in `src/content/tech.ts` and milestones in `src/content/timeline.ts`.
+Edit technology records in `src/content/tech.ts`. Journey entries, impact stories, interests, credentials, and pending gallery slots are in `src/content/expansion.ts`.
+
+For impact photographs or certificate scans, place selected public files under `public/images/`, then set the record’s `image` path and descriptive `alt` text. A null image displays the designed placeholder; it never loads a missing file. Certificates have a keyboard-accessible enlarged viewer. Add actual credentials to `certificates` and remove the corresponding pending slot when ready. Pending slots are explicitly labeled and do not claim awards. Keep private transcripts and candidate identifiers out of public assets; `remainn/` and `CVs/` are ignored by Git.
+
+Journey periods are owner-confirmed display ranges, kept in narrative order. Do not invent months to force concurrent roles into a sequence. Romania remains marked Planned until admission or enrollment is confirmed.
 Add a project as `src/content/projects/your-slug.mdx`, using an existing file as the schema and section template.
-Use real project photographs in `public/images/projects/`. Set `featured: true` to show a project on the home page, with a unique positive `featuredOrder`. Both project lists stack vertically and support any number of projects; `/projects` shows every case study. Add 5, 20, or more projects by adding MDX files, without changing the layout.
+Use real project photographs in `public/images/projects/`. Set `featured: true` to show a project on the home page, with a unique positive `featuredOrder`. Both project lists show two cards per row on desktop and stack vertically on phones; `/projects` shows every case study. Add 5, 20, or more projects by adding MDX files, without changing the layout.
 Owner facts come from `CVs/cv formation.pdf`, `CVs/cv.pdf`, the IELTS extract, and the supplied repository records. Eight case studies use those facts; unverified commercial metrics are omitted.
 Stats use real projects only. An unset career year displays an em dash. Empty personal links are hidden.
 Place a real CV at `public/cv.pdf` to enable its download button.

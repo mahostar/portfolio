@@ -9,7 +9,7 @@ for (const width of widths) {
     await page.setViewportSize({ width, height });
     await page.emulateMedia({ reducedMotion: "reduce" });
     await page.goto("/");
-    await expect(page.locator("h1")).toHaveText("WassimMbarek");
+    await expect(page.locator("h1")).toHaveText("Med WassimMbarek");
     await page.evaluate(() => document.fonts.ready);
     await page.locator(".portrait img").evaluate((image: HTMLImageElement) => image.decode());
     await expect(page.locator(".bottom-nav")).toBeVisible({ visible: width < 768 });
