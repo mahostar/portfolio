@@ -108,22 +108,16 @@ for (const width of [390, 1440]) {
       contact: "Contact",
     };
     for (const id of [...sections, ...sections.toReversed()]) {
-      await page
-        .locator(`#${id}`)
-        .evaluate((element) =>
-          window.scrollTo({
-            top: window.scrollY + element.getBoundingClientRect().top - 120,
-            behavior: "instant",
-          }),
-        );
+      await page.locator(`#${id}`).evaluate((element) =>
+        window.scrollTo({
+          top: window.scrollY + element.getBoundingClientRect().top - 120,
+          behavior: "instant",
+        }),
+      );
       await expect(active, `Active tab while viewing ${id}`).toHaveText(expected[id]);
       if (id !== "home") {
         await expect(header).toHaveAttribute("data-scroll-state", "scrolled");
-        const lower = await header.getAttribute("data-signal-lower");
-        await expect(header).toHaveCSS(
-          "background-color",
-          lower === "true" ? "rgba(11, 25, 68, 0.96)" : "rgba(11, 25, 68, 0.76)",
-        );
+        await expect(header).toHaveCSS("background-color", "rgba(11, 25, 68, 0.76)");
       }
     }
     await page.evaluate(() => window.scrollTo({ top: 0, behavior: "instant" }));

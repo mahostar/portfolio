@@ -294,6 +294,14 @@
   font-family: var(--font-signal-mono), monospace;
   font-size: 8px;
 }
+.site :global(.journey-list li[data-reached="true"] .journey-index) {
+  background: #1f3bff;
+  color: #fff;
+}
+.site :global(.journey-list .journey-planned .journey-index) {
+  background: #0b1944;
+  color: #ffd400;
+}
 .site :global(.journey-entry h3) {
   font-size: 23px;
   line-height: 1.18;
@@ -1163,6 +1171,504 @@
   }
   .rail {
     transition: none;
+  }
+}
+/* Compact lower-page rhythm. The hero is outside this scoped wrapper. */
+.site :global(.section) {
+  padding-block: 48px;
+}
+.site h2 {
+  font-size: clamp(32px, 3.6vw, 48px);
+  line-height: 1.1;
+}
+.sectionMeta {
+  margin-bottom: 20px;
+  padding-top: 10px;
+}
+.heading.heading {
+  margin-bottom: 24px;
+  gap: 20px;
+}
+.headingSide {
+  gap: 8px;
+}
+.headingSide p,
+.headingDescription {
+  line-height: 1.6;
+}
+.work.work {
+  padding-top: 36px;
+}
+.projectGrid.projectGrid {
+  gap: 20px;
+}
+.motionControl {
+  padding-block: 8px;
+}
+.aboutGrid {
+  gap: 44px;
+}
+.aboutNote {
+  margin-top: 14px;
+}
+.biography > p {
+  line-height: 1.7;
+}
+.facts {
+  margin-top: 16px;
+  padding-top: 14px;
+  gap: 16px;
+}
+.chain {
+  margin-top: 28px;
+}
+.chain li {
+  padding: 16px 20px;
+}
+.chainStep {
+  margin-bottom: 12px;
+}
+.site :global(.journey-grid) {
+  gap: 48px;
+}
+.site :global(.journey-intro .large-heading) {
+  margin: 10px 0 12px;
+}
+.site :global(.journey-intro > p) {
+  line-height: 1.65;
+}
+.site :global(.journey-note) {
+  margin-top: 12px;
+}
+.site :global(.journey-list li) {
+  padding-bottom: 20px;
+}
+.site :global(.journey-entry h3) {
+  margin-top: 8px;
+  font-size: 21px;
+}
+.site :global(.journey-entry > p) {
+  line-height: 1.65;
+}
+.site :global(.journey-organization) {
+  margin-bottom: 7px;
+}
+.site :global(.journey-entry .text-link) {
+  margin-top: 5px;
+}
+.site :global(.story-heading),
+.site :global(.interests-section .story-heading),
+.site :global(.archive-heading),
+.site :global(.certificates-heading) {
+  margin-bottom: 22px;
+  gap: 20px;
+}
+.site :global(.interests-section .eyebrow),
+.site :global(.certificates-heading .eyebrow) {
+  margin-bottom: 8px;
+}
+.site :global(.archive-heading h2) {
+  font-size: clamp(32px, 3.6vw, 48px);
+  margin-top: 8px;
+}
+.site :global(.interest-card),
+.site :global(.interest-card + .interest-card) {
+  min-height: 240px;
+  padding-block: 24px;
+}
+.site :global(.interest-number) {
+  font-size: 48px;
+  margin-bottom: 20px;
+}
+.site :global(.interest-icon) {
+  top: 24px;
+}
+.site :global(.interest-card h3) {
+  margin-bottom: 8px;
+}
+.site :global(.interest-card > p:last-of-type) {
+  line-height: 1.6;
+}
+.site :global(.archive-grid) {
+  gap: 16px;
+}
+.site :global(.archive-card) {
+  min-height: 210px;
+}
+.site :global(.archive-copy) {
+  padding: 18px;
+}
+.site :global(.archive-meta) {
+  margin-bottom: 8px;
+}
+.site :global(.archive-copy h3) {
+  margin-bottom: 8px;
+}
+.site :global(.archive-copy > p) {
+  line-height: 1.65;
+}
+.site :global(.archive-copy details) {
+  margin-top: 8px;
+  padding-top: 6px;
+}
+.site :global(.certificate-preview),
+.site :global(.certificate-placeholder) {
+  height: 170px;
+}
+.site :global(.certificate-copy) {
+  padding: 16px 18px;
+}
+.site :global(.certificate-copy h3) {
+  margin-bottom: 6px;
+}
+.site :global(.certificate-copy p) {
+  line-height: 1.6;
+}
+.site :global(.certificate-copy .text-link) {
+  margin-top: 6px;
+}
+.contactGrid {
+  gap: 40px;
+}
+.contactCopy h2 {
+  font-size: clamp(32px, 3.8vw, 48px);
+  margin: 0;
+}
+.contactCopy > p {
+  margin: 12px 0;
+  line-height: 1.65;
+}
+.socials {
+  margin-top: 10px;
+}
+.formPanel {
+  padding: 20px;
+}
+.formLabel {
+  padding-bottom: 10px;
+  margin-bottom: 14px;
+}
+.site :global(.contact-form .field) {
+  margin-bottom: 12px;
+}
+.site :global(.contact-form label) {
+  margin-bottom: 6px;
+}
+.site :global(.contact-form textarea) {
+  min-height: 88px;
+}
+.site :global(.contact-form .form-note) {
+  margin-bottom: 10px;
+}
+.site :global(.contact-form .development-note) {
+  margin-top: 8px;
+}
+@media (max-width: 767px) {
+  .site :global(.section) {
+    padding-block: 28px;
+  }
+  .site h2,
+  .heading h2,
+  .about h2,
+  .site :global(.journey-intro .large-heading),
+  .site :global(.archive-heading h2),
+  .contactCopy h2 {
+    font-size: clamp(26px, 7.2vw, 32px);
+    line-height: 1.12;
+  }
+  .sectionMeta {
+    margin-bottom: 14px;
+    padding-top: 8px;
+  }
+  .heading.heading {
+    margin-bottom: 16px;
+    gap: 10px;
+  }
+  .headingSide {
+    gap: 10px;
+  }
+  .work.work {
+    padding-top: 24px;
+  }
+  .projectGrid.projectGrid {
+    gap: 14px;
+  }
+  .aboutGrid,
+  .contactGrid {
+    gap: 16px;
+  }
+  .aboutNote {
+    margin-top: 10px;
+  }
+  .biography > p {
+    line-height: 1.65;
+  }
+  .chain {
+    margin-top: 18px;
+  }
+  .chain li {
+    padding: 12px;
+  }
+  .chainStep {
+    margin-bottom: 8px;
+  }
+  .chain h3 {
+    font-size: 15px;
+  }
+  .site :global(.journey-grid) {
+    gap: 20px;
+  }
+  .site :global(.journey-list li) {
+    padding-bottom: 16px;
+  }
+  .site :global(.journey-entry h3) {
+    font-size: 18px;
+  }
+  .site :global(.journey-entry .text-link) {
+    margin-top: 2px;
+  }
+  .site :global(.story-heading),
+  .site :global(.interests-section .story-heading),
+  .site :global(.archive-heading),
+  .site :global(.certificates-heading) {
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+  .site :global(.interest-card),
+  .site :global(.interest-card + .interest-card) {
+    padding: 18px 12px 22px;
+    min-height: 240px;
+  }
+  .site :global(.interest-icon) {
+    top: 18px;
+    right: 12px;
+  }
+  .site :global(.interest-number) {
+    font-size: 40px;
+    margin-bottom: 16px;
+  }
+  .site :global(.interest-card h3) {
+    font-size: 17px;
+  }
+  .site :global(.archive-grid) {
+    gap: 12px;
+  }
+  .site :global(.archive-card) {
+    grid-template-columns: 70px minmax(0, 1fr);
+    min-height: 190px;
+  }
+  .site :global(.archive-copy) {
+    padding: 14px;
+  }
+  .site :global(.archive-copy h3) {
+    font-size: 18px;
+  }
+  .site :global(.archive-placeholder > svg) {
+    width: 38px;
+    height: 38px;
+  }
+  .site :global(.archive-media-label) {
+    font-size: 7px;
+  }
+  .site :global(.certificate-preview) {
+    height: 140px;
+  }
+  .site :global(.credential-summary h3) {
+    font-size: 21px;
+  }
+  .site :global(.certificate-pending) {
+    grid-template-columns: 60px minmax(0, 1fr);
+  }
+  .site :global(.certificate-placeholder) {
+    height: 100%;
+  }
+  .site :global(.certificate-copy) {
+    padding: 12px 14px;
+  }
+  .site :global(.certificate-copy h3) {
+    font-size: 17px;
+  }
+  .contactCopy > p {
+    margin: 10px 0 8px;
+  }
+  .formPanel {
+    padding: 16px;
+    margin-top: 0;
+  }
+  .socials {
+    margin-top: 6px;
+  }
+  .site :global(.form-row) {
+    gap: 0;
+  }
+  .site :global(.contact-form .field) {
+    margin-bottom: 10px;
+  }
+  .site :global(.contact-form input),
+  .site :global(.contact-form textarea) {
+    font-size: 16px;
+    padding: 9px 11px;
+  }
+  .site :global(.contact-form .send-button) {
+    margin-top: 0;
+  }
+}
+.projectButton.projectButton {
+  background: #ffd400;
+  color: #0b1944;
+  padding: 11px 18px;
+  border: 1px solid #efc800;
+  border-radius: 6px;
+  min-height: 44px;
+  width: auto;
+}
+.workEnd .projectButton {
+  width: auto;
+  gap: 24px;
+}
+.facts dt {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.site :global(.journey-list) {
+  padding-left: 0;
+}
+.site :global(.journey-list)::before,
+.site :global(.journey-list)::after {
+  display: none;
+}
+.site :global(.journey-list li) {
+  grid-template-columns: 26px minmax(0, 1fr);
+  gap: 16px;
+  padding-left: 0;
+}
+.site :global(.journey-index) {
+  left: auto;
+  width: 26px;
+  height: 26px;
+}
+.site :global(.journey-list li:not(:last-child))::before {
+  display: block;
+  left: 12.5px;
+  top: 13px;
+  bottom: -13px;
+  width: 1px;
+  background: #c7d5ef;
+}
+.site :global(.journey-list li[data-reached="true"]):not(:last-child)::before {
+  background: #1f3bff;
+}
+.site :global(.interest-card),
+.site :global(.interest-card + .interest-card) {
+  min-height: 200px;
+  padding-block: 18px;
+}
+.site :global(.interest-icon) {
+  top: 18px;
+}
+.site :global(.interest-number) {
+  margin-bottom: 12px;
+  font-size: 40px;
+}
+/* Large image surface; the short caption sits only at the bottom. */
+.site :global(.archive-card) {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  isolation: isolate;
+  min-height: 280px;
+  background: #0b1944;
+  color: white;
+}
+.site :global(.archive-visual) {
+  position: absolute;
+  inset: 0;
+  height: 100%;
+}
+.site :global(.archive-visual img) {
+  object-fit: cover;
+}
+.site :global(.archive-placeholder > svg) {
+  width: 90px;
+  height: 90px;
+  opacity: 0.65;
+  transform: translateY(-45px);
+}
+.site :global(.archive-copy) {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  flex: 1;
+  margin-top: 150px;
+  padding: 36px 20px 16px;
+  background: linear-gradient(transparent, #050d26e8 30%, #050d26f5);
+}
+.site :global(.archive-meta) {
+  color: #b9cbea;
+  margin-bottom: 6px;
+}
+.site :global(.archive-meta p),
+.site :global(.archive-meta span) {
+  color: inherit;
+}
+.site :global(.archive-copy h3) {
+  font-size: 18px;
+  color: white;
+  margin-bottom: 0;
+}
+.site :global(.archive-copy .archive-story) {
+  margin-top: 4px;
+  padding-top: 0;
+  border: 0;
+}
+.site :global(.archive-copy summary) {
+  color: #9bd2ff;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+.site :global(.archive-copy details p) {
+  color: #c6d2e8;
+  padding-top: 8px;
+  font-size: 11px;
+}
+.site :global(.archive-media-label) {
+  top: 12px;
+  bottom: auto;
+  left: 12px;
+  right: auto;
+  max-width: 180px;
+  padding: 5px 8px;
+  background: #050d26c9;
+  border: 1px solid #9bd2ff25;
+  border-radius: 4px;
+}
+@media (max-width: 767px) {
+  .site :global(.interest-card),
+  .site :global(.interest-card + .interest-card) {
+    min-height: 210px;
+    padding: 16px 12px 22px;
+  }
+  .site :global(.interest-number) {
+    font-size: 34px;
+    margin-bottom: 10px;
+  }
+  .site :global(.archive-card) {
+    min-height: 260px;
+  }
+  .site :global(.archive-copy) {
+    margin-top: 130px;
+    padding: 30px 16px 12px;
+  }
+  .site :global(.archive-copy h3) {
+    font-size: 17px;
+  }
+  .site :global(.archive-copy summary) {
+    min-height: 36px;
+    padding-top: 4px;
   }
 }
 @media (forced-colors: active) {

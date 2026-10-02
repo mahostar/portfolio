@@ -2,7 +2,7 @@
   position: relative;
   background: #050d26;
   overflow: hidden;
-  padding: 70px 0 25px;
+  padding: 36px 0 20px;
   color: #b6c5e3;
   border-top: 1px solid #9bd2ff25;
 }
@@ -26,7 +26,7 @@
 .footer :global(.footer-grid) {
   grid-template-columns: 1.4fr 1fr 1.2fr;
   gap: 65px;
-  padding-bottom: 55px;
+  padding-bottom: 28px;
 }
 .footer :global(.footer-intro h2) {
   font-size: 29px;
@@ -101,15 +101,15 @@
 }
 @media (max-width: 767px) {
   .footer.footer {
-    padding: 50px 0 100px;
+    padding: 28px 0 82px;
   }
   .footer :global(.container) {
     width: calc(100% - 40px);
   }
   .footer :global(.footer-grid) {
     grid-template-columns: 1fr 1fr;
-    gap: 35px 25px;
-    padding-bottom: 35px;
+    gap: 18px 20px;
+    padding-bottom: 20px;
   }
   .footer :global(.footer-intro) {
     grid-column: 1/-1;

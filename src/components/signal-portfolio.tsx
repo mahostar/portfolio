@@ -1,6 +1,15 @@
 import Link from "next/link";
 import { JetBrains_Mono } from "next/font/google";
-import { ArrowRight, ArrowUpRight, Cpu, Layers3, Radio, Sparkles } from "lucide-react";
+import {
+  ArrowRight,
+  ArrowUpRight,
+  Cpu,
+  Layers3,
+  Radio,
+  Sparkles,
+  MapPin,
+  BriefcaseBusiness,
+} from "lucide-react";
 import {
   getProjects,
   getSite,
@@ -43,24 +52,11 @@ export function SignalPortfolio() {
         aria-labelledby="featured-heading"
       >
         <div className={styles.container}>
-          <div className={styles.sectionMeta}>
-            <span>01 / SELECTED WORK</span>
-            <span>HARDWARE → SOFTWARE</span>
-          </div>
           <div className={`section-header ${styles.heading}`}>
             <div>
-              <h2 id="featured-heading">
-                Ideas are a start.
-                <br />
-                <span>Here’s the work.</span>
-              </h2>
+              <h2 id="featured-heading">My projects</h2>
             </div>
             <div className={styles.headingSide}>
-              <p>
-                Real systems. Built, tested,
-                <br />
-                and understood from end to end.
-              </p>
               <Link href="/projects" className={styles.action}>
                 All {projects.length} projects <ArrowUpRight size={18} />
               </Link>
@@ -73,7 +69,7 @@ export function SignalPortfolio() {
           </div>
           <div className={`more-projects ${styles.workEnd}`}>
             <span>Each project connects another part of the chain.</span>
-            <Link href="/projects" className={styles.action}>
+            <Link href="/projects" className={`${styles.action} ${styles.projectButton}`}>
               Explore all {projects.length} projects <ArrowRight size={16} />
             </Link>
           </div>
@@ -107,13 +103,17 @@ export function SignalPortfolio() {
               <dl className={styles.facts}>
                 {site.location && (
                   <div>
-                    <dt>BASED IN</dt>
+                    <dt>
+                      <MapPin size={13} aria-hidden="true" /> BASED IN
+                    </dt>
                     <dd>{site.location}</dd>
                   </div>
                 )}
                 {site.openTo && (
                   <div>
-                    <dt>OPEN TO</dt>
+                    <dt>
+                      <BriefcaseBusiness size={13} aria-hidden="true" /> OPEN TO
+                    </dt>
                     <dd>{site.openTo}</dd>
                   </div>
                 )}

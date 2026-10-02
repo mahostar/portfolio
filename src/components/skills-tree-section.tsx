@@ -1,4 +1,4 @@
-import { SkillBoard } from "./skill-board";
+import { SkillTree } from "./skill-tree";
 import { techGroups } from "@/content/tech";
 import { getTechnologies, getProjects } from "@/lib/content";
 import { TechLogo } from "./tech-logo";
@@ -40,5 +40,5 @@ export function SkillsTreeSection() {
     }))
     .filter((group) => group.tools.length);
 
-  return <SkillBoard groups={groups} />;
+  return <SkillTree groups={groups} />;
 }

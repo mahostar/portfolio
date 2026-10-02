@@ -80,12 +80,6 @@ export function Navigation({ monogram, name }: { monogram: string; name: string 
       }
       if (bar) bar.dataset.signalLower = String(lower);
       lastScroll = scrollY;
-      for (const nav of [header?.querySelector<HTMLElement>(".desktop-nav"), bar]) {
-        const selected = nav?.querySelector<HTMLAnchorElement>(`a[href="#${group}"]`);
-        if (!nav || !selected) continue;
-        nav.style.setProperty("--signal-indicator-x", `${selected.offsetLeft}px`);
-        nav.style.setProperty("--signal-indicator-width", `${selected.offsetWidth}px`);
-      }
     };
     const schedule = () => {
       if (!frame) frame = requestAnimationFrame(observe);
@@ -103,33 +97,11 @@ export function Navigation({ monogram, name }: { monogram: string; name: string 
       window.removeEventListener("resize", schedule);
     };
   }, [onHome]);
-  useEffect(() => {
-    if (onHome) return;
-    let cancelled = false;
-    const measure = () => {
-      if (cancelled) return;
-      for (const nav of document.querySelectorAll<HTMLElement>(
-        ".desktop-nav,.bottom-nav",
-      )) {
-        const selected = nav.querySelector<HTMLAnchorElement>("a.active");
-        if (!selected) continue;
-        nav.style.setProperty("--signal-indicator-x", `${selected.offsetLeft}px`);
-        nav.style.setProperty("--signal-indicator-width", `${selected.offsetWidth}px`);
-      }
-    };
-    measure();
-    void document.fonts.ready.then(measure);
-    window.addEventListener("resize", measure, { passive: true });
-    return () => {
-      cancelled = true;
-      window.removeEventListener("resize", measure);
-    };
-  }, [onHome, active]);
   const href = (id: string) => (onHome ? `#${id}` : `/#${id}`);
   return (
     <>
       <header
-        className={`site-header ${styles.header}`}
+        className="site-header"
         data-scroll-state="top"
         data-signal-lower={onHome ? undefined : "true"}
       >

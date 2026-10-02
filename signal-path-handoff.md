@@ -14,6 +14,15 @@
 
 # PLAN: Mouhamed Wassim Mbarek portfolio — Signal Path continuation
 
+> **Owner refinements — 2 October 2026:** Keep the original desktop blue-glass
+> navbar and rounded active pill, removing the added rectangular/sliding
+> selection. Keep the phone bottom bar white with a soft gray selection. Restore
+> the connected node tree with short tags and shared, orderly routes. Compact
+> every lower section and phone heading. Apply the owner's marked removals,
+> simple titles, yellow project CTA, fact icons, centered timeline, compact
+> interest cards and image-led milestones with short bottom captions. The hero
+> remains locked. These instructions supersede conflicting visual details below.
+
 ## Read first: current state and owner corrections
 
 Work in E:\portfolio. This is a continuation, not permission to repeat the rejected redesign. Read AGENTS.md and the relevant installed Next.js guides before writing code. The current project uses Next.js 16.3.7, React 19.3.0 and pnpm.

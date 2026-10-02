@@ -18,16 +18,8 @@ export function ExperienceArchive() {
         <div className="story-heading archive-heading">
           <div>
             <Eyebrow>05 / Work beyond the screen</Eyebrow>
-            <h2 id="archive-heading">
-              Build it.
-              <br />
-              Teach it. Share it.
-            </h2>
+            <h2 id="archive-heading">My achievements &amp; milestones</h2>
           </div>
-          <p>
-            Projects, teaching, research, and the moments behind them. Every card
-            documents a real part of my work.
-          </p>
         </div>
         <div className="archive-grid">
           {entries.map((entry, index) => {
@@ -67,15 +59,17 @@ export function ExperienceArchive() {
                     <span>{entry.period}</span>
                   </div>
                   <h3>{entry.title}</h3>
-                  <p>{entry.description}</p>
-                  {teaching.find((item) => item.motif === entry.motif) && (
-                    <details>
-                      <summary>Behind the workshop</summary>
+                  <details className="archive-story">
+                    <summary>
+                      Read the story <ArrowUpRight size={13} aria-hidden="true" />
+                    </summary>
+                    <p>{entry.description}</p>
+                    {teaching.find((item) => item.motif === entry.motif) && (
                       <p>
                         {teaching.find((item) => item.motif === entry.motif)?.description}
                       </p>
-                    </details>
-                  )}
+                    )}
+                  </details>
                   {entry.videoUrl && (
                     <a
                       className="text-link"

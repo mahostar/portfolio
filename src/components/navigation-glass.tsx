@@ -106,8 +106,6 @@ export function NavigationGlass() {
       header.dataset.scrollState = window.scrollY <= 2 ? "top" : "scrolled";
       progress.style.setProperty("--scroll-progress", String(fraction));
       progress.setAttribute("aria-valuenow", String(Math.round(fraction * 100)));
-      // The approved hero retains its glass. Below it, CSS supplies the surface.
-      if (header.dataset.signalLower === "true") return;
       if (!ready || !gl || gl.isContextLost()) return;
       const ratio = Math.min(window.devicePixelRatio || 1, 1.5);
       const width = Math.max(1, Math.round(header.clientWidth * ratio));

@@ -47,13 +47,13 @@ for (const device of [
     await expect(page.locator(".sticker-connector")).toHaveCount(4);
     for (const connector of await page.locator(".sticker-connector").all())
       await expect(connector).toBeVisible();
-    await page.getByRole("tab", { name: /3D and Design/ }).click();
+    await page.getByRole("button", { name: /3D and Design/ }).click();
     const printing = page.locator(
-      '.skill-items .tech-logo[title="3D printing · Bambu Lab"]',
+      '[data-skill-tree] .tech-logo[title="3D printing · Bambu Lab"]',
     );
     await expect(printing).toHaveText("3D printing");
     await expect(printing.locator("svg")).toBeVisible();
-    const solidworks = page.locator('.skill-items .tech-logo[title="SOLIDWORKS"]');
+    const solidworks = page.locator('[data-skill-tree] .tech-logo[title="SOLIDWORKS"]');
     await solidworks.scrollIntoViewIfNeeded();
     await expect(solidworks.locator("img")).toHaveAttribute("src", /solidworks-cube/);
     await solidworks.locator("img").evaluate((image: HTMLImageElement) => image.decode());
@@ -85,7 +85,7 @@ for (const device of [
         .locator("#work")
         .screenshot({ path: "artifacts/screenshots/revision-phone-work.png", style });
       await page
-        .getByRole("tabpanel")
+        .locator("[data-skill-tree]")
         .screenshot({ path: "artifacts/screenshots/revision-phone-cad.png", style });
     }
     await page.getByRole("link", { name: "Explore all 8 projects" }).click();

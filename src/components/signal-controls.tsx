@@ -1,7 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { Pause, Play } from "lucide-react";
+import { useEffect, useRef } from "react";
 import styles from "./signal-portfolio.module.css";
 const sections = [
   ["work", "Work"],
@@ -15,16 +14,9 @@ const sections = [
 ];
 export function SignalControls() {
   const rail = useRef<HTMLElement>(null);
-  const [paused, setPaused] = useState(false);
   useEffect(() => {
     const host = rail.current?.closest<HTMLElement>("[data-signal-site]");
     if (!host) return;
-    try {
-      if (localStorage.getItem("portfolio-lower-motion") === "paused") {
-        host.dataset.motionPaused = "true";
-        requestAnimationFrame(() => setPaused(true));
-      }
-    } catch {}
     const nodes = sections
       .map(([id]) => document.getElementById(id))
       .filter((node): node is HTMLElement => !!node);
@@ -66,37 +58,14 @@ export function SignalControls() {
       removeEventListener("resize", schedule);
     };
   }, []);
-  const toggle = () => {
-    const next = !paused;
-    setPaused(next);
-    const host = rail.current?.closest<HTMLElement>("[data-signal-site]");
-    if (host) host.dataset.motionPaused = String(next);
-    try {
-      localStorage.setItem("portfolio-lower-motion", next ? "paused" : "running");
-    } catch {}
-    document.dispatchEvent(new Event("portfolio-motion-change"));
-  };
   return (
-    <>
-      <aside ref={rail} className={styles.rail} aria-label="Page sections">
-        {sections.map(([id, label]) => (
-          <a href={`#${id}`} key={id}>
-            <i />
-            <span>{label}</span>
-          </a>
-        ))}
-      </aside>
-      <div className={styles.motionControl}>
-        <span>SIGNAL PATH / PORTFOLIO</span>
-        <button
-          onClick={toggle}
-          aria-pressed={paused}
-          aria-label={paused ? "Resume section animations" : "Pause section animations"}
-        >
-          {paused ? <Play size={12} /> : <Pause size={12} />}
-          <span>{paused ? "Motion paused" : "Pause motion"}</span>
-        </button>
-      </div>
-    </>
+    <aside ref={rail} className={styles.rail} aria-label="Page sections">
+      {sections.map(([id, label]) => (
+        <a href={`#${id}`} key={id}>
+          <i />
+          <span>{label}</span>
+        </a>
+      ))}
+    </aside>
   );
 }

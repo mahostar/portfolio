@@ -109,34 +109,60 @@ for (const [width, height] of matrix) {
   });
 }
 
-test("toolkit selection, keyboard movement and factual project links", async ({
+test("node toolkit selection, keyboard access and measured connectors", async ({
   page,
 }) => {
   await page.goto("/");
-  const tabs = page.getByRole("tablist", { name: "Engineering domains" });
-  await tabs.scrollIntoViewIfNeeded();
-  await expect(page.getByRole("tabpanel")).toContainText("AI and Agents");
-  const hardware = page.getByRole("tab", { name: /Hardware and PCB/ });
+  const tree = page.locator("[data-skill-tree]");
+  await tree.scrollIntoViewIfNeeded();
+  await expect(tree.locator("[data-group]")).toHaveCount(5);
+  await expect(tree.locator("[data-tool]")).toHaveCount(16);
+  const hardware = tree.getByRole("button", { name: /Hardware and PCB/ });
   await hardware.click();
-  await expect(hardware).toHaveAttribute("aria-selected", "true");
-  await expect(page.getByRole("tabpanel")).toContainText("PCB design");
-  await expect(
-    page.getByRole("tabpanel").getByRole("link", { name: "Plantini" }),
-  ).toHaveAttribute("href", "/projects/plantini");
-  await hardware.press("ArrowRight");
-  await expect(page.getByRole("tab", { name: /Firmware and IoT/ })).toBeFocused();
-  await expect(page.getByRole("tabpanel")).toContainText("ESP32");
-  await page.getByRole("tab", { name: /Firmware and IoT/ }).press("End");
-  await expect(page.getByRole("tabpanel")).toContainText("3D and Design");
-  await expect(page.getByRole("tabpanel")).toContainText("SOLIDWORKS");
-  await page.getByRole("tab", { name: /3D and Design/ }).press("Home");
-  await expect(hardware).toBeFocused();
+  await expect(hardware).toHaveAttribute("aria-pressed", "true");
+  await hardware.press("Tab");
+  const pcb = tree.locator('[data-tool="pcb"]');
+  await expect(pcb).toBeFocused();
+  await pcb.press("Space");
+  await expect(pcb).toHaveAttribute("aria-pressed", "true");
+  await tree.getByRole("button", { name: "Show the whole toolkit" }).click();
+  await expect(pcb).toHaveAttribute("aria-pressed", "false");
+  for (const width of [390, 830, 1440]) {
+    await page.setViewportSize({ width, height: 900 });
+    await expect.poll(() => tree.locator("[data-wire-tool]").count()).toBe(16);
+    await expect
+      .poll(() =>
+        tree.locator("[data-wire-tool]").evaluateAll((groups) =>
+          groups.every((group) => {
+            const tool = document.querySelector<HTMLElement>(
+              '[data-tool="' + group.getAttribute("data-wire-tool") + '"]',
+            )!;
+            const path = group.querySelector("path")!;
+            const end = path
+              .getPointAtLength(path.getTotalLength())
+              .matrixTransform(path.getScreenCTM()!);
+            const box = tool.getBoundingClientRect();
+            return (
+              Math.abs(end.x - box.left) < 1 &&
+              Math.abs(end.y - box.top - box.height / 2) < 1
+            );
+          }),
+        ),
+      )
+      .toBe(true);
+    const widths = await tree
+      .locator("[data-tool]")
+      .evaluateAll((nodes) => nodes.map((node) => node.getBoundingClientRect().width));
+    expect(widths.every((width) => width <= 149)).toBe(true);
+  }
 });
 
-test("lower motion control leaves hero animation configuration alone", async ({
+test("tree motion control leaves hero animation configuration alone", async ({
   page,
 }) => {
   await page.goto("/");
+  await page.locator("[data-skill-tree]").scrollIntoViewIfNeeded();
+  await page.waitForTimeout(250);
   const before = await page
     .locator("#home")
     .evaluate((hero) =>
@@ -144,11 +170,8 @@ test("lower motion control leaves hero animation configuration alone", async ({
         (element) => getComputedStyle(element).animationPlayState,
       ),
     );
-  await page.getByRole("button", { name: "Pause section animations" }).click();
-  await expect(page.locator("[data-signal-site]")).toHaveAttribute(
-    "data-motion-paused",
-    "true",
-  );
+  await page.getByRole("button", { name: "Pause signal animation" }).click();
+  await expect(page.locator("[data-skill-tree]")).toHaveAttribute("data-paused", "true");
   const after = await page
     .locator("#home")
     .evaluate((hero) =>
@@ -157,11 +180,53 @@ test("lower motion control leaves hero animation configuration alone", async ({
       ),
     );
   expect(after).toEqual(before);
-  await page.getByRole("button", { name: "Resume section animations" }).click();
-  await expect(page.locator("[data-signal-site]")).toHaveAttribute(
-    "data-motion-paused",
-    "false",
+  await page.getByRole("button", { name: "Resume signal animation" }).click();
+  await expect(page.locator("[data-skill-tree]")).toHaveAttribute("data-paused", "false");
+});
+
+test("marked sections are concise, aligned and image-led", async ({ page }) => {
+  await page.setViewportSize({ width: 830, height: 900 });
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("/");
+  await expect(page.getByText("SIGNAL PATH / PORTFOLIO", { exact: true })).toHaveCount(0);
+  await expect(page.getByText("01 / SELECTED WORK", { exact: true })).toHaveCount(0);
+  await expect(page.locator("#featured-heading")).toHaveText("My projects");
+  await expect(page.locator("#archive-heading")).toHaveText(
+    "My achievements & milestones",
   );
+  await expect(page.locator("#work .section-header p")).toHaveCount(0);
+  await expect(page.locator(".archive-heading > p")).toHaveCount(0);
+  await expect(page.getByRole("link", { name: "Explore all 8 projects" })).toHaveCSS(
+    "background-color",
+    "rgb(255, 212, 0)",
+  );
+  await expect(page.locator("#about dt svg")).toHaveCount(2);
+  const alignment = await page
+    .locator(".journey-list li:not(:last-child)")
+    .evaluateAll((items) =>
+      items.map((item) => {
+        const box = item.getBoundingClientRect();
+        const number = item.querySelector(".journey-index")!.getBoundingClientRect();
+        const line = getComputedStyle(item, "::before");
+        return Math.abs(
+          box.left +
+            parseFloat(line.left) +
+            parseFloat(line.width) / 2 -
+            number.left -
+            number.width / 2,
+        );
+      }),
+    );
+  expect(alignment.every((error) => error < 0.6)).toBe(true);
+  const card = page.locator(".archive-card").first();
+  const media = await card.locator(".archive-visual").boundingBox();
+  const box = await card.boundingBox();
+  expect(media!.width).toBeCloseTo(box!.width - 2, 0);
+  expect(media!.height).toBeGreaterThan(250);
+  await card.locator("summary").focus();
+  await page.keyboard.press("Enter");
+  await expect(card.locator("details")).toHaveAttribute("open", "");
+  await expect(card.locator("details p").first()).toBeVisible();
 });
 
 test("certificate dialog closes and restores focus", async ({ page }) => {
@@ -216,15 +281,12 @@ test("navigation groups cover the toolkit and all case study routes load", async
   await expect(page.locator(".desktop-nav .active")).toHaveText("Proof");
   await page.goto("/projects");
   await expect(page.locator(".project-list .project-card")).toHaveCount(8);
-  await expect
-    .poll(() =>
-      page
-        .locator(".desktop-nav")
-        .evaluate((nav) =>
-          parseFloat(getComputedStyle(nav).getPropertyValue("--signal-indicator-width")),
-        ),
-    )
-    .toBeGreaterThan(0);
+  await expect(page.locator(".desktop-nav .active")).toHaveText("Work");
+  expect(
+    await page
+      .locator(".desktop-nav")
+      .evaluate((nav) => getComputedStyle(nav, "::before").content),
+  ).toBe("none");
   const destinations = await page
     .locator(".project-list .project-card")
     .evaluateAll((cards) => cards.map((card) => card.getAttribute("href")!));

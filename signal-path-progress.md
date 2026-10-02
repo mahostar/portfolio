@@ -4,7 +4,39 @@ The lower-page redesign is implemented. The complete first section remains locke
 Claude's full blueprint is retained in `signal-path-handoff.md`, with the owner's
 protection and execution instructions taking precedence.
 
-## Recovery and scope
+## Owner corrections — compact layout and browser annotations
+
+The later owner feedback supersedes the initial navigation and tab-board choices:
+
+- Restored the original desktop blue-glass navigation and rounded active pill;
+  removed the second sliding rectangle and its JavaScript measurements. The
+  phone bottom navigation is white with a soft gray active item.
+- Restored all five node-tree branches and 16 tool nodes. Connectors now use
+  shared distribution buses rather than overlapping full routes. Tool tags are
+  capped at 148 pixels and remeasure after resize and font loading.
+- Reduced lower-page spacing, phone heading sizes, project covers, timeline
+  spacing, form gaps and footer height. Hero files and geometry remain unchanged.
+- Removed the Signal Path/motion strip, selected-work eyebrow and marked
+  introductory copy. The work heading is "My projects" with a yellow project CTA.
+- Added location and opportunity icons; centered timeline links through the
+  number markers; kept the interests' graphics while compacting their cards.
+- Milestone cards now give the image the full surface, with a short bottom
+  caption and expandable existing descriptions. Pending photos remain pending.
+- Added checks for removed content, yellow CTA, icons, timeline centering,
+  full image surfaces, keyboard stories and exact tree connector endpoints at
+  390, 830 and 1440 pixels. Focused browser checks, phone emulation, 11 primary
+  viewports, dense resize sweeps and 200 percent text enlargement pass.
+- Fixed the planned-step marker's contrast; redesigned-area Axe checks pass at
+  phone and desktop widths. TypeScript, lint and the production build pass.
+- Production preview checks report no horizontal overflow or runtime errors.
+  Page height fell from 11,970 to 9,587 pixels at 390 pixels wide (20 percent)
+  and from 8,661 to 6,664 pixels at 1440 pixels wide (23 percent). Hero heights
+  remain unchanged at both widths.
+
+The previous full-suite and Lighthouse results below describe the earlier
+`b5a4bce` checkpoint; Lighthouse has not been repeated for these corrections.
+
+## Original implementation record
 
 - The owner's pushed recovery is `origin/main` at `4cf0e1`. Its source tree matches
   the local starting commit `05c15fb` ("staable").
