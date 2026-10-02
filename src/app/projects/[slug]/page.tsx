@@ -10,6 +10,8 @@ import { Eyebrow } from "@/components/section-heading";
 import { sections } from "@/lib/content-schema";
 import type { ComponentPropsWithoutRef } from "react";
 import styles from "./case-study.module.css";
+import { getProjectEvidence } from "@/lib/evidence";
+import { MediaGallery } from "@/components/media-gallery";
 
 const sectionId = (title: string) =>
   title
@@ -87,8 +89,11 @@ export default async function CaseStudy({
         <p className="case-summary">{project.summary}</p>
       </div>
       <div className="case-cover">
-        <Image
+        {project.coverVideo ? (
+          <video src={project.coverVideo} poster={project.cover} controls playsInline preload="metadata" aria-label={`${project.title} principal demonstration`} style={{ width: "100%", height: "100%", objectFit: "contain" }} />
+        ) : <Image
           src={project.cover}
+          style={{ objectFit: project.coverFit }}
           fill
           preload
           sizes="(max-width: 767px) 100vw, 1200px"
@@ -97,25 +102,25 @@ export default async function CaseStudy({
               ? `${project.title} — illustrative sample image`
               : project.title
           }
-        />
+        />}
       </div>
-      <div className={`case-meta${links.length ? "" : " case-meta-no-links"}`}>
-        <div>
+      {!!(project.role || project.year || project.tech.length || links.length) && <div className={`case-meta${links.length ? "" : " case-meta-no-links"}`}>
+        {project.role && <div>
           <span className="meta-label">Role</span>
           <p>{project.role}</p>
-        </div>
-        <div>
+        </div>}
+        {project.year && <div>
           <span className="meta-label">Year</span>
           <p>{project.year}</p>
-        </div>
-        <div>
+        </div>}
+        {!!project.tech.length && <div>
           <span className="meta-label">Built with</span>
           <div className="tech-row">
             {project.tech.map((id) => (
               <TechLogo key={id} id={id} />
             ))}
           </div>
-        </div>
+        </div>}
         {links.length > 0 && (
           <div className="case-links">
             {links.map(([label, url]) => (
@@ -132,7 +137,8 @@ export default async function CaseStudy({
             ))}
           </div>
         )}
-      </div>
+      </div>}
+      <MediaGallery items={getProjectEvidence(project.slug)} title="Inside the project" />
       <div className="case-reading-layout">
         <nav
           className={`case-contents ${styles.contents}`}

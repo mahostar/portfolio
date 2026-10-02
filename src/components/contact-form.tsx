@@ -2,7 +2,7 @@
 import { useEffect, useRef, useState } from "react";
 import { ArrowUpRight, LoaderCircle } from "lucide-react";
 import dynamic from "next/dynamic";
-import { Button } from "@/components/ui/button";
+import { LiquidGlassButton } from "./liquid-glass";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
@@ -158,7 +158,7 @@ export function ContactForm({ email, note }: { email: string; note: string }) {
           Send an email instead <ArrowUpRight size={16} />
         </a>
       )}
-      <Button className="send-button" type="submit" disabled={sending}>
+      <LiquidGlassButton type="submit" disabled={sending}>
         {sending ? (
           <>
             Sending
@@ -170,7 +170,7 @@ export function ContactForm({ email, note }: { email: string; note: string }) {
             <ArrowUpRight size={18} />
           </>
         )}
-      </Button>
+      </LiquidGlassButton>
       {process.env.NODE_ENV === "development" && (
         <p className="development-note">
           Preview form · messages are logged locally until email is configured.

@@ -1,0 +1,26 @@
+.lab { position: fixed; z-index: 90; left: 14px; bottom: calc(84px + env(safe-area-inset-bottom)); color: #e8f2ff; font: 12px/1.4 var(--font-inter), sans-serif; }
+.launcher { border: 1px solid #9ccfff70; border-radius: 999px; padding: 9px 15px; background: #152747; color: #e8f2ff; box-shadow: 0 4px 20px #0005; cursor: pointer; font-weight: 700; }
+.menu { position: fixed; left: 14px; top: 92px; bottom: calc(134px + env(safe-area-inset-bottom)); width: min(340px, calc(100vw - 28px)); display: flex; flex-direction: column; border: 1px solid #7194c175; border-radius: 14px; background: #0d1c32f5; box-shadow: 0 14px 48px #0007; overflow: hidden; }
+.header { display: flex; align-items: center; justify-content: space-between; padding: 14px 16px 10px; }
+.header strong { font-size: 15px; }
+.header small { display: block; margin-top: 3px; color: #a6bbd7; font-size: 10px; }
+.header button { background: transparent; border: 0; color: #cde4ff; font-size: 24px; cursor: pointer; }
+.tabs { display: flex; gap: 6px; padding: 0 12px 10px; }
+.tabs button { flex: 1; padding: 8px; border: 1px solid #49678a; border-radius: 7px; color: #cde4ff; background: #172d49; cursor: pointer; }
+.tabs button[aria-pressed="true"] { background: #c8e3ff; color: #102039; border-color: #c8e3ff; font-weight: 700; }
+.body { flex: 1; min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding: 0 16px 12px; }
+.body p { color: #a6bbd7; font-size: 11px; margin: 2px 0 16px; }
+.slider { display: block; margin: 0 0 12px; }
+.slider > span { display: flex; justify-content: space-between; gap: 8px; margin-bottom: 4px; }
+.slider output { color: #94d4ff; font-variant-numeric: tabular-nums; }
+.slider input { width: 100%; accent-color: #7bc7ff; cursor: ew-resize; }
+.color { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+.color input { width: 38px; height: 25px; padding: 0; border: 1px solid #6b89ae; border-radius: 4px; background: transparent; cursor: pointer; }
+.light { border-top: 1px solid #3d5475; padding-top: 10px; margin-top: 10px; }
+.light summary { cursor: pointer; margin-bottom: 10px; }
+.light summary i { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 7px; }
+.light summary span { float: right; color: #94d4ff; }
+.footer { border-top: 1px solid #3d5475; padding: 10px; display: flex; flex-wrap: wrap; gap: 7px; }
+.footer button { padding: 6px 8px; border: 1px solid #49678a; border-radius: 5px; background: #172d49; color: #cde4ff; font-size: 10px; cursor: pointer; }
+.lab button:focus-visible, .lab input:focus-visible, .lab summary:focus-visible { outline: 2px solid #ffd65c; outline-offset: 3px; }
+@media (max-height: 600px) { .menu { top: 74px; bottom: 112px; } }

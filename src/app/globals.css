@@ -66,6 +66,12 @@ body {
   background: white;
   -webkit-font-smoothing: antialiased;
 }
+/* Enlarge the full interface on QHD-class desktop viewports. */
+@media screen and (min-width: 1921px) and (max-width: 3071px) and (hover: hover) and (pointer: fine) {
+  html {
+    zoom: 1.2;
+  }
+}
 button,
 input,
 textarea {
@@ -395,8 +401,9 @@ h2 {
 }
 .portrait {
   position: absolute;
-  inset: 10px 12px 0;
-  transform: translate(calc(var(--px, 0) * 8px), calc(var(--py, 0) * 8px));
+  /* Keep the cropped torso just below the hero edge while it follows the pointer. */
+  inset: 10px 12px -2px;
+  transform: translateX(calc(clamp(-1, var(--px, 0), 1) * 6px));
 }
 .portrait img {
   object-fit: contain;
@@ -2724,4 +2731,9 @@ html:has(.certificate-dialog[open]) {
 /* Match the hero blue at the page origin; scrolled glass stays unchanged. */
 .site-header[data-scroll-state="top"] {
   background: #0139b4;
+}
+
+/* The welcome overlay owns input only during its brief opening sequence. */
+html[data-welcome], html[data-welcome] body {
+  overflow: hidden;
 }

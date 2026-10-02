@@ -4,6 +4,8 @@ import { Footer } from "@/components/footer";
 import { Navigation } from "@/components/navigation";
 import { MotionProvider } from "@/components/motion-provider";
 import { PortfolioMotion } from "@/components/portfolio-motion";
+import { WelcomeScreen } from "@/components/welcome-screen";
+import { GlassLab } from "@/components/glass-lab";
 import { fullName, monogram, site, siteUrl } from "@/content/site";
 import "./globals.css";
 import "./motion-design.css";
@@ -44,9 +46,13 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" data-scroll-behavior="smooth">
+    <html lang="en" data-scroll-behavior="smooth" suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: `(()=>{try{if(location.pathname==='/'){document.documentElement.dataset.welcome='pending';setTimeout(()=>{if(document.documentElement.dataset.welcome==='pending')delete document.documentElement.dataset.welcome},8000)}}catch{}})()` }} />
+      </head>
       <body className={`${archivo.variable} ${inter.variable}`}>
         <MotionProvider>
+          <WelcomeScreen name={fullName} />
           <PortfolioMotion />
           <a className="skip-link" href="#main">
             Skip to content
@@ -56,6 +62,7 @@ export default function RootLayout({
             {children}
           </main>
           <Footer />
+          {process.env.NODE_ENV === "development" && process.env.NEXT_PUBLIC_GLASS_LAB === "1" && <GlassLab />}
         </MotionProvider>
       </body>
     </html>

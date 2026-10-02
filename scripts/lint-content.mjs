@@ -3,8 +3,8 @@ import path from 'node:path';
 import matter from 'gray-matter';
 import { site, siteUrl } from '../src/content/site.ts';
 import { technologies } from '../src/content/tech.ts';
-import { journey, impact, interests, certificates, certificateSlots } from '../src/content/expansion.ts';
-import { siteSchema, techSchema, journeySchema, impactSchema, interestSchema, certificateSchema, certificateSlotSchema, projectSchema, validateEditorial, sections } from '../src/lib/content-schema.ts';
+import { journey, impact, interests, certificates, certificateSlots, archive } from '../src/content/expansion.ts';
+import { siteSchema, techSchema, journeySchema, impactSchema, interestSchema, certificateSchema, certificateSlotSchema, archiveEntrySchema, projectSchema, validateEditorial, sections } from '../src/lib/content-schema.ts';
 
 const errors = [];
 // Validate every content source, including newly added data files, not just
@@ -30,10 +30,17 @@ const unique = (values, name) => { if (new Set(values).size !== values.length) e
 check(siteSchema, site, 'site');
 [site.heroBg, site.heroBgMobile, site.portrait].forEach(image);
 technologies.forEach((item) => check(techSchema, item, `technology:${item.id}`));
-for (const [name, records, schema] of [['journey', journey, journeySchema], ['impact', impact, impactSchema], ['interests', interests, interestSchema], ['certificates', certificates, certificateSchema], ['certificate slots', certificateSlots, certificateSlotSchema]]) {
+for (const [name, records, schema] of [['journey', journey, journeySchema], ['impact', impact, impactSchema], ['interests', interests, interestSchema], ['certificates', certificates, certificateSchema], ['certificate slots', certificateSlots, certificateSlotSchema], ['archive', archive, archiveEntrySchema]]) {
   records.forEach((item) => { check(schema, item, `${name}:${item.id}`); if (item.image) image(item.image); });
   unique(records.map((item) => item.id), `${name} ids`);
 }
+const evidence = JSON.parse(fs.readFileSync('src/content/evidence.json', 'utf8'));
+unique(evidence.map(item => item.id), 'evidence ids');
+for (const item of evidence) {
+  [item.preview, item.thumbnail].forEach(image);
+  if (!/^\/(images|videos)\/evidence\//.test(item.src) || !fs.existsSync(path.join('public', item.src))) errors.push(`Missing evidence: ${item.id}`);
+}
+for (const entry of archive) for (const id of entry.mediaIds || []) if (!evidence.some(item => item.id === id)) errors.push(`Missing gallery evidence: ${entry.id}/${id}`);
 for (const item of journey) if (item.href?.startsWith('/projects/') && !fs.existsSync(`src/content/projects/${item.href.split('/').at(-1)}.mdx`)) errors.push(`Missing journey project: ${item.href}`);
 unique(technologies.map((item) => item.id), 'technology ids');
 const projects = fs.readdirSync('src/content/projects').filter((file) => file.endsWith('.mdx')).map((file) => {
@@ -41,6 +48,7 @@ const projects = fs.readdirSync('src/content/projects').filter((file) => file.en
   check(projectSchema, data, file);
   if (file !== `${data.slug}.mdx`) errors.push(`${file}: slug must match filename`);
   image(data.cover);
+  if (data.coverVideo && !fs.existsSync(path.join('public', data.coverVideo))) errors.push(`Missing cover video: ${data.coverVideo}`);
   for (const id of data.tech || []) if (!technologies.some((item) => item.id === id)) errors.push(`${file}: unknown technology ${id}`);
   const headings = [...content.matchAll(/^## (.+)$/gm)].map((match) => match[1].trim());
   if (JSON.stringify(headings) !== JSON.stringify(sections)) errors.push(`${file}: incorrect body section order`);

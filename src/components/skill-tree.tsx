@@ -4,7 +4,6 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 import { useReducedMotion } from "motion/react";
 import * as m from "motion/react-m";
 import {
-  ArrowUpRight,
   Box,
   CircuitBoard,
   Code2,
@@ -139,28 +138,41 @@ export function SkillTree({ groups }: { groups: Group[] }) {
         );
         if (!leaves.length) return;
         const side = mobile && window.innerWidth > 350;
-        const busY = Math.min(...leaves.map((leaf) => leaf.box.top)) - 8;
+        if (side && leaves.length === 1) {
+          const leaf = leaves[0];
+          const midpoint = (category.right + leaf.box.left) / 2;
+          next.push({
+            id: group + "-" + leaf.node.dataset.tool,
+            group,
+            tool: leaf.node.dataset.tool,
+            d: route([
+              [category.right, category.cy],
+              [midpoint, category.cy],
+              [midpoint, leaf.box.cy],
+              [leaf.box.left, leaf.box.cy],
+            ]),
+          });
+          return;
+        }
+        const busY = Math.min(...leaves.map((leaf) => leaf.box.top)) - 12;
         const columns = new Map<number, typeof leaves>();
         for (const leaf of leaves) {
           const key = Math.round(leaf.box.left);
           columns.set(key, [...(columns.get(key) || []), leaf]);
         }
         const rails = [...columns.values()].map((column) => ({
-          x: column[0].box.left - 8,
+          x: column[0].box.left - 12,
           leaves: column,
         }));
         const minX = Math.min(...rails.map((rail) => rail.x));
         const maxX = Math.max(...rails.map((rail) => rail.x));
-        const entryX = side ? category.right + 8 : category.cx;
         next.push({
           id: group + "-stem",
           group,
           d: side
             ? route([
                 [category.right, category.cy],
-                [entryX, category.cy],
-                [entryX, busY],
-                [maxX, busY],
+                [minX, category.cy],
               ])
             : route([
                 [category.cx, category.bottom],
@@ -168,7 +180,7 @@ export function SkillTree({ groups }: { groups: Group[] }) {
                 [minX, busY],
               ]),
         });
-        if (!side && maxX !== minX)
+        if (maxX !== minX)
           next.push({
             id: group + "-bus",
             group,
@@ -182,8 +194,8 @@ export function SkillTree({ groups }: { groups: Group[] }) {
             id: group + "-rail-" + columnIndex,
             group,
             d: route([
-              [rail.x, busY],
-              [rail.x, Math.max(...rail.leaves.map((leaf) => leaf.box.cy))],
+              [rail.x, side && columnIndex === 0 ? Math.min(busY, category.cy) : busY],
+              [rail.x, Math.max(...rail.leaves.map((leaf) => leaf.box.cy), side && columnIndex === 0 ? category.cy : busY)],
             ]),
           });
           for (const { node, box: leaf } of rail.leaves)
@@ -349,11 +361,6 @@ export function SkillTree({ groups }: { groups: Group[] }) {
                       >
                         <span className={styles.socket} aria-hidden="true" />
                         {tool.logo}
-                        <ArrowUpRight
-                          size={13}
-                          className={styles.nodeArrow}
-                          aria-hidden="true"
-                        />
                       </button>
                     </li>
                   ))}

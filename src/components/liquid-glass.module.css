@@ -1,0 +1,193 @@
+.panel {
+  position: relative;
+  isolation: isolate;
+  min-width: 0;
+  align-self: start;
+  border-radius: 22px;
+  border: 1px solid #c4e7ff50;
+  background: #10234c70;
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  box-shadow: inset 0 1px 0 #e6f6ff20, 0 12px 32px #0002, 0 0 24px #469dff0d;
+}
+.panel > .background { opacity: .3; }
+.panelLighting {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  z-index: 1;
+  pointer-events: none;
+}
+.background {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 0;
+}
+.surface {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  isolation: isolate;
+  border-radius: inherit;
+  pointer-events: none;
+  background: #0b194418;
+}
+.content {
+  position: relative;
+  z-index: 2;
+  padding: 20px;
+}
+.buttonScene {
+  position: relative;
+  isolation: isolate;
+  width: fit-content;
+  max-width: 100%;
+  margin-inline: auto;
+  border-radius: 999px;
+  margin-top: 4px;
+}
+.linkScene {
+  position: relative;
+  isolation: isolate;
+  flex-shrink: 0;
+  border-radius: 999px;
+}
+.linkScene .goldenSurface {
+  width: 120px;
+  min-height: 46px;
+  padding-inline: 14px;
+  gap: 8px;
+  font-size: 12px;
+}
+.goldCanvas {
+  position: absolute;
+  inset: -10px -12px;
+  width: calc(100% + 24px);
+  height: calc(100% + 20px);
+  pointer-events: none;
+  z-index: 0;
+}
+[data-gold-shader="ready"] .goldenSurface.goldenSurface,
+[data-gold-shader="ready"] .goldenSurface.goldenSurface:hover {
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
+  filter: none;
+}
+[data-gold-shader="ready"] .goldenSurface::before,
+[data-gold-shader="ready"] .goldenSurface::after {
+  display: none;
+}
+.goldenSurface.goldenSurface {
+  --golden-fill:
+    radial-gradient(ellipse 35% 25% at 75% 8%, #ffe85a88, transparent 100%),
+    radial-gradient(ellipse 40% 30% at 20% 80%, #8e813045, transparent 100%),
+    linear-gradient(180deg, #fff599 0%, #fff299 2%, #f5d878 5%, #d7b74d 13%, #d8bc48 22%, #e8cb48 43%, #e2c647 63%, #d0bb4a 80%, #cbb74e 87%, #f1d666 95%, #fff193 100%);
+  position: relative;
+  z-index: 1;
+  isolation: isolate;
+  color: #0b1944;
+  border: 1px solid #fff093;
+  border-radius: 999px;
+  background: var(--golden-fill);
+  box-shadow:
+    inset 0 1px 1px #fff7ba80,
+    inset 0 -1px 1px #fff5a680,
+    inset 2px 0 3px #fff29db3,
+    inset -2px 0 3px #fff29db3,
+    0 0 3px 1px #ffe96f8c,
+    0 0 10px #ffe66066,
+    0 3px 16px #ffe04c45;
+  transition: filter 180ms, box-shadow 180ms;
+}
+/* Fixed lighting reproduces the reference at rest, before hydration as well. */
+.goldenSurface::before,
+.goldenSurface::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+}
+.goldenSurface::before {
+  background:
+    radial-gradient(ellipse 10% 20% at 13% 22%, #ffffe8cc, transparent),
+    radial-gradient(ellipse 10% 20% at 87% 81%, #ffffe8cc, transparent);
+  box-shadow:
+    inset 2px 0 4px #fff3a1b3,
+    inset -2px 0 4px #fff3a1b3;
+}
+.goldenSurface::after {
+  padding: 1.5px;
+  background: conic-gradient(from 0deg,
+    #fff9bb66 0deg, #fff6a666 55deg, #fffef4cc 115deg,
+    #fffff5 133deg, #fff7b399 160deg, #fff1a666 210deg,
+    #fff6b699 265deg, #fffff5 305deg, #fffdf0cc 320deg, #fff9bb66 360deg);
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  filter: blur(1px);
+}
+.buttonContent {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: inherit;
+  gap: inherit;
+  width: 100%;
+}
+.goldenSurface.goldenSurface:hover {
+  background: var(--golden-fill);
+  filter: brightness(1.035);
+}
+.goldenSurface:active {
+  filter: brightness(0.97);
+}
+.goldenSurface:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 4px;
+}
+.button.button {
+  position: relative;
+  isolation: isolate;
+  z-index: 1;
+  width: auto;
+  min-height: 48px;
+  height: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 12px 20px;
+  margin: 0;
+  font-weight: 700;
+  cursor: pointer;
+}
+.button.button:disabled {
+  opacity: 0.65;
+  cursor: wait;
+}
+@media (max-width: 767px) {
+  .content { padding: 16px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .goldenSurface.goldenSurface { transition: none; }
+}
+@media (forced-colors: active) {
+  .panelLighting { display: none; }
+  .goldCanvas { display: none; }
+  .goldenSurface.goldenSurface {
+    background: ButtonFace;
+    color: ButtonText;
+    border: 1px solid ButtonText;
+    box-shadow: none;
+  }
+  .goldenSurface::before,
+  .goldenSurface::after { display: none; }
+}

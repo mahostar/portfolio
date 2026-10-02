@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { ArrowUpRight, Film, Gamepad2, Waves, Wind } from "lucide-react";
 import { getInterests, getJourney } from "@/lib/content";
-import { Eyebrow } from "./section-heading";
 
 export function Journey() {
   return (
@@ -12,7 +11,6 @@ export function Journey() {
     >
       <div className="container journey-grid">
         <div className="journey-intro">
-          <Eyebrow>03 / Building my own path</Eyebrow>
           <h2 id="journey-heading" className="large-heading">
             My Journey
           </h2>
@@ -78,7 +76,6 @@ export function BeyondEngineering() {
       <div className="container">
         <div className="story-heading">
           <div>
-            <Eyebrow>04 / Away from the workbench</Eyebrow>
             <h2 id="interests-heading">Beyond Engineering</h2>
           </div>
         </div>
@@ -87,27 +84,13 @@ export function BeyondEngineering() {
             const Icon = interestIcons[item.id];
             return (
               <article className={`interest-card interest-${item.id}`} key={item.id}>
-                <span className="interest-number" aria-hidden="true">
-                  {item.id === "windsurfing"
-                    ? "08"
-                    : item.id === "swimming"
-                      ? "05"
-                      : item.id === "gaming"
-                        ? "∞"
-                        : "▶"}
-                </span>
-                <div className="interest-icon" aria-hidden="true">
-                  <Icon size={32} strokeWidth={1.5} />
+                <div className="interest-header">
+                  <h3>{item.title}</h3>
+                  <div className="interest-icon" aria-hidden="true">
+                    <Icon size={28} strokeWidth={1.5} />
+                  </div>
                 </div>
-                <p className="interest-detail">{item.detail}</p>
-                <h3>{item.title}</h3>
                 <p>{item.description}</p>
-                {item.id === "windsurfing" && (
-                  <svg className="interest-waves" viewBox="0 0 400 30" aria-hidden="true">
-                    <path d="M0 18 Q25 0 50 18 T100 18 T150 18 T200 18 T250 18 T300 18 T350 18 T400 18" />
-                    <path d="M0 24 Q25 6 50 24 T100 24 T150 24 T200 24 T250 24 T300 24 T350 24 T400 24" />
-                  </svg>
-                )}
               </article>
             );
           })}

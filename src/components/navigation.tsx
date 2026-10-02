@@ -1,10 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
+import { HomeLink as Link } from "./home-link";
 import { usePathname } from "next/navigation";
 import { ArrowRight, Folder, Home, Mail, UserRound, Sparkles } from "lucide-react";
 import { NavigationGlass } from "./navigation-glass";
+import { BrandLogo } from "./brand-logo";
+import { LiquidGlassLink } from "./liquid-glass";
 import styles from "./signal-navigation.module.css";
 
 const items = [
@@ -61,6 +63,7 @@ export function Navigation({ monogram, name }: { monogram: string; name: string 
     const header = document.querySelector<HTMLElement>(".site-header");
     const bar = document.querySelector<HTMLElement>(".bottom-nav");
     const hero = document.getElementById("home");
+    const contact = document.getElementById("contact");
     let frame = 0;
     let lastScroll = window.scrollY;
     const observe = () => {
@@ -69,7 +72,16 @@ export function Navigation({ monogram, name }: { monogram: string; name: string 
       const current = sections
         .filter((element) => element.getBoundingClientRect().top <= anchor)
         .at(-1);
-      const group = window.scrollY <= 2 ? "home" : groups[current?.id || "home"];
+      // A short final section may never reach the anchor on a tall viewport.
+      const atEnd =
+        window.scrollY + window.innerHeight >=
+        document.documentElement.scrollHeight - 2;
+      const group =
+        window.scrollY <= 2
+          ? "home"
+          : atEnd && contact
+            ? "contact"
+            : groups[current?.id || "home"];
       setSection(group);
       const lower =
         !hero || hero.getBoundingClientRect().bottom <= (header?.offsetHeight || 64);
@@ -112,10 +124,7 @@ export function Navigation({ monogram, name }: { monogram: string; name: string 
             className="nav-brand"
             aria-label={`${monogram} — Go to home`}
           >
-            <span className="monogram">
-              {monogram}
-              <span className="monogram-dot" />
-            </span>
+            <BrandLogo />
             <span className="nav-brand-name">
               {name}
               <span>Embedded / Edge AI</span>
@@ -133,10 +142,10 @@ export function Navigation({ monogram, name }: { monogram: string; name: string 
               </Link>
             ))}
           </nav>
-          <Link className="nav-cta" href={href("contact")}>
+          <LiquidGlassLink className="nav-cta" href={href("contact")}>
             Let’s build
             <ArrowRight size={18} />
-          </Link>
+          </LiquidGlassLink>
         </div>
       </header>
       <nav

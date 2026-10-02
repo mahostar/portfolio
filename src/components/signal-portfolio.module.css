@@ -408,39 +408,9 @@
 .site :global(.interest-card)::before {
   display: none;
 }
-.site :global(.interest-waves) {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 200%;
-  height: 30px;
-  fill: none;
-  stroke: #9bd2ff35;
-  stroke-width: 1;
-  pointer-events: none;
-}
-.site :global(.interest-waves path) {
-  animation: wave 18s linear infinite;
-}
-.site :global(.interest-waves path + path) {
-  animation-duration: 24s;
-  stroke: #ffd40025;
-}
-.site :global(.interest-swimming)::after {
-  content: "";
-  position: absolute;
-  bottom: 7px;
-  left: 25px;
-  right: 25px;
-  height: 7px;
-  border-block: 1px dashed #9bd2ff40;
-}
 .site :global(.interest-gaming) {
   background-image: radial-gradient(#9bd2ff16 0.7px, transparent 0.7px);
   background-size: 15px 15px;
-}
-.site :global(.interest-cinema) {
-  border-bottom: 7px dotted #9bd2ff25;
 }
 .site :global(.archive-section) {
   background: white;
@@ -799,90 +769,10 @@
 .site :global(.form-note) {
   color: #afbdd7;
 }
-.rail {
-  display: none;
-  position: fixed;
-  z-index: 20;
-  left: 23px;
-  top: 35%;
-  gap: 24px;
-  opacity: 0;
-  transition: opacity 380ms;
-}
-.rail[data-visible="true"] {
-  opacity: 1;
-}
-.rail::before,
-.rail::after {
-  content: "";
-  position: absolute;
-  left: 3px;
-  top: 3px;
-  bottom: 3px;
-  width: 1px;
-  background: #a7b8dd55;
-  z-index: -1;
-}
-.rail::after {
-  background: #1f3bff;
-  transform: scaleY(var(--rail-progress, 0));
-  transform-origin: top;
-}
-.rail a {
-  position: relative;
-  display: flex;
-  align-items: center;
-  width: 7px;
-  height: 7px;
-}
-.rail i {
-  width: 7px;
-  height: 7px;
-  border: 1px solid #9bb1db;
-  background: #f7f9fe;
-  border-radius: 50%;
-}
-.rail a[aria-current="location"] i {
-  background: #ffd400;
-  border-color: #0139b4;
-}
-.rail span {
-  position: absolute;
-  left: 15px;
-  color: white;
-  font:
-    9px var(--font-signal-mono),
-    monospace;
-  padding: 5px 8px;
-  border-radius: 3px;
-  background: #0b1944;
-  opacity: 0;
-  pointer-events: none;
-}
-.rail a:hover span,
-.rail a:focus-visible span {
-  opacity: 1;
-}
 .site[data-motion-paused="true"] *,
 .site[data-motion-paused="true"] *::before,
 .site[data-motion-paused="true"] *::after {
   animation-play-state: paused !important;
-}
-@keyframes wave {
-  to {
-    transform: translateX(-50%);
-  }
-}
-@media (min-width: 1280px) {
-  .rail {
-    display: flex;
-    flex-direction: column;
-  }
-}
-@media (min-width: 2000px) {
-  .rail {
-    left: calc((100vw - 1200px) / 2 - 55px);
-  }
 }
 @media (max-width: 1023px) {
   .container,
@@ -1168,9 +1058,6 @@
   .site *::after {
     animation: none !important;
     transition: none !important;
-  }
-  .rail {
-    transition: none;
   }
 }
 /* Compact lower-page rhythm. The hero is outside this scoped wrapper. */
@@ -1561,23 +1448,41 @@
 }
 .site :global(.interest-card),
 .site :global(.interest-card + .interest-card) {
-  min-height: 200px;
+  min-height: 0;
   padding-block: 18px;
 }
-.site :global(.interest-icon) {
-  top: 18px;
-}
-.site :global(.interest-number) {
+.site :global(.interest-header) {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
   margin-bottom: 12px;
-  font-size: 40px;
 }
-/* Large image surface; the short caption sits only at the bottom. */
+.site :global(.interest-header h3) {
+  min-width: 0;
+  margin: 0;
+  color: white;
+  font-weight: 750;
+}
+.site :global(.interest-icon) {
+  position: static;
+  flex: 0 0 28px;
+  width: 28px;
+  height: 28px;
+  margin: 0;
+}
+.site :global(.interest-icon svg) {
+  width: 28px;
+  height: 28px;
+}
+/* Image surface with a compact caption at the bottom. */
 .site :global(.archive-card) {
   display: flex;
   flex-direction: column;
   position: relative;
   isolation: isolate;
-  min-height: 280px;
+  height: 420px;
+  min-height: 420px;
   background: #0b1944;
   color: white;
 }
@@ -1589,6 +1494,11 @@
 .site :global(.archive-visual img) {
   object-fit: cover;
 }
+.site :global([data-story="graduation"] .archive-visual img),
+.site :global([data-story="plantini-events"] .archive-visual img),
+.site :global([data-story="agrinova-training"] .archive-visual img) {
+  object-position: center 15%;
+}
 .site :global(.archive-placeholder > svg) {
   width: 90px;
   height: 90px;
@@ -1596,19 +1506,21 @@
   transform: translateY(-45px);
 }
 .site :global(.archive-copy) {
-  position: relative;
+  position: absolute;
+  inset: auto 0 0;
+  height: 160px;
   z-index: 1;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  flex: 1;
-  margin-top: 150px;
-  padding: 36px 20px 16px;
-  background: linear-gradient(transparent, #050d26e8 30%, #050d26f5);
+  flex: none;
+  margin-top: 0;
+  padding: 36px 20px 14px;
+  background: linear-gradient(transparent, #050d26e8 55%, #050d26f5);
 }
 .site :global(.archive-meta) {
   color: #b9cbea;
-  margin-bottom: 6px;
+  margin-bottom: 4px;
 }
 .site :global(.archive-meta p),
 .site :global(.archive-meta span) {
@@ -1617,7 +1529,7 @@
 .site :global(.archive-copy h3) {
   font-size: 18px;
   color: white;
-  margin-bottom: 0;
+  margin: 0;
 }
 .site :global(.archive-copy .archive-story) {
   margin-top: 4px;
@@ -1649,19 +1561,16 @@
 @media (max-width: 767px) {
   .site :global(.interest-card),
   .site :global(.interest-card + .interest-card) {
-    min-height: 210px;
-    padding: 16px 12px 22px;
-  }
-  .site :global(.interest-number) {
-    font-size: 34px;
-    margin-bottom: 10px;
+    min-height: 0;
+    padding: 16px 12px;
   }
   .site :global(.archive-card) {
-    min-height: 260px;
+    height: 420px;
+    min-height: 420px;
   }
   .site :global(.archive-copy) {
-    margin-top: 130px;
-    padding: 30px 16px 12px;
+    margin-top: 0;
+    padding: 36px 16px 12px;
   }
   .site :global(.archive-copy h3) {
     font-size: 17px;
@@ -1669,6 +1578,22 @@
   .site :global(.archive-copy summary) {
     min-height: 36px;
     padding-top: 4px;
+  }
+}
+@media (max-width: 480px) {
+  .site :global(.interests-grid) {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .site :global(.interest-card),
+  .site :global(.interest-card + .interest-card) {
+    padding: 16px 0;
+    border-left: 0;
+  }
+  .site :global(.interest-card + .interest-card) {
+    border-top: 1px solid #9bd2ff25;
+  }
+  .site :global(.interest-header h3) {
+    font-size: 20px;
   }
 }
 @media (forced-colors: active) {
@@ -1687,7 +1612,252 @@
     color: CanvasText;
     -webkit-text-stroke: 0;
   }
-  .rail {
-    display: none;
+}
+/* Compact section openings after removing the numbered labels. */
+.site .about.about,
+.site .skills,
+.site .contact.contact,
+.site :global(.certificates-section) {
+  padding-block: 32px;
+}
+.site .skills .heading {
+  margin-bottom: 18px;
+}
+.site :global(.archive-section) {
+  padding-bottom: 24px;
+}
+.site :global(.journey-intro .large-heading),
+.site :global(.archive-heading h2),
+.site :global(.certificates-heading h2) {
+  margin-top: 0;
+}
+.site :global(.archive-meta p) {
+  margin: 0;
+}
+.site :global(.certificates-heading) {
+  margin-bottom: 16px;
+}
+@media (max-width: 767px) {
+  .site .about.about,
+  .site .skills,
+  .site .contact.contact,
+  .site :global(.certificates-section) {
+    padding-block: 22px;
   }
+  .site :global(.archive-section) {
+    padding-bottom: 16px;
+  }
+  .site .skills .heading {
+    margin-bottom: 14px;
+  }
+}
+/* A single contact headline and one row of direct links. */
+.site .contact.contact {
+  padding-block: 20px;
+}
+.contactCopy h2 {
+  position: relative;
+  display: block;
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  overflow-wrap: normal;
+  font-size: clamp(28px, 3.2vw, 40px);
+  margin: 0;
+}
+.site .contactCopy h2::after {
+  display: none;
+}
+.contactCopy h2 .headingMeasure {
+  position: absolute;
+  visibility: hidden;
+  pointer-events: none;
+  width: max-content;
+  left: 0;
+  top: 0;
+  white-space: nowrap;
+}
+.contactCopy > p {
+  max-width: none;
+  margin: 8px 0;
+  line-height: 1.5;
+}
+.contactLinks {
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 14px;
+}
+.contactLinks a {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: #9bd2ff;
+  white-space: nowrap;
+  flex-shrink: 0;
+  min-height: 32px;
+}
+.contactLinks .email {
+  padding: 0;
+  border: 0;
+  color: white;
+  font-size: clamp(10px, 1.5vw, 13px);
+  overflow-wrap: normal;
+}
+.contactLinks svg {
+  flex-shrink: 0;
+}
+.contactGrid {
+  gap: 20px;
+}
+.contact .formPanel {
+  padding: 14px;
+  margin-top: 0;
+}
+.contact .formLabel {
+  padding-bottom: 8px;
+  margin-bottom: 10px;
+}
+@media (max-width: 767px) {
+  .site .contact.contact {
+    padding-block: 16px;
+  }
+  .contactGrid {
+    gap: 12px;
+  }
+  .contactLinks {
+    gap: 10px;
+  }
+  .site .contactLinks a {
+    min-height: 36px;
+  }
+}
+/* Keep the project index link alongside its heading on every screen. */
+.work .heading.heading {
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 12px;
+}
+.work .heading h2 {
+  margin: 0;
+  white-space: nowrap;
+}
+.work .headingSide {
+  width: auto;
+  flex-shrink: 0;
+  padding: 0;
+}
+.work .headingSide .action {
+  white-space: nowrap;
+  gap: 6px;
+}
+@media (max-width: 380px) {
+  .work .heading h2 {
+    font-size: 24px;
+  }
+  .work .headingSide .action {
+    font-size: 11px;
+  }
+}
+/* Shared navy gradient captions; portrait crops keep faces in the clear area. */
+.site :global([data-story="agrinova-training"] .archive-visual img) { object-position: center 35%; }
+.site :global([data-story="medical-robot"] .archive-visual img) { object-position: center 18%; }
+.site :global([data-story="solar-training"] .archive-visual img) {
+  object-fit: cover;
+  object-position: center 54%;
+}
+.site :global(.certificate-dialog .viewer-content) { padding: 14px; }
+.site :global(.certificate-dialog .viewer-header) {
+  align-items: center;
+  gap: 12px;
+  padding: 8px 10px;
+}
+.site :global(.certificate-dialog .viewer-header h3) { font-size: 18px; line-height: 1.3; margin: 0; }
+.site :global(.certificate-dialog .viewer-close) { width: 36px; height: 36px; }
+.site :global(.certificate-dialog .viewer-image) { margin-top: 12px; }
+/* Image-led credentials use each scan's actual proportions. */
+.site :global(.certificate-grid) {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+.site :global(.certificate-image-card .certificate-preview) {
+  height: auto;
+  min-height: 0;
+  padding: 0;
+  background: #e9edf4;
+}
+.site :global(.certificate-image-card .certificate-preview img) {
+  display: block;
+  width: 100%;
+  height: auto;
+  padding: 0;
+  object-fit: contain;
+}
+.site :global(.certificate-image-card .certificate-copy) {
+  padding: 12px 16px;
+}
+.site :global(.certificate-image-card .certificate-copy h3) {
+  font-size: 17px;
+  margin: 3px 0 0;
+}
+.site :global(.certificate-image-card .certificate-copy .eyebrow) {
+  margin: 0;
+  font-size: 9px;
+}
+.site :global(.viewer-image) {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 68dvh;
+  object-fit: contain;
+}
+@media (max-width: 767px) {
+  .site :global(.certificate-grid) { grid-template-columns: minmax(0, 1fr); gap: 16px; }
+  .site :global(.certificate-image-card .certificate-copy) { padding: 10px 14px; }
+}
+/* Frosted form fields stay readable above the locally rendered glass. */
+.site .contact [data-local-glass="panel"] .formLabel {
+  font: 600 14px/1.4 var(--font-inter), sans-serif;
+  letter-spacing: -0.01em;
+  color: #eef8ff;
+  margin: 0 0 12px;
+  padding: 0 0 12px;
+  border-color: #d4e8ff30;
+  align-items: center;
+}
+.site .contact [data-local-glass="panel"] .formLabel span {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border: 1px solid #ffe68266;
+  border-radius: 50%;
+  color: #ffe682;
+  background: #ffd40010;
+}
+.site .contact [data-local-glass="panel"] label {
+  font: 500 11px/1.4 var(--font-inter), sans-serif;
+  color: #d4e8ff;
+}
+.site .contact [data-local-glass="panel"] input,
+.site .contact [data-local-glass="panel"] textarea {
+  background: #050d2670;
+  border-color: #c4e7ff40;
+  border-radius: 10px;
+  box-shadow: inset 0 1px 4px #0002;
+  font-size: 12px;
+}
+.site .contact [data-local-glass="panel"] input:focus,
+.site .contact [data-local-glass="panel"] textarea:focus {
+  outline: 2px solid #9bd2ff;
+  outline-offset: 1px;
+  border-color: #9bd2ff;
+  background: #050d2690;
+}
+.site .contact [data-local-glass="panel"] textarea {
+  min-height: 98px;
+}
+.site .contact [data-local-glass="panel"] .field {
+  margin-bottom: 12px;
 }

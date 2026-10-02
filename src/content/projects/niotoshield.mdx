@@ -3,26 +3,61 @@ title: "NiotoShield"
 slug: "niotoshield"
 pipeline: ["PROFILE","EMBEDDINGS","MATCH"]
 category: "IoT + Security"
-summary: "Connected vehicle-security research with Raspberry Pi and face-embedding firmware."
-cover: "/images/projects/niotoshield.svg"
+summary: "CUDA-ready vehicle vision security: anti-spoofing, embeddings, and controlled access."
+cover: "/images/projects/niotoshield/niotoshield-main.webp"
+coverFit: contain
 year: 2025
 tech: ["python","raspberrypi","supabase","pcb"]
-featured: false
+featured: true
+featuredOrder: 3
 links: {"github":"https://github.com/mahostar/NiotoShield-Firmware"}
 role: "Graduation project engineer"
 placeholder: false
 ---
 ## Problem
-A connected security device needs an updatable recognition pipeline and a clear separation between device credentials and user data.
+
+NiotoShield asks a difficult edge-AI question: how can a vehicle-security device decide quickly enough to be useful, without treating every detected face as trustworthy? Face recognition alone is not sufficient. A printed portrait or replayed screen can pass a recognizer unless liveness is checked first.
+
+The system therefore needs two distinct gates: an anti-spoofing decision before identity matching, then a local authorization decision after a match. It also needs a safe way to refresh the enrolled identities without shipping a new firmware image every time a profile changes.
 
 ## What I built
-I worked on NiotoShield as a graduation project, combining Raspberry Pi, custom sensor electronics, and a software pipeline. The public firmware repository documents product-key-gated profile retrieval and face embedding generation.
+
+I built NiotoShield as a graduation project that joins a camera, Raspberry Pi software, custom electronics, cloud-backed enrollment, and a vehicle-access output. The device is provisioned with a product key, synchronizes its owner profile from Supabase, converts the approved images into local face embeddings, and keeps the recognition path local at scan time.
+
+The public [NiotoShield firmware repository](https://github.com/mahostar/NiotoShield-Firmware) documents the provisioning and recognition side: environment-based credentials, product-key lookup, image download, update tracking, embedding generation, and local matching. It deliberately avoids keeping the downloaded enrollment photos after embeddings are generated.
+
+The liveness side became [EasyShield](/projects/easyshield), a separate open-source anti-spoofing project. That separation matters: NiotoShield owns the access-control flow, while EasyShield owns the data preparation, model training, evaluation, and live Real/Fake inference workflow.
 
 ## How it works
-The firmware checks its product key against Supabase, retrieves associated profile images, and updates local face embeddings when the profile changes. InsightFace provides embedding and matching capabilities; environment configuration holds service credentials.
+
+### A two-gate vision path
+
+The sequence diagram in the project gallery shows the intended runtime path. The camera captures a short set of face images. EasyShield evaluates the frames for spoofing before the recognizer is allowed to compare identity embeddings. A spoofing result ends the flow immediately; a verified face is compared with the locally stored enrollment vectors. A match above the decision threshold authorizes the output that activates vehicle access.
+
+The design is intentionally ordered this way. Running identity matching on an unverified face would make the recognizer the first security boundary, which is the wrong place to detect a printed or replayed attack. Anti-spoofing reduces that risk before the access relay is involved.
+
+### Enrollment and synchronization
+
+The firmware uses the device product key to retrieve the associated user profile. It compares the profile's `updated_at` value with its last successful synchronization, so it only rebuilds the local image and embedding data when the enrollment changes. This keeps the recognition path independent from round-trip cloud latency while allowing a profile to be updated remotely.
+
+InsightFace generates the face embeddings, which are stored with metadata for later comparison. The public firmware README documents a default similarity threshold of `0.5`. The supplied system diagram shows a 70% decision point, so a deployment should make the final operating threshold explicit and validate it against false-accept and false-reject rates instead of leaving two different representations of the rule.
+
+### CUDA is part of the deployment contract
+
+The acceleration story is about the whole inference stack, not a CUDA label on a project. EasyShield documents a CUDA 11.8 and cuDNN 8.9.6 setup with a CUDA-enabled PyTorch build (`cu118`) for its YOLOv12-nano anti-spoofing model. Its published 8,000-image evaluation reports a 75.47 ms average inference time, while the hardware sequence diagram frames a sub-80 ms analysis target. Those figures describe the model evaluation and design target; they are not a guarantee of end-to-end latency on every device or camera.
+
+For an NVIDIA edge target such as Jetson, the deployment path is JetPack, CUDA, cuDNN, and TensorRT. CUDA accelerates the neural-network work; camera capture, decoding, data movement, thresholding, cloud synchronization, and relay actuation still have their own cost. Treating these as separate stages is how I reason about whether a vision pipeline can feel real-time rather than only reporting a fast model benchmark.
+
+The current public repositories document the CUDA/cuDNN PyTorch environment and the Edge/Jetson runtime prerequisites. They do not include a committed TensorRT engine or an INT8 calibration pipeline, so those belong in the next deployment phase rather than being claimed as already shipped.
 
 ## Result
-The firmware connects profile updates to local embedding generation and recognition. The public repository includes the workflow, configuration guidance, and update tracking for the device software.
+
+NiotoShield demonstrates a complete security chain: provisioned profile sync, local embedding generation, anti-spoofing before matching, a thresholded identity decision, and a physical authorization step. The result is a more credible edge-security architecture than a standalone face-recognition demo because the model, identity store, update mechanism, and output action all have a defined place.
+
+EasyShield supports the model side with its own [open-source repository](https://github.com/mahostar/EasyShield_v2.5): YOLOv12-nano training tools, MTCNN-assisted face preparation, live testing, and CUDA-aware environment guidance. Together, the two repositories show the link between model work and a hardware system that can use it.
 
 ## What I would improve
-Deployment review should test authentication boundaries, credential rotation, update recovery, and recognition errors on the intended hardware.
+
+The next technical milestone is a measured edge deployment. I would profile camera-to-decision latency stage by stage on the target hardware, publish the camera resolution and batch policy, and separate anti-spoofing latency from face-embedding and similarity latency. On Jetson, I would export and validate a TensorRT engine, test FP16 first, then evaluate INT8 only with a representative calibration set and accuracy checks.
+
+I would also unify the matching threshold across the design diagram and firmware, test replay attacks and poor lighting, rotate product credentials, make synchronization recover safely after interruption, and document the relay's fail-safe behavior. Those details turn a promising vision pipeline into an auditable access-control system.

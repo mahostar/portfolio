@@ -4,26 +4,58 @@ slug: "algobrain"
 pipeline: ["BIO-AMP","EEG / EMG","CONTROL"]
 category: "Electronics + BCI"
 summary: "A custom bio-amplifier and embedded signal-processing prototype for device control."
-cover: "/images/projects/algobrain.svg"
+cover: "/images/evidence/projects/algobrain/prototype/project-exhibition-display--027.webp"
 year: 2023
 tech: ["arduino","cplusplus","pcb","python"]
-featured: true
-featuredOrder: 4
+featured: false
 links: {}
 role: "Project designer & R&D developer"
 placeholder: false
 ---
 ## Problem
-Using biological signals to control an electrical device requires more than a software classifier. Small signals need amplification, filtering, sampling, and a reliable control path.
+
+AlgoBrain began with a simple but demanding goal: turn a weak biological signal into a reliable physical action. The prototype explored using forehead electrodes to control a light or relay, but it also exposed the hard part of a brain-computer interface: signals from people are small, noisy, inconsistent across users, and easy to confuse with motion, muscle activity, and electrical interference.
+
+This was a research prototype, not a clinical device and not a claim of dependable thought control. Its value was the full engineering chain: an analog front end, embedded acquisition, digital signal processing, visualization, and a hardware output that made the quality of the decision visible.
 
 ## What I built
-I designed a TL074 bio-amplifier on a custom PCB and developed Arduino signal-processing firmware. The prototype explores EEG/EMG envelope processing and real-time device control.
+
+I designed a custom TL074 bio-amplifier and PCB, built the enclosure and prototype hardware, and developed Arduino firmware for acquisition and control. The project files include circuit and PCB work, SPICE exploration, breadboard and recorded tests, 3D-print files, Arduino sketches, a Processing visual client, and a later Python visualizer for recording and analysis.
+
+The analog path uses a four-stage operational-amplifier arrangement: differential acquisition, high-pass filtering, gain, and low-pass filtering. The electrode setup in the project notes uses a forehead channel with ear-mounted references. Its job is to move a microvolt-scale biological signal into the Arduino's ADC range while rejecting as much common noise and drift as practical.
+
+The project was deliberately end to end. It did not stop at displaying a waveform: the sender can transmit processed samples over serial, and a separate receiver sketch can interpret an IR command and drive a relay with red/green status indicators.
 
 ## How it works
-The analog front-end amplifies the input signal. Firmware samples at 500 Hz, applies filtering and envelope processing, and translates the output into control commands. Serial communication and an infrared control path connect the prototype stages.
+
+### Analog signal before software
+
+Biological signals are unforgiving of poor front-end design. The amplifier has to preserve a useful signal while the electrodes, mains interference, body movement, and the ADC reference all introduce unwanted variation. The TL074 circuit and its filter stages were the first attempt to create a signal that firmware could work with at all.
+
+That also explains why the project is more accurately described as EEG/EMG experimentation. The hardware and code were used to investigate a forehead-based signal path, but a visible response can come from muscle activity or motion as well as any intended EEG pattern. Treating those sources as separable is a key requirement for a stronger second version.
+
+### Sampling, filtering, and envelope detection
+
+The active data-sender sketch targets 500 samples per second from analog pin A0 and emits raw value, filtered value, and a cycle counter at 115200 baud. The firmware implements four cascaded second-order filter sections using persistent state variables, then produces a serial stream that can be inspected outside the microcontroller.
+
+The controller sketch follows the same signal path but adds a 128-sample circular-buffer envelope. It rectifies the filtered signal, averages the recent history, applies a sensitivity factor, and compares the result with a threshold to drive an LED. At the intended 500 Hz cadence, a 128-sample window represents roughly 256 ms of history: enough to smooth a transient, but still short enough to make control feel responsive.
+
+There is an important archival detail: the data-sender uses a `1,000,000 / SAMPLE_RATE` microsecond timer interval, while the older controller sketch uses `10,000,000 / SAMPLE_RATE`. The latter schedules ten times more slowly than its 500 Hz label suggests. The files document the prototype honestly: the timing needs to be verified on the exact sketch and hardware being demonstrated.
+
+### From signal to an external action
+
+The serial path made the prototype observable. The later Python visualizer keeps five seconds of raw and filtered data, plots a 0–50 Hz spectrum, reports basic signal statistics, and supports recording sessions for future analysis. This is the bridge between an embedded experiment and a dataset: it makes it possible to compare a user action with the signal that preceded it instead of tuning a threshold by feel alone.
+
+The output side was kept separate. An IR receiver sketch listens for a received command, changes relay state, illuminates a red or green status indicator, and blocks repeated triggers for five seconds. This split makes the design easier to debug: signal acquisition, visual feedback, and the physical output can each be tested independently.
 
 ## Result
-The prototype placed fourth among more than 150 teams at the national innovation competition in Rades. It connects a custom analog front-end, embedded signal processing, and a real-time device-control path.
+
+AlgoBrain placed fourth among more than 150 teams at the national innovation competition in Rades. More importantly, it produced a working record of the decisions behind a bio-signal prototype: analog amplification, custom PCB work, fixed-rate embedded acquisition, digital filtering, envelope-based control, serial visualization, and a relay output.
+
+The prototype also revealed its limits clearly. A fixed threshold can work for a controlled demonstration but cannot account for electrode placement, user differences, fatigue, movement, or an unstable baseline. That evidence is valuable because it turns AlgoBrain v2 into a specific engineering problem rather than an abstract AI idea.
 
 ## What I would improve
-Further work should document the signal protocol, distinguish EEG from muscle contributions, and evaluate noise and repeatability. An improved amplifier and synchronized data collection are useful next experiments.
+
+AlgoBrain v2 should start with synchronized data collection: record the raw signal, filtered signal, event label, user, electrode placement, and session conditions together. Calibration should establish a per-user baseline before any control threshold is chosen. Artifact checks should explicitly flag blinks, movement, and obvious EMG contamination instead of treating every high envelope as intent.
+
+On the hardware side, I would validate the analog front end with known inputs, document ADC scaling and the actual sampling rate, and add a clear safety boundary between the sensing electronics and any power output. On the software side, I would compare the current envelope baseline with simple spectral features and a small personalized classifier only after the recorded data shows a repeatable signal. The goal is not to make a bigger claim; it is to make each decision in the control chain measurable.

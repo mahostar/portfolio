@@ -1,0 +1,68 @@
+---
+slug: aquaflow
+title: AquaFlow
+category: IoT + Hardware
+summary: >-
+  Fish-water monitoring with custom AC-based TDS sensing, ESP32 controls and a
+  mobile dashboard.
+tech: ["espressif","cplusplus","pcb","cad"]
+cover: "/images/evidence/projects/aquaflow/hardware/controller-enclosure-open--033.webp"
+year: null
+featured: true
+featuredOrder: 4
+links: {}
+role: ''
+placeholder: false
+pipeline: ["SENSING","ESP32","AQUACULTURE"]
+---
+## Problem
+A fish-water system is only useful when its physical flow, measurements and operating controls are legible in the same place. AquaFlow explored that connection with a small water-tank test bench: make the equipment observable, give an operator clear status signals, and provide a practical control surface rather than treating the hardware as a black box.
+
+The challenge was not only to assemble the plumbing and electronics. The prototype had to make a changing fish-water setup understandable: what the water level and quality readings are saying, which equipment is available to control, and when the system needs attention.
+
+That required the same sensing foundation developed for Plantini, but applied to a different operating context. A TDS reading has to be treated as a measurement with uncertainty, not as an unquestioned dashboard number: it needs a calibration context and a controller that can tell the difference between a usable reading and one that is stale, unsettled or implausible.
+
+## What I built
+AquaFlow brings together three tangible pieces of the prototype:
+
+- A **water-tank test bench** with the tank, tubing and connected equipment used to exercise the physical setup.
+- A **controller enclosure** containing the control electronics and a multi-channel relay board for connecting equipment.
+- A **mobile control dashboard** that presents the system state and the operating controls in one interface.
+- A **proprietary AC-based TDS sensing path** and ESP32 control layer, adapted from the in-house technology developed for Plantini.
+
+The TDS sensor, its AC excitation, analog conditioning, calibration routine and production firmware are proprietary. As with Plantini, the aim is to keep the sensing technology understandable and manufacturable in-house while protecting the implementation details that make it work.
+
+The gallery separates the real prototype from the illustrative water-system diagram. The diagram communicates the intended flow path; the bench, wiring, enclosure and demonstration document the hardware that was actually assembled.
+
+## How it works
+### From the tank to a readable state
+
+The mobile dashboard is organized around the conditions that matter to a fish-water operator: temperature, TDS and water level. In the captured interface, an urgent low-water warning and a high-TDS warning are surfaced before the lower-level controls, so attention is drawn to the condition before an action is taken.
+
+The proprietary sensor measures a property of the water that AquaFlow uses as a TDS proxy. The AC approach avoids a persistent DC bias at the interface with the water. An ESP32 receives the conditioned sensor output, applies the private calibration and decision logic, and exposes a usable state to the rest of the system.
+
+### From a control screen to hardware
+
+The same dashboard groups equipment controls into clear cards, including compressor and filter/pump controls. The controller enclosure shows the corresponding physical side of that design: an ESP32-based control board, power hardware and relay wiring are housed together so the prototype can connect interface-level choices to external equipment.
+
+The private firmware is responsible for more than passing a number to the screen. A reliable control layer needs to consider whether the reading is fresh, whether the water has settled after an equipment change, and whether a deviation is meaningful enough to surface as an alert. Those decisions remain private; the public design is the path from fish water, through a calibrated sensing layer, to a readable operating state.
+
+### A prototype, not a product claim
+
+The concept diagram is an illustrative system view, while the tank, controller and video are the evidence of the working prototype. Together they show the direction of the system without overstating long-term reliability, sensor accuracy or production readiness.
+
+## Result
+The result is a documented end-to-end prototype: a physical fish-water setup, a controller enclosure, proprietary in-house sensing technology, a mobile monitoring and control surface, and a demonstration of the assembled system. It gives the project a concrete bridge between the water system, the electronics and the person operating it.
+
+Most importantly, the project evidence now makes the process visible. Rather than presenting only a diagram or only an app screen, AquaFlow shows the proprietary sensing context, the control experience and the hardware it is connected to.
+
+## What I would improve
+The next iteration should turn the prototype record into a measurable operating story:
+
+- Run long-duration sensing tests with raw and calibrated readings, reference checks and maintenance events to understand drift and repeatability in fish water.
+- Document the safe operating ranges and calibration approach behind the temperature, TDS and water-level states.
+- Record time-series telemetry so alerts can be reviewed against real tank behaviour rather than a single screen state.
+- Define safe actuator defaults, manual overrides and interlocks for pump, filter and compressor control.
+- Add a repeatable test plan that covers low-water, high-TDS and connectivity-loss scenarios.
+
+Those additions would make it possible to evaluate the system's behaviour as an engineered product, not only as an assembled prototype.

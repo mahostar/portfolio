@@ -4,7 +4,8 @@ slug: "plantini"
 pipeline: ["SENSING","ESP32","HYDROPONICS"]
 category: "IoT + Hardware"
 summary: "Hydroponic towers connecting custom sensing, ESP32 firmware, and in-house fabrication."
-cover: "/images/projects/plantini.svg"
+cover: "/images/evidence/projects/plantini/concept-renders/tower-concept-still--091.webp"
+coverFit: "contain"
 year: 2025
 tech: ["espressif","cplusplus","pcb","cad"]
 featured: true
@@ -14,16 +15,49 @@ role: "Co-founder · hardware & farm design"
 placeholder: false
 ---
 ## Problem
-A hydroponic product connects water quality, sensing, dosing, physical structures, and software. Plantini brings those parts together in a system designed and fabricated as one product.
+
+In hydroponics, the nutrient reservoir is part of the product. A plant can only receive a consistent recipe if the controller has a credible picture of what is in the water. Plantini needed a sensor path that could turn a changing nutrient solution into a usable signal for its ESP32 controller and dosing decisions.
+
+Commercial AC TDS options were expensive and difficult to source for the product we were building. That made the sensor a core engineering problem rather than an off-the-shelf purchase: Plantini needed a design it could understand, control, and produce as part of its own hardware.
+
+The challenge is not merely reading a number. A reading must be repeatable enough to support a target, stable enough to distinguish a real nutrient change from measurement noise, and maintainable enough to work in a real growing system rather than only on a bench.
 
 ## What I built
-As a co-founder, I worked on proprietary AC-based TDS sensing, ESP32 firmware, and the CAD design of agricultural farms and hydroponic towers. Towers were manufactured in-house using 3D printing. The project also includes nutrient-water treatment research.
+
+As a co-founder, I worked on Plantini's proprietary AC-based TDS sensing work and the ESP32 side that receives and acts on sensor data. **We created proprietary sensing technology and our own TDS sensor, designed so Plantini can fully manufacture it in-house.**
+
+Getting there took four months of research and reverse-engineering competitor products. I studied the choices behind commercially available AC TDS solutions, then used that work to define a sensor path that fit Plantini's cost, availability, and manufacturing needs. The sensor design, its excitation method, analog conditioning, calibration routine, and production firmware remain private. This case study focuses on the engineering questions the sensing system had to answer without exposing that implementation.
+
+The public project gallery shows the physical context around that work: the controller board concept, the hydroponic architecture, the tower, and the pump configuration. The sensing work connected those physical parts to a control target rather than treating the electronics as an isolated board.
 
 ## How it works
-Sensor readings feed the embedded controller. Firmware maps the sensor and actuator wiring, while the tower geometry and fabrication process support the physical growing system. The sensing design remains proprietary; this page describes the system at a high level.
+
+### From nutrient solution to a control signal
+
+The sensor measures a property of the circulating solution that Plantini uses as a TDS proxy. An AC approach is appropriate for conductivity-related sensing because it avoids a persistent DC bias at the interface with the solution. The ESP32 then turns the conditioned sensor output into a value that can be compared against a dosing target.
+
+That value is only useful when it is treated as a measurement, not a fact. The firmware has to decide when a reading is fresh, whether it has settled after a pump or dosing event, and whether a deviation is significant enough to act on. This is where embedded control starts: the measurement closes the loop between reservoir, dosing hardware, and plant environment.
+
+### Calibration is the product work
+
+The public record includes calibration around a 1,000 ppm dosing target. Calibration is more than selecting a scale factor. It defines the relationship between the sensor output and the operational value that the product displays or uses to make a decision. A useful procedure needs known reference solutions, repeated readings, and a way to record the conditions under which the reference was taken.
+
+For a hydroponic device, long-term behavior matters as much as a single calibration point. Deposits, water temperature, mixing, probe aging, cable routing, and the time between dosing and sampling can all change what the controller sees. Designing around these sources of variation is the difference between a sensor demo and a system that can be maintained.
+
+### Sensor data belongs to the system
+
+The ESP32 is the boundary between the sensing subsystem and the rest of the tower. It receives the measurement, applies the private calibration and decision logic, and coordinates with the rest of the system. The controller has to preserve safe operating behavior when a reading is missing, implausible, or stale; a dosing action should never depend on a single unexamined sample.
+
+The specific private code is not published here. The system design is: sense the nutrient solution, give the reading a calibration context, decide whether it is trustworthy, then use it as part of a controlled growing environment.
 
 ## Result
-Plantini brings together a physical hydroponic tower, custom sensing, farm CAD, and in-house fabrication. The sensing and firmware work includes calibration around a 1,000 ppm dosing target.
+
+Plantini brought custom sensing into the same product conversation as the hydroponic tower, controller, dosing workflow, and in-house fabrication. The sensor work gave the system a route from physical water conditions to an embedded decision, with calibration around the 1,000 ppm target as an early operating reference.
+
+It also set a standard for how I approach embedded sensing: protect the parts that are proprietary, document the engineering boundary clearly, and make the measurement's uncertainty part of the design rather than hiding it behind a dashboard value.
 
 ## What I would improve
-A useful next step is a documented long-duration calibration and dosing study, including sensor drift, maintenance, and variation between assembled units.
+
+The next step would be a long-duration sensing and dosing study. I would log raw and calibrated values, dosing events, settling time, reference checks, and maintenance events across multiple assembled units. That data would show drift, unit-to-unit variation, and the right filtering or confirmation policy for automatic dosing.
+
+I would also define clear sensor-health states: valid, settling, suspect, and fault. That would make the controller's behavior easier to audit and would keep a bad reading from quietly becoming a bad dosing decision.

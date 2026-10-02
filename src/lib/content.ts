@@ -21,6 +21,6 @@ export const getProjects = cache(() => {
   return fs.readdirSync(directory).filter((file) => file.endsWith(".mdx")).map((file) => {
     const { data, content } = matter(fs.readFileSync(path.join(directory, file), "utf8"));
     return { ...projectSchema.parse(data), body: content };
-  }).sort((a, b) => Number(b.featured) - Number(a.featured) || (a.featuredOrder ?? Infinity) - (b.featuredOrder ?? Infinity) || b.year - a.year);
+  }).sort((a, b) => Number(b.featured) - Number(a.featured) || (a.featuredOrder ?? Infinity) - (b.featuredOrder ?? Infinity) || (b.year ?? 0) - (a.year ?? 0));
 });
 export const hasCv = () => fs.existsSync(path.join(process.cwd(), "public/cv.pdf"));

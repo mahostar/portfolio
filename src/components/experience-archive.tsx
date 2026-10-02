@@ -1,12 +1,12 @@
 import Image from "next/image";
 import { ArrowUpRight, Bot, CircuitBoard, Cpu, Microscope, Play } from "lucide-react";
-import { getArchive, getImpact } from "@/lib/content";
-import { Eyebrow } from "./section-heading";
+import { getArchive } from "@/lib/content";
+import { getEvidence, type EvidenceItem } from "@/lib/evidence";
+import { MediaGallery } from "./media-gallery";
 
 const icons = { robotics: Bot, ai: Cpu, pcb: CircuitBoard, research: Microscope };
 
 export function ExperienceArchive() {
-  const teaching = getImpact();
   const entries = getArchive();
   return (
     <section
@@ -17,15 +17,14 @@ export function ExperienceArchive() {
       <div className="container">
         <div className="story-heading archive-heading">
           <div>
-            <Eyebrow>05 / Work beyond the screen</Eyebrow>
             <h2 id="archive-heading">My achievements &amp; milestones</h2>
           </div>
         </div>
         <div className="archive-grid">
-          {entries.map((entry, index) => {
+          {entries.map((entry) => {
             const Icon = icons[entry.motif];
             return (
-              <article className={`archive-card archive-${entry.motif}`} key={entry.id}>
+              <article className={`archive-card archive-${entry.motif}`} data-story={entry.id} key={entry.id}>
                 <div className="archive-visual">
                   {entry.image ? (
                     <Image
@@ -33,14 +32,13 @@ export function ExperienceArchive() {
                       alt={entry.alt}
                       fill
                       sizes="(max-width: 767px) 100vw, 50vw"
+                      unoptimized={entry.id === "solar-training"}
                     />
                   ) : (
                     <div className="archive-placeholder" aria-hidden="true">
                       <Icon strokeWidth={1.15} />
-                      <span>{String(index + 1).padStart(2, "0")}</span>
                     </div>
                   )}
-                  <p className="archive-media-label">{entry.mediaLabel}</p>
                   {entry.videoUrl && (
                     <a
                       className="archive-play"
@@ -56,20 +54,10 @@ export function ExperienceArchive() {
                 <div className="archive-copy">
                   <div className="archive-meta">
                     <p>{entry.category}</p>
-                    <span>{entry.period}</span>
+                    {entry.period && <span>{entry.period}</span>}
                   </div>
                   <h3>{entry.title}</h3>
-                  <details className="archive-story">
-                    <summary>
-                      Read the story <ArrowUpRight size={13} aria-hidden="true" />
-                    </summary>
-                    <p>{entry.description}</p>
-                    {teaching.find((item) => item.motif === entry.motif) && (
-                      <p>
-                        {teaching.find((item) => item.motif === entry.motif)?.description}
-                      </p>
-                    )}
-                  </details>
+                  <MediaGallery compact story={entry.description} title={entry.title} items={entry.mediaIds.map(getEvidence).filter((item): item is EvidenceItem => !!item)} />
                   {entry.videoUrl && (
                     <a
                       className="text-link"

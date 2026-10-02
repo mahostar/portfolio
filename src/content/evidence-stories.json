@@ -1,0 +1,245 @@
+{
+  "evidenceCertificates": [
+    {
+      "id": "ielts",
+      "title": "IELTS Academic",
+      "issuer": "IELTS",
+      "date": "10 May 2026",
+      "summary": "Overall band 6.0 · CEFR B2",
+      "reportNumber": "26TN500991MBAM001A",
+      "image": null,
+      "alt": "",
+      "url": "https://ielts.org/organisations/ielts-for-organisations/verifying-ielts-results"
+    },
+    {
+      "id": "agrinova",
+      "title": "Hydroponics training",
+      "issuer": "Agrinova",
+      "date": "",
+      "summary": "Participation certificate for hydroponic training.",
+      "image": "/images/evidence/certificates/agrinova-hydroponics/participation-certificate-primary--012.webp",
+      "alt": "Hydroponics training certificate scan",
+      "url": "",
+      "width": 1513,
+      "height": 1073
+    },
+    {
+      "id": "algobrain-recognition",
+      "title": "AlgoBrain · recognition certificate",
+      "issuer": "",
+      "date": "",
+      "summary": "Recognition documented in the supplied project certificate.",
+      "image": "/images/evidence/certificates/algobrain/award-certificate--024.webp",
+      "alt": "AlgoBrain · recognition certificate certificate scan",
+      "url": "",
+      "width": 1464,
+      "height": 1058
+    },
+    {
+      "id": "algobrain-participation",
+      "title": "AlgoBrain · participation certificate",
+      "issuer": "",
+      "date": "",
+      "summary": "Participation documented in the supplied project certificate.",
+      "image": "/images/evidence/certificates/algobrain/participation-certificate--025.webp",
+      "alt": "AlgoBrain · participation certificate certificate scan",
+      "url": "",
+      "width": 1527,
+      "height": 1056
+    },
+    {
+      "id": "soft-skills",
+      "title": "Soft skills bootcamp",
+      "issuer": "BOOTCAMP",
+      "date": "",
+      "summary": "Certificate of participation.",
+      "image": "/images/evidence/certificates/soft-skills/bootcamp-participation--119.webp",
+      "alt": "Soft skills bootcamp certificate scan",
+      "url": "",
+      "width": 1060,
+      "height": 1528
+    },
+    {
+      "id": "solar-installation",
+      "title": "Photovoltaic installation & maintenance",
+      "issuer": "BOOTCAMP",
+      "date": "",
+      "summary": "Certificate of successful completion.",
+      "image": "/images/evidence/certificates/solar-installation/bootcamp-success-certificate--120.webp",
+      "alt": "Photovoltaic installation & maintenance certificate scan",
+      "url": "",
+      "width": 1539,
+      "height": 1097
+    },
+    {
+      "id": "solar-master-repair",
+      "title": "Solar training · Master Repair",
+      "issuer": "Orange / Master Repair",
+      "date": "",
+      "summary": "Certificate of participation in the training programme.",
+      "image": "/images/evidence/certificates/solar-training/orange-master-repair-participation--121.webp",
+      "alt": "Solar training · Master Repair certificate scan",
+      "url": "",
+      "width": 1424,
+      "height": 936
+    },
+    {
+      "id": "solar-commercial",
+      "title": "Photovoltaics · technical and commercial training",
+      "issuer": "BOOTCAMP",
+      "date": "",
+      "summary": "Certificate of participation.",
+      "image": "/images/evidence/certificates/solar-commercial/bootcamp-participation--125.webp",
+      "alt": "Photovoltaics · technical and commercial training certificate scan",
+      "url": "",
+      "width": 1567,
+      "height": 1101
+    }
+  ],
+  "milestoneStories": [
+    {
+      "id": "graduation",
+      "category": "ISIMA Mahdia · Graduation",
+      "title": "The people and moments behind graduation.",
+      "period": "2025",
+      "description": "Graduation portraits, congratulations and a view of the ceremony from the technical side.",
+      "motif": "research",
+      "mediaLabel": "The people and moments behind graduation.",
+      "image": "/images/evidence/milestones/graduation/ceremony/ceremony-group-portrait--037.webp",
+      "alt": "Mohamed at the graduation ceremony with the group",
+      "videoUrl": "",
+      "mediaIds": [
+        "037",
+        "038",
+        "039",
+        "040",
+        "041",
+        "042",
+        "043",
+        "044",
+        "045",
+        "046",
+        "047",
+        "048",
+        "049",
+        "050"
+      ]
+    },
+    {
+      "id": "plantini-events",
+      "category": "Plantini · Presentations",
+      "title": "Taking Plantini beyond the workshop.",
+      "period": "",
+      "description": "Project presentations, certificate moments and recognition around the development of Plantini.",
+      "motif": "research",
+      "mediaLabel": "Taking Plantini beyond the workshop.",
+      "image": "/images/evidence/milestones/plantini-events/prize-presentation--076.webp",
+      "alt": "prize presentation",
+      "videoUrl": "",
+      "mediaIds": [
+        "074",
+        "075",
+        "076"
+      ]
+    },
+    {
+      "id": "agrinova-training",
+      "category": "Agrinova · Hydroponics",
+      "title": "Learning the growing system from the roots up.",
+      "period": "",
+      "description": "Hydroponic training with demonstrations of growing beds, roots and the components that support the plants.",
+      "motif": "research",
+      "mediaLabel": "Learning the growing system from the roots up.",
+      "image": "/images/evidence/milestones/agrinova-training/certificate-group-photo--013.webp",
+      "alt": "certificate group photo",
+      "videoUrl": "",
+      "mediaIds": [
+        "013",
+        "014",
+        "015",
+        "016",
+        "017",
+        "018",
+        "019",
+        "020",
+        "021"
+      ]
+    },
+    {
+      "id": "medical-robot",
+      "category": "Robotics · Event encounter",
+      "title": "Meeting a medical robot up close.",
+      "period": "",
+      "description": "An event encounter with a medical robot. These photos document the experience; the robot is not my own project.",
+      "motif": "robotics",
+      "mediaLabel": "Meeting a medical robot up close.",
+      "image": "/images/evidence/projects/medical-robot/robot-and-builder-event-portrait--068.webp",
+      "alt": "Mohamed standing alongside the medical robot at an event",
+      "videoUrl": "",
+      "mediaIds": [
+        "062",
+        "063",
+        "065",
+        "067",
+        "068"
+      ]
+    },
+    {
+      "id": "solar-training",
+      "category": "Solar energy · Field practice",
+      "title": "Working with solar systems in the field.",
+      "period": "",
+      "description": "Training moments around photovoltaic panels, inverters and the people involved in the course.",
+      "motif": "pcb",
+      "mediaLabel": "Working with solar systems in the field.",
+      "image": "/images/evidence/milestones/solar-training/training-group-photo--117.webp",
+      "alt": "Solar training group photo with Mohamed and the other participants",
+      "videoUrl": "",
+      "mediaIds": [
+        "113",
+        "114",
+        "115",
+        "116",
+        "117",
+        "118"
+      ]
+    },
+    {
+      "id": "ai-courses",
+      "category": "FabLab Mahdia · AI",
+      "title": "Sharing the ideas behind the technology.",
+      "period": "",
+      "description": "A talk about artificial intelligence and technological progress, recorded alongside my work at FabLab.",
+      "motif": "ai",
+      "mediaLabel": "Sharing the ideas behind the technology.",
+      "image": "/images/evidence/milestones/fablab/ai-talk/ai-and-technology-talk--096.webp",
+      "alt": "ai and technology talk",
+      "videoUrl": "",
+      "mediaIds": [
+        "096"
+      ]
+    },
+    {
+      "id": "pcb-training",
+      "category": "FabLab Mahdia · Electronics",
+      "title": "From a circuit to a board you can hold.",
+      "period": "",
+      "description": "A visual record of PCB layouts, assembled control boards, wiring and work at the electronics bench.",
+      "motif": "pcb",
+      "mediaLabel": "From a circuit to a board you can hold.",
+      "image": "/images/evidence/milestones/fablab/pcb-manufacturing/custom-control-pcb--105.webp",
+      "alt": "custom control pcb",
+      "videoUrl": "",
+      "mediaIds": [
+        "097",
+        "098",
+        "104",
+        "105",
+        "106",
+        "107",
+        "108",
+        "110"
+      ]
+    }
+  ]
+}

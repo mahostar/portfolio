@@ -4,26 +4,56 @@ slug: "easyshield"
 pipeline: ["CAMERA","YOLOv12","REAL / FAKE"]
 category: "AI + Edge"
 summary: "A complete face anti-spoofing pipeline, from dataset preparation to live testing."
-cover: "/images/projects/easyshield.svg"
+cover: "/images/evidence/projects/easyshield/demonstrations/anti-spoofing-demo-montage--053.webp"
+coverVideo: "/videos/evidence/projects/easyshield/demonstrations/anti-spoofing-demo-montage--053.mp4"
 year: 2025
 tech: ["python","pytorch","opencv"]
 featured: true
 featuredOrder: 1
 links: {"github":"https://github.com/mahostar/EasyShield_v2.5"}
-role: "Lead developer · graduation research"
+role: "Model training & AI tool-suite developer"
 placeholder: false
 ---
 ## Problem
-Printed photographs and replayed videos can fool a face recognition system. My graduation research focused on detecting these presentation attacks with a lightweight model and a repeatable evaluation workflow.
+
+Face recognition answers who a person resembles; it does not, by itself, answer whether a camera is seeing a present person. A printed portrait or replayed screen can be accepted as an identity match unless a separate liveness step stops it first.
+
+EasyShield began as that protective step for [NiotoShield](/projects/niotoshield). I turned the anti-spoofing work into a standalone, open-source model and tool suite for distinguishing a live face from common presentation attacks before identity recognition proceeds.
 
 ## What I built
-I developed EasyShield around YOLOv12-nano, with tools for face extraction, augmentation, filtering, dataset preparation, training, and live GUI testing. The tools connect data preparation to an inspectable prediction.
+
+I built EasyShield around a YOLOv12-nano classifier and the surrounding workflow needed to train and inspect it: face extraction, data augmentation, image filtering, dataset preparation, model training, and live GUI testing. The release includes trained weights, example data, Windows and Linux testing paths, and the scripts that connect those stages.
+
+The goal was not only to train one model. It was to make the dataset and iteration process repeatable: move from source photos or video to aligned face crops, curate the samples, make a YOLO-ready split, train a run, then inspect real-time predictions with their confidence scores.
 
 ## How it works
-MTCNN extracts face crops. The preparation tools organize and augment the images into a YOLO dataset. The trainer produces model weights, and the testing application classifies incoming faces as real or fake.
+
+### A liveness gate before identity matching
+
+EasyShield treats liveness as an independent decision. A camera frame is first reduced to a face region, then the classifier labels that crop as **Real** or **Fake**. In the NiotoShield flow, a fake result stops the request before the face-recognition component compares identity embeddings. A real result can continue to the identity stage.
+
+This separation keeps the question being answered clear. The anti-spoofing model is responsible for detecting presentation attacks; an identity recognizer is responsible for matching an enrolled person. Combining those claims into one score would make failures harder to diagnose.
+
+### Building the dataset deliberately
+
+The preparation tools use MTCNN to extract faces from images and video, adding a margin around the detected face and resizing crops to 640 × 640. A filtering step helps remove low-quality or badly aligned samples before they become training data. The augmentation tool then varies rotation, blur, brightness, contrast, and horizontal orientation to broaden the visual conditions represented in the dataset.
+
+The dataset-preparation script organizes the curated images into YOLO train, validation, and test partitions and generates the dataset configuration used by the trainer. That workflow matters because liveness performance is shaped as much by the coverage and labelling of real and fake examples as by the model architecture.
+
+### Training, testing, and reviewing predictions
+
+The training tool produces the model weights and run metrics from a prepared dataset. The testing application loads a trained model and accepts a live camera feed or file input, displaying a Real/Fake label with a confidence score. This closes the loop between offline training results and the conditions a user sees through a camera.
+
+The repository also documents a CUDA 11.8 and cuDNN 8.9.6 environment with a CUDA-enabled PyTorch build for GPU-backed experiments. The same project includes Linux-oriented setup notes for edge devices, where available acceleration and camera hardware determine the actual runtime behavior.
 
 ## Result
-The repository reports 92.30% accuracy, 98.61% AUC, and 6.25% equal error rate on its 8,000-image test dataset. Reported average inference time is 75.47 ms in that evaluation. These are project benchmark results; they do not establish performance on every camera or deployment.
+
+The published evaluation reports 92.30% accuracy, 88.32% precision, 97.50% recall, a 98.61% AUC, and a 6.25% equal error rate on an 8,000-image test dataset. Average inference time in that evaluation was 75.47 ms. Those are project benchmark results, not a universal deployment guarantee: camera quality, attack media, lighting, compute hardware, and the population represented in the data can all change the outcome.
+
+EasyShield grew out of [NiotoShield](/projects/niotoshield), the complete university hardware and software project. Its open-source tools are available in the [EasyShield v2.5 repository](https://github.com/mahostar/EasyShield_v2.5).
 
 ## What I would improve
-The next evaluation should publish hardware specifications, dataset splits, and tests on unseen cameras and lighting conditions. That would make both the accuracy and deployment tradeoffs easier to reproduce.
+
+The next evaluation should publish the exact hardware configuration, dataset splits, attack-media definitions, and per-condition metrics. I would test on cameras, screens, printers, lighting conditions, and subjects that were held out from training, then report false-accept and false-reject behavior by condition.
+
+For a deployed access system, I would also add explicit handling for uncertain predictions and camera-quality failures. A liveness score near the decision boundary should request another capture or deny access safely; it should not silently be treated as a reliable identity decision.

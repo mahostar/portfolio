@@ -121,9 +121,12 @@ export const certificateSchema = z
   .object({
     id,
     title: z.string().min(1),
-    issuer: z.string().min(1),
-    date: z.string().min(1),
+    issuer: z.string(),
+    date: z.string(),
     summary: z.string().min(1),
+    reportNumber: z.string().regex(/^[A-Z0-9]+$/).optional(),
+    width: z.number().positive().optional(),
+    height: z.number().positive().optional(),
     url: optionalUrl,
   })
   .and(publicImage);
@@ -137,11 +140,12 @@ export const archiveEntrySchema = z
     id,
     category: z.string().min(1),
     title: z.string().min(1),
-    period: z.string().min(1),
+    period: z.string(),
     description: z.string().min(1),
     mediaLabel: z.string().min(1),
     motif: z.enum(["robotics", "ai", "pcb", "research"]),
     videoUrl: optionalUrl,
+    mediaIds: z.array(z.string()).default([]),
   })
   .and(publicImage);
 export type Certificate = z.infer<typeof certificateSchema>;
@@ -154,14 +158,16 @@ export const projectSchema = z
     category: z.string().min(1),
     summary: z.string().min(1).max(100),
     cover: localImage,
-    year: z.number().int().min(2000).max(new Date().getFullYear()),
-    tech: z.array(z.string()).min(1),
+    coverVideo: z.string().regex(/^\/videos\/[a-zA-Z0-9/_-]+\.mp4$/).optional(),
+    coverFit: z.enum(["cover", "contain"]).default("cover"),
+    year: z.number().int().min(2000).max(new Date().getFullYear()).nullable(),
+    tech: z.array(z.string()),
     featured: z.boolean(),
     featuredOrder: z.number().int().positive().optional(),
     links: z
       .object({ github: optionalUrl, demo: optionalUrl, video: optionalUrl })
       .default({}),
-    role: z.string().min(1),
+    role: z.string(),
     placeholder: z.boolean(),
     pipeline: z.array(z.string().min(1).max(24)).max(4).default([]),
   })

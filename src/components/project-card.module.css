@@ -45,17 +45,23 @@
 .cover.cover::after {
   display: none;
 }
+.card[data-project="niotoshield"] .cover {
+  background: #fff;
+}
+.card[data-project="plantini"] .cover {
+  background: center / cover no-repeat url("/images/evidence/projects/plantini/concept-renders/tower-concept-still--091.webp");
+}
 .year.year {
   position: absolute;
   right: 20px;
   top: 18px;
   border: none;
   color: #afc3e6;
-  background: transparent;
+  background: #050d26b3;
   font:
     10px var(--font-signal-mono),
     monospace;
-  padding: 0;
+  padding: 4px 7px;
   z-index: 2;
 }
 .content.content {

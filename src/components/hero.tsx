@@ -7,6 +7,7 @@ import { getStats } from "@/lib/content-schema";
 import { HeroMotion } from "./hero-motion";
 import { HeroCircuit } from "./hero-circuit";
 import { PersonalTicker } from "./personal-ticker";
+import { CountUp } from "./count-up";
 
 export function Hero() {
   const site = getSite();
@@ -127,7 +128,7 @@ export function Hero() {
                   built
                 </dt>
                 <dd>
-                  {stats.projects}
+                  <CountUp value={stats.projects} />
                   <span className="stat-plus">{stats.projects > 0 ? "+" : ""}</span>
                 </dd>
               </div>
@@ -138,7 +139,7 @@ export function Hero() {
                   building
                 </dt>
                 <dd>
-                  {stats.years ?? "—"}
+                  <CountUp value={stats.years} />
                   <span className="stat-plus">{stats.years ? "+" : ""}</span>
                 </dd>
               </div>
@@ -149,7 +150,7 @@ export function Hero() {
                   used
                 </dt>
                 <dd>
-                  {stats.technologies}
+                  <CountUp value={stats.technologies} />
                   <span className="stat-plus">{stats.technologies > 0 ? "+" : ""}</span>
                 </dd>
               </div>

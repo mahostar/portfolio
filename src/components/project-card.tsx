@@ -19,6 +19,7 @@ export function ProjectCard({
     <Link
       href={`/projects/${project.slug}`}
       className={`project-card ${styles.card}`}
+      data-project={project.slug}
       style={
         { "--accent": categoryColors[project.category] || "#9bd2ff" } as CSSProperties
       }
@@ -31,19 +32,22 @@ export function ProjectCard({
           <Image
             src={project.cover}
             alt=""
+            style={{ objectFit: project.coverFit }}
             fill
             sizes="(max-width: 767px) calc(100vw - 40px), (max-width: 1415px) calc((100vw - 120px) / 2), 646px"
           />
         )}
-        <span className={`project-year ${styles.year}`}>{project.year}</span>
+        {project.year && <span className={`project-year ${styles.year}`}>{project.year}</span>}
       </div>
       <div className={`project-content ${styles.content}`}>
-        <div className="project-chips">
-          <span className={styles.category}>{project.category}</span>
-          {project.placeholder && process.env.NODE_ENV === "development" && (
-            <span className="sample-tag">Sample</span>
-          )}
-        </div>
+        {!featured && (
+          <div className="project-chips">
+            <span className={styles.category}>{project.category}</span>
+            {project.placeholder && process.env.NODE_ENV === "development" && (
+              <span className="sample-tag">Sample</span>
+            )}
+          </div>
+        )}
         <Heading className={`project-title ${styles.title}`}>{project.title}</Heading>
         <p className={`project-summary ${styles.summary}`}>{project.summary}</p>
         <div className={`project-bottom ${styles.bottom}`}>

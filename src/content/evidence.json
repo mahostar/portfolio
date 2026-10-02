@@ -1,0 +1,1736 @@
+[
+  {
+    "id": "001",
+    "src": "/images/evidence/projects/faza3d/products/articulated-octopus-print--001.webp",
+    "preview": "/images/evidence/projects/faza3d/products/articulated-octopus-print--001.webp",
+    "thumbnail": "/images/evidence/projects/faza3d/products/articulated-octopus-print--001-thumb.webp",
+    "type": "image",
+    "caption": "Articulated octopus print",
+    "alt": "articulated octopus print",
+    "width": 900,
+    "height": 1600,
+    "concept": false,
+    "tags": [
+      "project:faza3d"
+    ],
+    "folder": "projects/faza3d/products"
+  },
+  {
+    "id": "002",
+    "src": "/images/evidence/projects/faza3d/printers/printer-touchscreen-and-bed--002.webp",
+    "preview": "/images/evidence/projects/faza3d/printers/printer-touchscreen-and-bed--002.webp",
+    "thumbnail": "/images/evidence/projects/faza3d/printers/printer-touchscreen-and-bed--002-thumb.webp",
+    "type": "image",
+    "caption": "Printer touchscreen and bed",
+    "alt": "printer touchscreen and bed",
+    "width": 1600,
+    "height": 739,
+    "concept": false,
+    "tags": [
+      "project:faza3d"
+    ],
+    "folder": "projects/faza3d/printers"
+  },
+  {
+    "id": "003",
+    "src": "/images/evidence/projects/faza3d/printers/printer-frame--003.webp",
+    "preview": "/images/evidence/projects/faza3d/printers/printer-frame--003.webp",
+    "thumbnail": "/images/evidence/projects/faza3d/printers/printer-frame--003-thumb.webp",
+    "type": "image",
+    "caption": "Printer frame",
+    "alt": "printer frame",
+    "width": 739,
+    "height": 1600,
+    "concept": false,
+    "tags": [
+      "project:faza3d"
+    ],
+    "folder": "projects/faza3d/printers"
+  },
+  {
+    "id": "004",
+    "src": "/images/evidence/projects/faza3d/printers/ultimaker-printer--004.webp",
+    "preview": "/images/evidence/projects/faza3d/printers/ultimaker-printer--004.webp",
+    "thumbnail": "/images/evidence/projects/faza3d/printers/ultimaker-printer--004-thumb.webp",
+    "type": "image",
+    "caption": "Ultimaker printer",
+    "alt": "ultimaker printer",
+    "width": 1600,
+    "height": 739,
+    "concept": false,
+    "tags": [
+      "project:faza3d"
+    ],
+    "folder": "projects/faza3d/printers"
+  },
+  {
+    "id": "005",
+    "src": "/images/evidence/projects/faza3d/website/store-homepage--005.webp",
+    "preview": "/images/evidence/projects/faza3d/website/store-homepage--005.webp",
+    "thumbnail": "/images/evidence/projects/faza3d/website/store-homepage--005-thumb.webp",
+    "type": "image",
+    "caption": "Store homepage",
+    "alt": "store homepage",
+    "width": 1600,
+    "height": 799,
+    "concept": false,
+    "tags": [
+      "project:faza3d"
+    ],
+    "folder": "projects/faza3d/website"
+  },
+  {
+    "id": "006",
+    "src": "/images/evidence/projects/faza3d/website/product-catalogue--006.webp",
+    "preview": "/images/evidence/projects/faza3d/website/product-catalogue--006.webp",
+    "thumbnail": "/images/evidence/projects/faza3d/website/product-catalogue--006-thumb.webp",
+    "type": "image",
+    "caption": "Product catalogue",
+    "alt": "product catalogue",
+    "width": 1600,
+    "height": 795,
+    "concept": false,
+    "tags": [
+      "project:faza3d"
+    ],
+    "folder": "projects/faza3d/website"
+  },
+  {
+    "id": "007",
+    "src": "/images/evidence/projects/faza3d/website/custom-print-order-form--007.webp",
+    "preview": "/images/evidence/projects/faza3d/website/custom-print-order-form--007.webp",
+    "thumbnail": "/images/evidence/projects/faza3d/website/custom-print-order-form--007-thumb.webp",
+    "type": "image",
+    "caption": "Custom print order form",
+    "alt": "custom print order form",
+    "width": 1600,
+    "height": 794,
+    "concept": false,
+    "tags": [
+      "project:faza3d"
+    ],
+    "folder": "projects/faza3d/website"
+  },
+  {
+    "id": "009",
+    "src": "/images/evidence/projects/tpms-generator/models/blue-tpms-mesh--009.webp",
+    "preview": "/images/evidence/projects/tpms-generator/models/blue-tpms-mesh--009.webp",
+    "thumbnail": "/images/evidence/projects/tpms-generator/models/blue-tpms-mesh--009-thumb.webp",
+    "type": "image",
+    "caption": "Blue tpms mesh",
+    "alt": "blue tpms mesh",
+    "width": 1600,
+    "height": 872,
+    "concept": false,
+    "tags": [
+      "project:tpms-generator"
+    ],
+    "folder": "projects/tpms-generator/models"
+  },
+  {
+    "id": "010",
+    "src": "/images/evidence/projects/tpms-generator/models/green-tpms-mesh--010.webp",
+    "preview": "/images/evidence/projects/tpms-generator/models/green-tpms-mesh--010.webp",
+    "thumbnail": "/images/evidence/projects/tpms-generator/models/green-tpms-mesh--010-thumb.webp",
+    "type": "image",
+    "caption": "Green tpms mesh",
+    "alt": "green tpms mesh",
+    "width": 1600,
+    "height": 868,
+    "concept": false,
+    "tags": [
+      "project:tpms-generator"
+    ],
+    "folder": "projects/tpms-generator/models"
+  },
+  {
+    "id": "011",
+    "src": "/images/evidence/projects/tpms-generator/models/purple-tpms-mesh--011.webp",
+    "preview": "/images/evidence/projects/tpms-generator/models/purple-tpms-mesh--011.webp",
+    "thumbnail": "/images/evidence/projects/tpms-generator/models/purple-tpms-mesh--011-thumb.webp",
+    "type": "image",
+    "caption": "Purple tpms mesh",
+    "alt": "purple tpms mesh",
+    "width": 1600,
+    "height": 852,
+    "concept": false,
+    "tags": [
+      "project:tpms-generator"
+    ],
+    "folder": "projects/tpms-generator/models"
+  },
+  {
+    "id": "012",
+    "src": "/images/evidence/certificates/agrinova-hydroponics/participation-certificate-primary--012.webp",
+    "preview": "/images/evidence/certificates/agrinova-hydroponics/participation-certificate-primary--012.webp",
+    "thumbnail": "/images/evidence/certificates/agrinova-hydroponics/participation-certificate-primary--012-thumb.webp",
+    "type": "image",
+    "caption": "Participation certificate primary",
+    "alt": "participation certificate primary",
+    "width": 1513,
+    "height": 1073,
+    "concept": false,
+    "tags": [
+      "certificate",
+      "milestone:agrinova-training"
+    ],
+    "folder": "certificates/agrinova-hydroponics"
+  },
+  {
+    "id": "013",
+    "src": "/images/evidence/milestones/agrinova-training/certificate-group-photo--013.webp",
+    "preview": "/images/evidence/milestones/agrinova-training/certificate-group-photo--013.webp",
+    "thumbnail": "/images/evidence/milestones/agrinova-training/certificate-group-photo--013-thumb.webp",
+    "type": "image",
+    "caption": "Certificate group photo",
+    "alt": "certificate group photo",
+    "width": 1200,
+    "height": 1600,
+    "concept": false,
+    "tags": [
+      "milestone:agrinova-training"
+    ],
+    "folder": "milestones/agrinova-training"
+  },
+  {
+    "id": "014",
+    "src": "/images/evidence/milestones/agrinova-training/course/hydroponic-lettuce-bed--014.webp",
+    "preview": "/images/evidence/milestones/agrinova-training/course/hydroponic-lettuce-bed--014.webp",
+    "thumbnail": "/images/evidence/milestones/agrinova-training/course/hydroponic-lettuce-bed--014-thumb.webp",
+    "type": "image",
+    "caption": "Hydroponic lettuce bed",
+    "alt": "hydroponic lettuce bed",
+    "width": 1600,
+    "height": 739,
+    "concept": false,
+    "tags": [
+      "milestone:agrinova-training"
+    ],
+    "folder": "milestones/agrinova-training/course"
+  },
+  {
+    "id": "015",
+    "src": "/images/evidence/milestones/agrinova-training/course/lettuce-roots-closeup--015.webp",
+    "preview": "/images/evidence/milestones/agrinova-training/course/lettuce-roots-closeup--015.webp",
+    "thumbnail": "/images/evidence/milestones/agrinova-training/course/lettuce-roots-closeup--015-thumb.webp",
+    "type": "image",
+    "caption": "Lettuce roots closeup",
+    "alt": "lettuce roots closeup",
+    "width": 739,
+    "height": 1600,
+    "concept": false,
+    "tags": [
+      "milestone:agrinova-training"
+    ],
+    "folder": "milestones/agrinova-training/course"
+  },
+  {
+    "id": "016",
+    "src": "/images/evidence/milestones/agrinova-training/course/hydroponic-bed-demonstration--016.webp",
+    "preview": "/images/evidence/milestones/agrinova-training/course/hydroponic-bed-demonstration--016.webp",
+    "thumbnail": "/images/evidence/milestones/agrinova-training/course/hydroponic-bed-demonstration--016-thumb.webp",
+    "type": "image",
+    "caption": "Hydroponic bed demonstration",
+    "alt": "hydroponic bed demonstration",
+    "width": 1600,
+    "height": 739,
+    "concept": false,
+    "tags": [
+      "milestone:agrinova-training"
+    ],
+    "folder": "milestones/agrinova-training/course"
+  },
+  {
+    "id": "017",
+    "src": "/images/evidence/milestones/agrinova-training/course/plant-root-inspection--017.webp",
+    "preview": "/images/evidence/milestones/agrinova-training/course/plant-root-inspection--017.webp",
+    "thumbnail": "/images/evidence/milestones/agrinova-training/course/plant-root-inspection--017-thumb.webp",
+    "type": "image",
+    "caption": "Plant root inspection",
+    "alt": "plant root inspection",
+    "width": 1600,
+    "height": 739,
+    "concept": false,
+    "tags": [
+      "milestone:agrinova-training"
+    ],
+    "folder": "milestones/agrinova-training/course"
+  },
+  {
+    "id": "018",
+    "src": "/images/evidence/milestones/agrinova-training/course/root-inspection-closeup--018.webp",
+    "preview": "/images/evidence/milestones/agrinova-training/course/root-inspection-closeup--018.webp",
+    "thumbnail": "/images/evidence/milestones/agrinova-training/course/root-inspection-closeup--018-thumb.webp",
+    "type": "image",
+    "caption": "Root inspection closeup",
+    "alt": "root inspection closeup",
+    "width": 1600,
+    "height": 739,
+    "concept": false,
+    "tags": [
+      "milestone:agrinova-training"
+    ],
+    "folder": "milestones/agrinova-training/course"
+  },
+  {
+    "id": "019",
+    "src": "/images/evidence/milestones/agrinova-training/course/net-pot-and-roots--019.webp",
+    "preview": "/images/evidence/milestones/agrinova-training/course/net-pot-and-roots--019.webp",
+    "thumbnail": "/images/evidence/milestones/agrinova-training/course/net-pot-and-roots--019-thumb.webp",
+    "type": "image",
+    "caption": "Net pot and roots",
+    "alt": "net pot and roots",
+    "width": 1600,
+    "height": 739,
+    "concept": false,
+    "tags": [
+      "milestone:agrinova-training"
+    ],
+    "folder": "milestones/agrinova-training/course"
+  },
+  {
+    "id": "020",
+    "src": "/images/evidence/milestones/agrinova-training/course/course-instructor-demonstration--020.webp",
+    "preview": "/images/evidence/milestones/agrinova-training/course/course-instructor-demonstration--020.webp",
+    "thumbnail": "/images/evidence/milestones/agrinova-training/course/course-instructor-demonstration--020-thumb.webp",
+    "type": "image",
+    "caption": "Course instructor demonstration",
+    "alt": "course instructor demonstration",
+    "width": 1200,
+    "height": 1600,
+    "concept": false,
+    "tags": [
+      "milestone:agrinova-training"
+    ],
+    "folder": "milestones/agrinova-training/course"
+  },
+  {
+    "id": "021",
+    "src": "/images/evidence/milestones/agrinova-training/course/hands-on-course-session--021.webp",
+    "preview": "/images/evidence/milestones/agrinova-training/course/hands-on-course-session--021.webp",
+    "thumbnail": "/images/evidence/milestones/agrinova-training/course/hands-on-course-session--021-thumb.webp",
+    "type": "image",
+    "caption": "Hands on course session",
+    "alt": "hands on course session",
+    "width": 1200,
+    "height": 1600,
+    "concept": false,
+    "tags": [
+      "milestone:agrinova-training"
+    ],
+    "folder": "milestones/agrinova-training/course"
+  },
+  {
+    "id": "024",
+    "src": "/images/evidence/certificates/algobrain/award-certificate--024.webp",
+    "preview": "/images/evidence/certificates/algobrain/award-certificate--024.webp",
+    "thumbnail": "/images/evidence/certificates/algobrain/award-certificate--024-thumb.webp",
+    "type": "image",
+    "caption": "Award certificate",
+    "alt": "award certificate",
+    "width": 1464,
+    "height": 1058,
+    "concept": false,
+    "tags": [
+      "certificate",
+      "project:algobrain"
+    ],
+    "folder": "certificates/algobrain"
+  },
+  {
+    "id": "025",
+    "src": "/images/evidence/certificates/algobrain/participation-certificate--025.webp",
+    "preview": "/images/evidence/certificates/algobrain/participation-certificate--025.webp",
+    "thumbnail": "/images/evidence/certificates/algobrain/participation-certificate--025-thumb.webp",
+    "type": "image",
+    "caption": "Participation certificate",
+    "alt": "participation certificate",
+    "width": 1527,
+    "height": 1056,
+    "concept": false,
+    "tags": [
+      "certificate",
+      "project:algobrain"
+    ],
+    "folder": "certificates/algobrain"
+  },
+  {
+    "id": "026",
+    "src": "/images/evidence/projects/algobrain/prototype/bio-amplifier-enclosure--026.webp",
+    "preview": "/images/evidence/projects/algobrain/prototype/bio-amplifier-enclosure--026.webp",
+    "thumbnail": "/images/evidence/projects/algobrain/prototype/bio-amplifier-enclosure--026-thumb.webp",
+    "type": "image",
+    "caption": "Bio amplifier enclosure",
+    "alt": "bio amplifier enclosure",
+    "width": 1600,
+    "height": 739,
+    "concept": false,
+    "tags": [
+      "project:algobrain"
+    ],
+    "folder": "projects/algobrain/prototype"
+  },
+  {
+    "id": "027",
+    "src": "/images/evidence/projects/algobrain/prototype/project-exhibition-display--027.webp",
+    "preview": "/images/evidence/projects/algobrain/prototype/project-exhibition-display--027.webp",
+    "thumbnail": "/images/evidence/projects/algobrain/prototype/project-exhibition-display--027-thumb.webp",
+    "type": "image",
+    "caption": "Project exhibition display",
+    "alt": "project exhibition display",
+    "width": 1560,
+    "height": 1170,
+    "concept": false,
+    "tags": [
+      "project:algobrain"
+    ],
+    "folder": "projects/algobrain/prototype"
+  },
+  {
+    "id": "028",
+    "src": "/images/evidence/projects/aquaflow/architecture/water-system-concept-diagram--028.webp",
+    "preview": "/images/evidence/projects/aquaflow/architecture/water-system-concept-diagram--028.webp",
+    "thumbnail": "/images/evidence/projects/aquaflow/architecture/water-system-concept-diagram--028-thumb.webp",
+    "type": "image",
+    "caption": "Water system concept diagram",
+    "alt": "water system concept diagram",
+    "width": 1536,
+    "height": 1024,
+    "concept": true,
+    "tags": [
+      "project:aquaflow"
+    ],
+    "folder": "projects/aquaflow/architecture"
+  },
+  {
+    "id": "029",
+    "src": "/images/evidence/projects/aquaflow/prototype/water-tank-test-bench--029.webp",
+    "preview": "/images/evidence/projects/aquaflow/prototype/water-tank-test-bench--029.webp",
+    "thumbnail": "/images/evidence/projects/aquaflow/prototype/water-tank-test-bench--029-thumb.webp",
+    "type": "image",
+    "caption": "Water tank test bench",
+    "alt": "water tank test bench",
+    "width": 1600,
+    "height": 739,
+    "concept": false,
+    "tags": [
+      "project:aquaflow"
+    ],
+    "folder": "projects/aquaflow/prototype"
+  },
+  {
+    "id": "030",
+    "src": "/images/evidence/projects/aquaflow/prototype/water-tank-and-controller--030.webp",
+    "preview": "/images/evidence/projects/aquaflow/prototype/water-tank-and-controller--030.webp",
+    "thumbnail": "/images/evidence/projects/aquaflow/prototype/water-tank-and-controller--030-thumb.webp",
+    "type": "image",
+    "caption": "Water tank and controller",
+    "alt": "water tank and controller",
+    "width": 1600,
+    "height": 900,
+    "concept": false,
+    "tags": [
+      "project:aquaflow"
+    ],
+    "folder": "projects/aquaflow/prototype"
+  },
+  {
+    "id": "031",
+    "src": "/videos/evidence/projects/aquaflow/prototype/water-system-demonstration--031.mp4",
+    "preview": "/images/evidence/projects/aquaflow/prototype/water-system-demonstration--031.webp",
+    "thumbnail": "/images/evidence/projects/aquaflow/prototype/water-system-demonstration--031-thumb.webp",
+    "type": "video",
+    "caption": "Water system demonstration",
+    "alt": "water system demonstration",
+    "width": 1280,
+    "height": 714,
+    "concept": false,
+    "tags": [
+      "project:aquaflow"
+    ],
+    "folder": "projects/aquaflow/prototype"
+  },
+  {
+    "id": "032",
+    "src": "/images/evidence/projects/aquaflow/app/mobile-control-dashboard--032.webp",
+    "preview": "/images/evidence/projects/aquaflow/app/mobile-control-dashboard--032.webp",
+    "thumbnail": "/images/evidence/projects/aquaflow/app/mobile-control-dashboard--032-thumb.webp",
+    "type": "image",
+    "caption": "Mobile control dashboard",
+    "alt": "mobile control dashboard",
+    "width": 738,
+    "height": 1600,
+    "concept": false,
+    "tags": [
+      "project:aquaflow"
+    ],
+    "folder": "projects/aquaflow/app"
+  },
+  {
+    "id": "033",
+    "src": "/images/evidence/projects/aquaflow/hardware/controller-enclosure-open--033.webp",
+    "preview": "/images/evidence/projects/aquaflow/hardware/controller-enclosure-open--033.webp",
+    "thumbnail": "/images/evidence/projects/aquaflow/hardware/controller-enclosure-open--033-thumb.webp",
+    "type": "image",
+    "caption": "Controller enclosure open",
+    "alt": "controller enclosure open",
+    "width": 1600,
+    "height": 1339,
+    "concept": false,
+    "tags": [
+      "project:aquaflow"
+    ],
+    "folder": "projects/aquaflow/hardware"
+  },
+  {
+    "id": "034",
+    "src": "/images/evidence/projects/aquaflow/hardware/relay-and-sensor-wiring--034.webp",
+    "preview": "/images/evidence/projects/aquaflow/hardware/relay-and-sensor-wiring--034.webp",
+    "thumbnail": "/images/evidence/projects/aquaflow/hardware/relay-and-sensor-wiring--034-thumb.webp",
+    "type": "image",
+    "caption": "Relay and sensor wiring",
+    "alt": "relay and sensor wiring",
+    "width": 1277,
+    "height": 1600,
+    "concept": false,
+    "tags": [
+      "project:aquaflow"
+    ],
+    "folder": "projects/aquaflow/hardware"
+  },
+  {
+    "id": "035",
+    "src": "/images/evidence/projects/cleenolve/concepts/solar-cleaning-robot-render--035.webp",
+    "preview": "/images/evidence/projects/cleenolve/concepts/solar-cleaning-robot-render--035.webp",
+    "thumbnail": "/images/evidence/projects/cleenolve/concepts/solar-cleaning-robot-render--035-thumb.webp",
+    "type": "image",
+    "caption": "Solar cleaning robot render",
+    "alt": "solar cleaning robot render",
+    "width": 1600,
+    "height": 831,
+    "concept": true,
+    "tags": [
+      "project:cleenolve"
+    ],
+    "folder": "projects/cleenolve/concepts"
+  },
+  {
+    "id": "036",
+    "src": "/images/evidence/projects/cleenolve/software/thermal-hotspot-detector-interface--036.webp",
+    "preview": "/images/evidence/projects/cleenolve/software/thermal-hotspot-detector-interface--036.webp",
+    "thumbnail": "/images/evidence/projects/cleenolve/software/thermal-hotspot-detector-interface--036-thumb.webp",
+    "type": "image",
+    "caption": "Thermal hotspot detector interface",
+    "alt": "thermal hotspot detector interface",
+    "width": 1600,
+    "height": 900,
+    "concept": false,
+    "tags": [
+      "project:cleenolve"
+    ],
+    "folder": "projects/cleenolve/software"
+  },
+  {
+    "id": "038",
+    "src": "/videos/evidence/milestones/graduation/ceremony/ceremony-technician-view--038.mp4",
+    "preview": "/images/evidence/milestones/graduation/ceremony/ceremony-technician-view--038.webp",
+    "thumbnail": "/images/evidence/milestones/graduation/ceremony/ceremony-technician-view--038-thumb.webp",
+    "type": "video",
+    "caption": "Ceremony technician view",
+    "alt": "ceremony technician view",
+    "width": 478,
+    "height": 850,
+    "concept": false,
+    "tags": [
+      "milestone:graduation"
+    ],
+    "folder": "milestones/graduation/ceremony"
+  },
+  {
+    "id": "039",
+    "src": "/images/evidence/milestones/graduation/photos/graduate-portrait-indoor--039.webp",
+    "preview": "/images/evidence/milestones/graduation/photos/graduate-portrait-indoor--039.webp",
+    "thumbnail": "/images/evidence/milestones/graduation/photos/graduate-portrait-indoor--039-thumb.webp",
+    "type": "image",
+    "caption": "Graduate portrait indoor",
+    "alt": "graduate portrait indoor",
+    "width": 1098,
+    "height": 1600,
+    "concept": false,
+    "tags": [
+      "milestone:graduation"
+    ],
+    "folder": "milestones/graduation/photos"
+  },
+  {
+    "id": "040",
+    "src": "/images/evidence/milestones/graduation/photos/graduate-and-friend-indoor--040.webp",
+    "preview": "/images/evidence/milestones/graduation/photos/graduate-and-friend-indoor--040.webp",
+    "thumbnail": "/images/evidence/milestones/graduation/photos/graduate-and-friend-indoor--040-thumb.webp",
+    "type": "image",
+    "caption": "Graduate and friend indoor",
+    "alt": "graduate and friend indoor",
+    "width": 1014,
+    "height": 1600,
+    "concept": false,
+    "tags": [
+      "milestone:graduation"
+    ],
+    "folder": "milestones/graduation/photos"
+  },
+  {
+    "id": "041",
+    "src": "/images/evidence/milestones/graduation/photos/graduate-full-length-outdoor--041.webp",
+    "preview": "/images/evidence/milestones/graduation/photos/graduate-full-length-outdoor--041.webp",
+    "thumbnail": "/images/evidence/milestones/graduation/photos/graduate-full-length-outdoor--041-thumb.webp",
+    "type": "image",
+    "caption": "Graduate full length outdoor",
+    "alt": "graduate full length outdoor",
+    "width": 739,
+    "height": 1600,
+    "concept": false,
+    "tags": [
+      "milestone:graduation"
+    ],
+    "folder": "milestones/graduation/photos"
+  },
+  {
+    "id": "042",
+    "src": "/images/evidence/milestones/graduation/photos/graduate-and-friend-outdoor--042.webp",
+    "preview": "/images/evidence/milestones/graduation/photos/graduate-and-friend-outdoor--042.webp",
+    "thumbnail": "/images/evidence/milestones/graduation/photos/graduate-and-friend-outdoor--042-thumb.webp",
+    "type": "image",
+    "caption": "Graduate and friend outdoor",
+    "alt": "graduate and friend outdoor",
+    "width": 1154,
+    "height": 1600,
+    "concept": false,
+    "tags": [
+      "milestone:graduation"
+    ],
+    "folder": "milestones/graduation/photos"
+  },
+  {
+    "id": "043",
+    "src": "/images/evidence/milestones/graduation/photos/graduate-and-friend-with-certificates--043.webp",
+    "preview": "/images/evidence/milestones/graduation/photos/graduate-and-friend-with-certificates--043.webp",
+    "thumbnail": "/images/evidence/milestones/graduation/photos/graduate-and-friend-with-certificates--043-thumb.webp",
+    "type": "image",
+    "caption": "Graduate and friend with certificates",
+    "alt": "graduate and friend with certificates",
+    "width": 840,
+    "height": 1600,
+    "concept": false,
+    "tags": [
+      "milestone:graduation"
+    ],
+    "folder": "milestones/graduation/photos"
+  },
+  {
+    "id": "044",
+    "src": "/images/evidence/milestones/graduation/photos/graduate-family-photo--044.webp",
+    "preview": "/images/evidence/milestones/graduation/photos/graduate-family-photo--044.webp",
+    "thumbnail": "/images/evidence/milestones/graduation/photos/graduate-family-photo--044-thumb.webp",
+    "type": "image",
+    "caption": "Graduate family photo",
+    "alt": "graduate family photo",
+    "width": 1406,
+    "height": 1600,
+    "concept": false,
+    "tags": [
+      "milestone:graduation"
+    ],
+    "folder": "milestones/graduation/photos"
+  },
+  {
+    "id": "045",
+    "src": "/images/evidence/milestones/graduation/photos/graduate-and-supporter--045.webp",
+    "preview": "/images/evidence/milestones/graduation/photos/graduate-and-supporter--045.webp",
+    "thumbnail": "/images/evidence/milestones/graduation/photos/graduate-and-supporter--045-thumb.webp",
+    "type": "image",
+    "caption": "Graduate and supporter",
+    "alt": "graduate and supporter",
+    "width": 1600,
+    "height": 1326,
+    "concept": false,
+    "tags": [
+      "milestone:graduation"
+    ],
+    "folder": "milestones/graduation/photos"
+  },
+  {
+    "id": "046",
+    "src": "/images/evidence/milestones/graduation/photos/graduate-with-award--046.webp",
+    "preview": "/images/evidence/milestones/graduation/photos/graduate-with-award--046.webp",
+    "thumbnail": "/images/evidence/milestones/graduation/photos/graduate-with-award--046-thumb.webp",
+    "type": "image",
+    "caption": "Graduate with award",
+    "alt": "graduate with award",
+    "width": 1593,
+    "height": 1600,
+    "concept": false,
+    "tags": [
+      "milestone:graduation"
+    ],
+    "folder": "milestones/graduation/photos"
+  },
+  {
+    "id": "047",
+    "src": "/images/evidence/milestones/graduation/photos/graduation-cap-moment--047.webp",
+    "preview": "/images/evidence/milestones/graduation/photos/graduation-cap-moment--047.webp",
+    "thumbnail": "/images/evidence/milestones/graduation/photos/graduation-cap-moment--047-thumb.webp",
+    "type": "image",
+    "caption": "Graduation cap moment",
+    "alt": "graduation cap moment",
+    "width": 808,
+    "height": 705,
+    "concept": false,
+    "tags": [
+      "milestone:graduation"
+    ],
+    "folder": "milestones/graduation/photos"
+  },
+  {
+    "id": "048",
+    "src": "/images/evidence/milestones/graduation/photos/graduation-cap-and-gown--048.webp",
+    "preview": "/images/evidence/milestones/graduation/photos/graduation-cap-and-gown--048.webp",
+    "thumbnail": "/images/evidence/milestones/graduation/photos/graduation-cap-and-gown--048-thumb.webp",
+    "type": "image",
+    "caption": "Graduation cap and gown",
+    "alt": "graduation cap and gown",
+    "width": 653,
+    "height": 736,
+    "concept": false,
+    "tags": [
+      "milestone:graduation"
+    ],
+    "folder": "milestones/graduation/photos"
+  },
+  {
+    "id": "049",
+    "src": "/images/evidence/milestones/graduation/photos/graduation-congratulations--049.webp",
+    "preview": "/images/evidence/milestones/graduation/photos/graduation-congratulations--049.webp",
+    "thumbnail": "/images/evidence/milestones/graduation/photos/graduation-congratulations--049-thumb.webp",
+    "type": "image",
+    "caption": "Graduation congratulations",
+    "alt": "graduation congratulations",
+    "width": 590,
+    "height": 675,
+    "concept": false,
+    "tags": [
+      "milestone:graduation"
+    ],
+    "folder": "milestones/graduation/photos"
+  },
+  {
+    "id": "050",
+    "src": "/images/evidence/personal/university/university-friends-group-photo--050.webp",
+    "preview": "/images/evidence/personal/university/university-friends-group-photo--050.webp",
+    "thumbnail": "/images/evidence/personal/university/university-friends-group-photo--050-thumb.webp",
+    "type": "image",
+    "caption": "University friends group photo",
+    "alt": "university friends group photo",
+    "width": 1600,
+    "height": 862,
+    "concept": false,
+    "tags": [
+      "personal"
+    ],
+    "folder": "personal/university"
+  },
+  {
+    "id": "051",
+    "src": "/videos/evidence/projects/easyshield/architecture/real-camera-and-spoofing-attacks--051.mp4",
+    "preview": "/images/evidence/projects/easyshield/architecture/real-camera-and-spoofing-attacks--051.webp",
+    "thumbnail": "/images/evidence/projects/easyshield/architecture/real-camera-and-spoofing-attacks--051-thumb.webp",
+    "type": "video",
+    "caption": "Real camera and spoofing attacks",
+    "alt": "real camera and spoofing attacks",
+    "width": 1276,
+    "height": 720,
+    "concept": false,
+    "tags": [
+      "project:easyshield"
+    ],
+    "folder": "projects/easyshield/architecture"
+  },
+  {
+    "id": "052",
+    "src": "/images/evidence/projects/niotoshield/architecture/niotoshield-system-architecture--052.webp",
+    "preview": "/images/evidence/projects/niotoshield/architecture/niotoshield-system-architecture--052.webp",
+    "thumbnail": "/images/evidence/projects/niotoshield/architecture/niotoshield-system-architecture--052-thumb.webp",
+    "type": "image",
+    "caption": "Niotoshield system architecture",
+    "alt": "niotoshield system architecture",
+    "width": 994,
+    "height": 759,
+    "concept": false,
+    "tags": [
+      "project:niotoshield"
+    ],
+    "folder": "projects/niotoshield/architecture"
+  },
+  {
+    "id": "053",
+    "src": "/videos/evidence/projects/easyshield/demonstrations/anti-spoofing-demo-montage--053.mp4",
+    "preview": "/images/evidence/projects/easyshield/demonstrations/anti-spoofing-demo-montage--053.webp",
+    "thumbnail": "/images/evidence/projects/easyshield/demonstrations/anti-spoofing-demo-montage--053-thumb.webp",
+    "type": "video",
+    "caption": "Anti spoofing demo montage",
+    "alt": "anti spoofing demo montage",
+    "width": 720,
+    "height": 720,
+    "concept": false,
+    "tags": [
+      "project:easyshield"
+    ],
+    "folder": "projects/easyshield/demonstrations"
+  },
+  {
+    "id": "054",
+    "src": "/images/evidence/projects/easyshield/demonstrations/live-face-detection-interface--054.webp",
+    "preview": "/images/evidence/projects/easyshield/demonstrations/live-face-detection-interface--054.webp",
+    "thumbnail": "/images/evidence/projects/easyshield/demonstrations/live-face-detection-interface--054-thumb.webp",
+    "type": "image",
+    "caption": "Live face detection interface",
+    "alt": "live face detection interface",
+    "width": 1329,
+    "height": 825,
+    "concept": false,
+    "tags": [
+      "project:easyshield"
+    ],
+    "folder": "projects/easyshield/demonstrations"
+  },
+  {
+    "id": "055",
+    "src": "/images/evidence/projects/niotoshield/hardware/raspberry-pi-camera-and-circuit--055.webp",
+    "preview": "/images/evidence/projects/niotoshield/hardware/raspberry-pi-camera-and-circuit--055.webp",
+    "thumbnail": "/images/evidence/projects/niotoshield/hardware/raspberry-pi-camera-and-circuit--055-thumb.webp",
+    "type": "image",
+    "caption": "Raspberry pi camera and circuit",
+    "alt": "raspberry pi camera and circuit",
+    "width": 1600,
+    "height": 739,
+    "concept": false,
+    "tags": [
+      "project:niotoshield"
+    ],
+    "folder": "projects/niotoshield/hardware"
+  },
+  {
+    "id": "056",
+    "src": "/images/evidence/projects/niotoshield/hardware/prototype-wiring-and-workbench--056.webp",
+    "preview": "/images/evidence/projects/niotoshield/hardware/prototype-wiring-and-workbench--056.webp",
+    "thumbnail": "/images/evidence/projects/niotoshield/hardware/prototype-wiring-and-workbench--056-thumb.webp",
+    "type": "image",
+    "caption": "Prototype wiring and workbench",
+    "alt": "prototype wiring and workbench",
+    "width": 1600,
+    "height": 739,
+    "concept": false,
+    "tags": [
+      "project:niotoshield"
+    ],
+    "folder": "projects/niotoshield/hardware"
+  },
+  {
+    "id": "058",
+    "src": "/images/evidence/projects/easyshield/development/training-terminal-output--058.webp",
+    "preview": "/images/evidence/projects/easyshield/development/training-terminal-output--058.webp",
+    "thumbnail": "/images/evidence/projects/easyshield/development/training-terminal-output--058-thumb.webp",
+    "type": "image",
+    "caption": "Training terminal output",
+    "alt": "training terminal output",
+    "width": 1600,
+    "height": 739,
+    "concept": false,
+    "tags": [
+      "project:easyshield"
+    ],
+    "folder": "projects/easyshield/development"
+  },
+  {
+    "id": "059",
+    "src": "/images/evidence/projects/easyshield/development/development-workstation--059.webp",
+    "preview": "/images/evidence/projects/easyshield/development/development-workstation--059.webp",
+    "thumbnail": "/images/evidence/projects/easyshield/development/development-workstation--059-thumb.webp",
+    "type": "image",
+    "caption": "Development workstation",
+    "alt": "development workstation",
+    "width": 1600,
+    "height": 739,
+    "concept": false,
+    "tags": [
+      "project:easyshield"
+    ],
+    "folder": "projects/easyshield/development"
+  },
+  {
+    "id": "060",
+    "src": "/images/evidence/projects/easyshield/software/face-classification-results--060.webp",
+    "preview": "/images/evidence/projects/easyshield/software/face-classification-results--060.webp",
+    "thumbnail": "/images/evidence/projects/easyshield/software/face-classification-results--060-thumb.webp",
+    "type": "image",
+    "caption": "Face classification results",
+    "alt": "face classification results",
+    "width": 1280,
+    "height": 720,
+    "concept": false,
+    "tags": [
+      "project:easyshield"
+    ],
+    "folder": "projects/easyshield/software"
+  },
+  {
+    "id": "061",
+    "src": "/images/evidence/projects/easyshield/software/face-dataset-and-predictions--061.webp",
+    "preview": "/images/evidence/projects/easyshield/software/face-dataset-and-predictions--061.webp",
+    "thumbnail": "/images/evidence/projects/easyshield/software/face-dataset-and-predictions--061-thumb.webp",
+    "type": "image",
+    "caption": "Face dataset and predictions",
+    "alt": "face dataset and predictions",
+    "width": 1280,
+    "height": 720,
+    "concept": false,
+    "tags": [
+      "project:easyshield"
+    ],
+    "folder": "projects/easyshield/software"
+  },
+  {
+    "id": "062",
+    "src": "/images/evidence/projects/medical-robot/robot-shell-in-progress--062.webp",
+    "preview": "/images/evidence/projects/medical-robot/robot-shell-in-progress--062.webp",
+    "thumbnail": "/images/evidence/projects/medical-robot/robot-shell-in-progress--062-thumb.webp",
+    "type": "image",
+    "caption": "Robot shell in progress",
+    "alt": "robot shell in progress",
+    "width": 739,
+    "height": 1600,
+    "concept": false,
+    "tags": [
+      "milestone:medical-robot"
+    ],
+    "folder": "projects/medical-robot"
+  },
+  {
+    "id": "063",
+    "src": "/images/evidence/projects/medical-robot/robot-body-design-sketch--063.webp",
+    "preview": "/images/evidence/projects/medical-robot/robot-body-design-sketch--063.webp",
+    "thumbnail": "/images/evidence/projects/medical-robot/robot-body-design-sketch--063-thumb.webp",
+    "type": "image",
+    "caption": "Robot body design sketch",
+    "alt": "robot body design sketch",
+    "width": 739,
+    "height": 1600,
+    "concept": false,
+    "tags": [
+      "milestone:medical-robot"
+    ],
+    "folder": "projects/medical-robot"
+  },
+  {
+    "id": "064",
+    "src": "/videos/evidence/projects/medical-robot/robot-prototype-demo-front--064.mp4",
+    "preview": "/images/evidence/projects/medical-robot/robot-prototype-demo-front--064.webp",
+    "thumbnail": "/images/evidence/projects/medical-robot/robot-prototype-demo-front--064-thumb.webp",
+    "type": "video",
+    "caption": "Robot prototype demo front",
+    "alt": "robot prototype demo front",
+    "width": 720,
+    "height": 1280,
+    "concept": false,
+    "tags": [
+      "milestone:medical-robot"
+    ],
+    "folder": "projects/medical-robot"
+  },
+  {
+    "id": "065",
+    "src": "/images/evidence/projects/medical-robot/robot-prototype-front--065.webp",
+    "preview": "/images/evidence/projects/medical-robot/robot-prototype-front--065.webp",
+    "thumbnail": "/images/evidence/projects/medical-robot/robot-prototype-front--065-thumb.webp",
+    "type": "image",
+    "caption": "Robot prototype front",
+    "alt": "robot prototype front",
+    "width": 739,
+    "height": 1600,
+    "concept": false,
+    "tags": [
+      "milestone:medical-robot"
+    ],
+    "folder": "projects/medical-robot"
+  },
+  {
+    "id": "066",
+    "src": "/videos/evidence/projects/medical-robot/robot-prototype-demo-side--066.mp4",
+    "preview": "/images/evidence/projects/medical-robot/robot-prototype-demo-side--066.webp",
+    "thumbnail": "/images/evidence/projects/medical-robot/robot-prototype-demo-side--066-thumb.webp",
+    "type": "video",
+    "caption": "Robot prototype demo side",
+    "alt": "robot prototype demo side",
+    "width": 720,
+    "height": 1280,
+    "concept": false,
+    "tags": [
+      "milestone:medical-robot"
+    ],
+    "folder": "projects/medical-robot"
+  },
+  {
+    "id": "067",
+    "src": "/images/evidence/projects/medical-robot/robot-and-builder-at-event--067.webp",
+    "preview": "/images/evidence/projects/medical-robot/robot-and-builder-at-event--067.webp",
+    "thumbnail": "/images/evidence/projects/medical-robot/robot-and-builder-at-event--067-thumb.webp",
+    "type": "image",
+    "caption": "Robot and builder at event",
+    "alt": "robot and builder at event",
+    "width": 739,
+    "height": 1600,
+    "concept": false,
+    "tags": [
+      "milestone:medical-robot"
+    ],
+    "folder": "projects/medical-robot"
+  },
+  {
+    "id": "068",
+    "src": "/images/evidence/projects/medical-robot/robot-and-builder-event-portrait--068.webp",
+    "preview": "/images/evidence/projects/medical-robot/robot-and-builder-event-portrait--068.webp",
+    "thumbnail": "/images/evidence/projects/medical-robot/robot-and-builder-event-portrait--068-thumb.webp",
+    "type": "image",
+    "caption": "Robot and builder event portrait",
+    "alt": "robot and builder event portrait",
+    "width": 960,
+    "height": 1280,
+    "concept": false,
+    "tags": [
+      "milestone:medical-robot"
+    ],
+    "folder": "projects/medical-robot"
+  },
+  {
+    "id": "069",
+    "src": "/images/evidence/projects/plantini/app/app-welcome--069.webp",
+    "preview": "/images/evidence/projects/plantini/app/app-welcome--069.webp",
+    "thumbnail": "/images/evidence/projects/plantini/app/app-welcome--069-thumb.webp",
+    "type": "image",
+    "caption": "App welcome",
+    "alt": "app welcome",
+    "width": 738,
+    "height": 1600,
+    "concept": false,
+    "tags": [
+      "project:plantini"
+    ],
+    "folder": "projects/plantini/app"
+  },
+  {
+    "id": "070",
+    "src": "/images/evidence/projects/plantini/app/app-dashboard--070.webp",
+    "preview": "/images/evidence/projects/plantini/app/app-dashboard--070.webp",
+    "thumbnail": "/images/evidence/projects/plantini/app/app-dashboard--070-thumb.webp",
+    "type": "image",
+    "caption": "App dashboard",
+    "alt": "app dashboard",
+    "width": 738,
+    "height": 1600,
+    "concept": false,
+    "tags": [
+      "project:plantini"
+    ],
+    "folder": "projects/plantini/app"
+  },
+  {
+    "id": "071",
+    "src": "/images/evidence/projects/plantini/app/crop-and-pump-configuration--071.webp",
+    "preview": "/images/evidence/projects/plantini/app/crop-and-pump-configuration--071.webp",
+    "thumbnail": "/images/evidence/projects/plantini/app/crop-and-pump-configuration--071-thumb.webp",
+    "type": "image",
+    "caption": "Crop and pump configuration",
+    "alt": "crop and pump configuration",
+    "width": 738,
+    "height": 1600,
+    "concept": false,
+    "tags": [
+      "project:plantini"
+    ],
+    "folder": "projects/plantini/app"
+  },
+  {
+    "id": "072",
+    "src": "/images/evidence/projects/plantini/app/app-shop--072.webp",
+    "preview": "/images/evidence/projects/plantini/app/app-shop--072.webp",
+    "thumbnail": "/images/evidence/projects/plantini/app/app-shop--072-thumb.webp",
+    "type": "image",
+    "caption": "App shop",
+    "alt": "app shop",
+    "width": 738,
+    "height": 1600,
+    "concept": false,
+    "tags": [
+      "project:plantini"
+    ],
+    "folder": "projects/plantini/app"
+  },
+  {
+    "id": "073",
+    "src": "/images/evidence/projects/plantini/architecture/hydroponic-system-architecture--073.webp",
+    "preview": "/images/evidence/projects/plantini/architecture/hydroponic-system-architecture--073.webp",
+    "thumbnail": "/images/evidence/projects/plantini/architecture/hydroponic-system-architecture--073-thumb.webp",
+    "type": "image",
+    "caption": "Hydroponic system architecture",
+    "alt": "hydroponic system architecture",
+    "width": 1536,
+    "height": 1024,
+    "concept": false,
+    "tags": [
+      "project:plantini"
+    ],
+    "folder": "projects/plantini/architecture"
+  },
+  {
+    "id": "074",
+    "src": "/images/evidence/milestones/plantini-events/certificate-presentation--074.webp",
+    "preview": "/images/evidence/milestones/plantini-events/certificate-presentation--074.webp",
+    "thumbnail": "/images/evidence/milestones/plantini-events/certificate-presentation--074-thumb.webp",
+    "type": "image",
+    "caption": "Certificate presentation",
+    "alt": "certificate presentation",
+    "width": 1280,
+    "height": 1600,
+    "concept": false,
+    "tags": [
+      "project:plantini",
+      "milestone:plantini-events"
+    ],
+    "folder": "milestones/plantini-events"
+  },
+  {
+    "id": "075",
+    "src": "/images/evidence/milestones/plantini-events/project-pitch-presentation--075.webp",
+    "preview": "/images/evidence/milestones/plantini-events/project-pitch-presentation--075.webp",
+    "thumbnail": "/images/evidence/milestones/plantini-events/project-pitch-presentation--075-thumb.webp",
+    "type": "image",
+    "caption": "Project pitch presentation",
+    "alt": "project pitch presentation",
+    "width": 940,
+    "height": 788,
+    "concept": false,
+    "tags": [
+      "project:plantini",
+      "milestone:plantini-events"
+    ],
+    "folder": "milestones/plantini-events"
+  },
+  {
+    "id": "076",
+    "src": "/images/evidence/milestones/plantini-events/prize-presentation--076.webp",
+    "preview": "/images/evidence/milestones/plantini-events/prize-presentation--076.webp",
+    "thumbnail": "/images/evidence/milestones/plantini-events/prize-presentation--076-thumb.webp",
+    "type": "image",
+    "caption": "Prize presentation",
+    "alt": "prize presentation",
+    "width": 1600,
+    "height": 1067,
+    "concept": false,
+    "tags": [
+      "project:plantini",
+      "milestone:plantini-events"
+    ],
+    "folder": "milestones/plantini-events"
+  },
+  {
+    "id": "077",
+    "src": "/images/evidence/projects/plantini/manufacturing/printed-components-workshop--077.webp",
+    "preview": "/images/evidence/projects/plantini/manufacturing/printed-components-workshop--077.webp",
+    "thumbnail": "/images/evidence/projects/plantini/manufacturing/printed-components-workshop--077-thumb.webp",
+    "type": "image",
+    "caption": "Printed components workshop",
+    "alt": "printed components workshop",
+    "width": 739,
+    "height": 1600,
+    "concept": false,
+    "tags": [
+      "project:plantini"
+    ],
+    "folder": "projects/plantini/manufacturing"
+  },
+  {
+    "id": "078",
+    "src": "/images/evidence/projects/plantini/manufacturing/tower-base-cad-front--078.webp",
+    "preview": "/images/evidence/projects/plantini/manufacturing/tower-base-cad-front--078.webp",
+    "thumbnail": "/images/evidence/projects/plantini/manufacturing/tower-base-cad-front--078-thumb.webp",
+    "type": "image",
+    "caption": "Tower base cad front",
+    "alt": "tower base cad front",
+    "width": 1600,
+    "height": 739,
+    "concept": false,
+    "tags": [
+      "project:plantini"
+    ],
+    "folder": "projects/plantini/manufacturing"
+  },
+  {
+    "id": "079",
+    "src": "/images/evidence/projects/plantini/manufacturing/tower-base-cad-side--079.webp",
+    "preview": "/images/evidence/projects/plantini/manufacturing/tower-base-cad-side--079.webp",
+    "thumbnail": "/images/evidence/projects/plantini/manufacturing/tower-base-cad-side--079-thumb.webp",
+    "type": "image",
+    "caption": "Tower base cad side",
+    "alt": "tower base cad side",
+    "width": 1600,
+    "height": 739,
+    "concept": false,
+    "tags": [
+      "project:plantini"
+    ],
+    "folder": "projects/plantini/manufacturing"
+  },
+  {
+    "id": "080",
+    "src": "/videos/evidence/projects/plantini/manufacturing/tower-lighting-test--080.mp4",
+    "preview": "/images/evidence/projects/plantini/manufacturing/tower-lighting-test--080.webp",
+    "thumbnail": "/images/evidence/projects/plantini/manufacturing/tower-lighting-test--080-thumb.webp",
+    "type": "video",
+    "caption": "Tower lighting test",
+    "alt": "tower lighting test",
+    "width": 720,
+    "height": 1280,
+    "concept": false,
+    "tags": [
+      "project:plantini"
+    ],
+    "folder": "projects/plantini/manufacturing"
+  },
+  {
+    "id": "081",
+    "src": "/images/evidence/projects/plantini/manufacturing/tower-module-cad--081.webp",
+    "preview": "/images/evidence/projects/plantini/manufacturing/tower-module-cad--081.webp",
+    "thumbnail": "/images/evidence/projects/plantini/manufacturing/tower-module-cad--081-thumb.webp",
+    "type": "image",
+    "caption": "Tower module cad",
+    "alt": "tower module cad",
+    "width": 1600,
+    "height": 847,
+    "concept": false,
+    "tags": [
+      "project:plantini"
+    ],
+    "folder": "projects/plantini/manufacturing"
+  },
+  {
+    "id": "082",
+    "src": "/images/evidence/projects/plantini/manufacturing/assembled-tower-and-light--082.webp",
+    "preview": "/images/evidence/projects/plantini/manufacturing/assembled-tower-and-light--082.webp",
+    "thumbnail": "/images/evidence/projects/plantini/manufacturing/assembled-tower-and-light--082-thumb.webp",
+    "type": "image",
+    "caption": "Assembled tower and light",
+    "alt": "assembled tower and light",
+    "width": 739,
+    "height": 1600,
+    "concept": false,
+    "tags": [
+      "project:plantini"
+    ],
+    "folder": "projects/plantini/manufacturing"
+  },
+  {
+    "id": "083",
+    "src": "/images/evidence/projects/plantini/manufacturing/printed-growing-cups--083.webp",
+    "preview": "/images/evidence/projects/plantini/manufacturing/printed-growing-cups--083.webp",
+    "thumbnail": "/images/evidence/projects/plantini/manufacturing/printed-growing-cups--083-thumb.webp",
+    "type": "image",
+    "caption": "Printed growing cups",
+    "alt": "printed growing cups",
+    "width": 1600,
+    "height": 900,
+    "concept": false,
+    "tags": [
+      "project:plantini"
+    ],
+    "folder": "projects/plantini/manufacturing"
+  },
+  {
+    "id": "084",
+    "src": "/images/evidence/projects/plantini/manufacturing/growing-cup-dimension-check--084.webp",
+    "preview": "/images/evidence/projects/plantini/manufacturing/growing-cup-dimension-check--084.webp",
+    "thumbnail": "/images/evidence/projects/plantini/manufacturing/growing-cup-dimension-check--084-thumb.webp",
+    "type": "image",
+    "caption": "Growing cup dimension check",
+    "alt": "growing cup dimension check",
+    "width": 900,
+    "height": 1600,
+    "concept": false,
+    "tags": [
+      "project:plantini"
+    ],
+    "folder": "projects/plantini/manufacturing"
+  },
+  {
+    "id": "085",
+    "src": "/videos/evidence/projects/plantini/manufacturing/tower-module-cad-video--085.mp4",
+    "preview": "/images/evidence/projects/plantini/manufacturing/tower-module-cad-video--085.webp",
+    "thumbnail": "/images/evidence/projects/plantini/manufacturing/tower-module-cad-video--085-thumb.webp",
+    "type": "video",
+    "caption": "Tower module cad video",
+    "alt": "tower module cad video",
+    "width": 1278,
+    "height": 720,
+    "concept": false,
+    "tags": [
+      "project:plantini"
+    ],
+    "folder": "projects/plantini/manufacturing"
+  },
+  {
+    "id": "086",
+    "src": "/images/evidence/projects/plantini/prototypes/indoor-growing-tower--086.webp",
+    "preview": "/images/evidence/projects/plantini/prototypes/indoor-growing-tower--086.webp",
+    "thumbnail": "/images/evidence/projects/plantini/prototypes/indoor-growing-tower--086-thumb.webp",
+    "type": "image",
+    "caption": "Indoor growing tower",
+    "alt": "indoor growing tower",
+    "width": 1600,
+    "height": 739,
+    "concept": false,
+    "tags": [
+      "project:plantini"
+    ],
+    "folder": "projects/plantini/prototypes"
+  },
+  {
+    "id": "087",
+    "src": "/images/evidence/projects/plantini/prototypes/greenhouse-system--087.webp",
+    "preview": "/images/evidence/projects/plantini/prototypes/greenhouse-system--087.webp",
+    "thumbnail": "/images/evidence/projects/plantini/prototypes/greenhouse-system--087-thumb.webp",
+    "type": "image",
+    "caption": "Greenhouse system",
+    "alt": "greenhouse system",
+    "width": 1600,
+    "height": 739,
+    "concept": false,
+    "tags": [
+      "project:plantini"
+    ],
+    "folder": "projects/plantini/prototypes"
+  },
+  {
+    "id": "088",
+    "src": "/images/evidence/projects/plantini/prototypes/tower-with-plants-side--088.webp",
+    "preview": "/images/evidence/projects/plantini/prototypes/tower-with-plants-side--088.webp",
+    "thumbnail": "/images/evidence/projects/plantini/prototypes/tower-with-plants-side--088-thumb.webp",
+    "type": "image",
+    "caption": "Tower with plants side",
+    "alt": "tower with plants side",
+    "width": 739,
+    "height": 1600,
+    "concept": false,
+    "tags": [
+      "project:plantini"
+    ],
+    "folder": "projects/plantini/prototypes"
+  },
+  {
+    "id": "089",
+    "src": "/images/evidence/projects/plantini/prototypes/tower-with-plants-front--089.webp",
+    "preview": "/images/evidence/projects/plantini/prototypes/tower-with-plants-front--089.webp",
+    "thumbnail": "/images/evidence/projects/plantini/prototypes/tower-with-plants-front--089-thumb.webp",
+    "type": "image",
+    "caption": "Tower with plants front",
+    "alt": "tower with plants front",
+    "width": 739,
+    "height": 1600,
+    "concept": false,
+    "tags": [
+      "project:plantini"
+    ],
+    "folder": "projects/plantini/prototypes"
+  },
+  {
+    "id": "090",
+    "src": "/images/evidence/projects/plantini/hardware/controller-pcb-product-image--090.webp",
+    "preview": "/images/evidence/projects/plantini/hardware/controller-pcb-product-image--090.webp",
+    "thumbnail": "/images/evidence/projects/plantini/hardware/controller-pcb-product-image--090-thumb.webp",
+    "type": "image",
+    "caption": "Controller pcb product image",
+    "alt": "controller pcb product image",
+    "width": 832,
+    "height": 1248,
+    "concept": true,
+    "tags": [
+      "project:plantini"
+    ],
+    "folder": "projects/plantini/hardware"
+  },
+  {
+    "id": "091",
+    "src": "/images/evidence/projects/plantini/concept-renders/tower-concept-still--091.webp",
+    "preview": "/images/evidence/projects/plantini/concept-renders/tower-concept-still--091.webp",
+    "thumbnail": "/images/evidence/projects/plantini/concept-renders/tower-concept-still--091-thumb.webp",
+    "type": "image",
+    "caption": "Tower concept still",
+    "alt": "tower concept still",
+    "width": 1536,
+    "height": 1024,
+    "concept": true,
+    "tags": [
+      "project:plantini"
+    ],
+    "folder": "projects/plantini/concept-renders"
+  },
+  {
+    "id": "092",
+    "src": "/videos/evidence/projects/plantini/concept-renders/tower-concept-animation--092.mp4",
+    "preview": "/images/evidence/projects/plantini/concept-renders/tower-concept-animation--092.webp",
+    "thumbnail": "/images/evidence/projects/plantini/concept-renders/tower-concept-animation--092-thumb.webp",
+    "type": "video",
+    "caption": "Tower concept animation",
+    "alt": "tower concept animation",
+    "width": 1080,
+    "height": 720,
+    "concept": true,
+    "tags": [
+      "project:plantini"
+    ],
+    "folder": "projects/plantini/concept-renders"
+  },
+  {
+    "id": "096",
+    "src": "/videos/evidence/milestones/fablab/ai-talk/ai-and-technology-talk--096.mp4",
+    "preview": "/images/evidence/milestones/fablab/ai-talk/ai-and-technology-talk--096.webp",
+    "thumbnail": "/images/evidence/milestones/fablab/ai-talk/ai-and-technology-talk--096-thumb.webp",
+    "type": "video",
+    "caption": "Ai and technology talk",
+    "alt": "ai and technology talk",
+    "width": 1024,
+    "height": 576,
+    "concept": false,
+    "tags": [
+      "milestone:fablab-ai"
+    ],
+    "folder": "milestones/fablab/ai-talk"
+  },
+  {
+    "id": "097",
+    "src": "/images/evidence/milestones/fablab/pcb-manufacturing/electronics-bench-overview--097.webp",
+    "preview": "/images/evidence/milestones/fablab/pcb-manufacturing/electronics-bench-overview--097.webp",
+    "thumbnail": "/images/evidence/milestones/fablab/pcb-manufacturing/electronics-bench-overview--097-thumb.webp",
+    "type": "image",
+    "caption": "Electronics bench overview",
+    "alt": "electronics bench overview",
+    "width": 1600,
+    "height": 739,
+    "concept": false,
+    "tags": [
+      "milestone:fablab-pcb"
+    ],
+    "folder": "milestones/fablab/pcb-manufacturing"
+  },
+  {
+    "id": "098",
+    "src": "/images/evidence/milestones/fablab/pcb-manufacturing/electronics-bench-alternate--098.webp",
+    "preview": "/images/evidence/milestones/fablab/pcb-manufacturing/electronics-bench-alternate--098.webp",
+    "thumbnail": "/images/evidence/milestones/fablab/pcb-manufacturing/electronics-bench-alternate--098-thumb.webp",
+    "type": "image",
+    "caption": "Electronics bench alternate",
+    "alt": "electronics bench alternate",
+    "width": 1600,
+    "height": 739,
+    "concept": false,
+    "tags": [
+      "milestone:fablab-pcb"
+    ],
+    "folder": "milestones/fablab/pcb-manufacturing"
+  },
+  {
+    "id": "104",
+    "src": "/images/evidence/milestones/fablab/pcb-manufacturing/test-circuit-and-module--104.webp",
+    "preview": "/images/evidence/milestones/fablab/pcb-manufacturing/test-circuit-and-module--104.webp",
+    "thumbnail": "/images/evidence/milestones/fablab/pcb-manufacturing/test-circuit-and-module--104-thumb.webp",
+    "type": "image",
+    "caption": "Test circuit and module",
+    "alt": "test circuit and module",
+    "width": 1200,
+    "height": 1600,
+    "concept": false,
+    "tags": [
+      "milestone:fablab-pcb"
+    ],
+    "folder": "milestones/fablab/pcb-manufacturing"
+  },
+  {
+    "id": "105",
+    "src": "/images/evidence/milestones/fablab/pcb-manufacturing/custom-control-pcb--105.webp",
+    "preview": "/images/evidence/milestones/fablab/pcb-manufacturing/custom-control-pcb--105.webp",
+    "thumbnail": "/images/evidence/milestones/fablab/pcb-manufacturing/custom-control-pcb--105-thumb.webp",
+    "type": "image",
+    "caption": "Custom control pcb",
+    "alt": "custom control pcb",
+    "width": 900,
+    "height": 1600,
+    "concept": false,
+    "tags": [
+      "milestone:fablab-pcb"
+    ],
+    "folder": "milestones/fablab/pcb-manufacturing"
+  },
+  {
+    "id": "106",
+    "src": "/images/evidence/milestones/fablab/pcb-manufacturing/assembled-control-board--106.webp",
+    "preview": "/images/evidence/milestones/fablab/pcb-manufacturing/assembled-control-board--106.webp",
+    "thumbnail": "/images/evidence/milestones/fablab/pcb-manufacturing/assembled-control-board--106-thumb.webp",
+    "type": "image",
+    "caption": "Assembled control board",
+    "alt": "assembled control board",
+    "width": 1600,
+    "height": 1200,
+    "concept": false,
+    "tags": [
+      "milestone:fablab-pcb"
+    ],
+    "folder": "milestones/fablab/pcb-manufacturing"
+  },
+  {
+    "id": "107",
+    "src": "/images/evidence/milestones/fablab/pcb-manufacturing/arduino-and-ribbon-cables--107.webp",
+    "preview": "/images/evidence/milestones/fablab/pcb-manufacturing/arduino-and-ribbon-cables--107.webp",
+    "thumbnail": "/images/evidence/milestones/fablab/pcb-manufacturing/arduino-and-ribbon-cables--107-thumb.webp",
+    "type": "image",
+    "caption": "Arduino and ribbon cables",
+    "alt": "arduino and ribbon cables",
+    "width": 1600,
+    "height": 1200,
+    "concept": false,
+    "tags": [
+      "milestone:fablab-pcb"
+    ],
+    "folder": "milestones/fablab/pcb-manufacturing"
+  },
+  {
+    "id": "108",
+    "src": "/images/evidence/milestones/fablab/pcb-manufacturing/arduino-wiring-alternate--108.webp",
+    "preview": "/images/evidence/milestones/fablab/pcb-manufacturing/arduino-wiring-alternate--108.webp",
+    "thumbnail": "/images/evidence/milestones/fablab/pcb-manufacturing/arduino-wiring-alternate--108-thumb.webp",
+    "type": "image",
+    "caption": "Arduino wiring alternate",
+    "alt": "arduino wiring alternate",
+    "width": 1600,
+    "height": 1200,
+    "concept": false,
+    "tags": [
+      "milestone:fablab-pcb"
+    ],
+    "folder": "milestones/fablab/pcb-manufacturing"
+  },
+  {
+    "id": "110",
+    "src": "/images/evidence/milestones/fablab/pcb-manufacturing/pcb-layout-on-screen--110.webp",
+    "preview": "/images/evidence/milestones/fablab/pcb-manufacturing/pcb-layout-on-screen--110.webp",
+    "thumbnail": "/images/evidence/milestones/fablab/pcb-manufacturing/pcb-layout-on-screen--110-thumb.webp",
+    "type": "image",
+    "caption": "Pcb layout on screen",
+    "alt": "pcb layout on screen",
+    "width": 1600,
+    "height": 702,
+    "concept": false,
+    "tags": [
+      "milestone:fablab-pcb"
+    ],
+    "folder": "milestones/fablab/pcb-manufacturing"
+  },
+  {
+    "id": "113",
+    "src": "/videos/evidence/milestones/solar-training/solar-training-moment--113.mp4",
+    "preview": "/images/evidence/milestones/solar-training/solar-training-moment--113.webp",
+    "thumbnail": "/images/evidence/milestones/solar-training/solar-training-moment--113-thumb.webp",
+    "type": "video",
+    "caption": "Solar training moment",
+    "alt": "solar training moment",
+    "width": 720,
+    "height": 1280,
+    "concept": false,
+    "tags": [
+      "milestone:solar-training"
+    ],
+    "folder": "milestones/solar-training"
+  },
+  {
+    "id": "114",
+    "src": "/images/evidence/milestones/solar-training/solar-array-field-practice--114.webp",
+    "preview": "/images/evidence/milestones/solar-training/solar-array-field-practice--114.webp",
+    "thumbnail": "/images/evidence/milestones/solar-training/solar-array-field-practice--114-thumb.webp",
+    "type": "image",
+    "caption": "Solar array field practice",
+    "alt": "solar array field practice",
+    "width": 1600,
+    "height": 1200,
+    "concept": false,
+    "tags": [
+      "milestone:solar-training"
+    ],
+    "folder": "milestones/solar-training"
+  },
+  {
+    "id": "115",
+    "src": "/images/evidence/milestones/solar-training/inverter-training-portrait--115.webp",
+    "preview": "/images/evidence/milestones/solar-training/inverter-training-portrait--115.webp",
+    "thumbnail": "/images/evidence/milestones/solar-training/inverter-training-portrait--115-thumb.webp",
+    "type": "image",
+    "caption": "Inverter training portrait",
+    "alt": "inverter training portrait",
+    "width": 1600,
+    "height": 739,
+    "concept": false,
+    "tags": [
+      "milestone:solar-training"
+    ],
+    "folder": "milestones/solar-training"
+  },
+  {
+    "id": "116",
+    "src": "/images/evidence/milestones/solar-training/inverter-training-full-length--116.webp",
+    "preview": "/images/evidence/milestones/solar-training/inverter-training-full-length--116.webp",
+    "thumbnail": "/images/evidence/milestones/solar-training/inverter-training-full-length--116-thumb.webp",
+    "type": "image",
+    "caption": "Inverter training full length",
+    "alt": "inverter training full length",
+    "width": 739,
+    "height": 1600,
+    "concept": false,
+    "tags": [
+      "milestone:solar-training"
+    ],
+    "folder": "milestones/solar-training"
+  },
+  {
+    "id": "117",
+    "src": "/images/evidence/milestones/solar-training/training-group-photo--117.webp",
+    "preview": "/images/evidence/milestones/solar-training/training-group-photo--117.webp",
+    "thumbnail": "/images/evidence/milestones/solar-training/training-group-photo--117-thumb.webp",
+    "type": "image",
+    "caption": "Training group photo",
+    "alt": "training group photo",
+    "width": 941,
+    "height": 1121,
+    "concept": false,
+    "tags": [
+      "milestone:solar-training"
+    ],
+    "folder": "milestones/solar-training"
+  },
+  {
+    "id": "118",
+    "src": "/images/evidence/personal/solar-training/training-day-social-photo--118.webp",
+    "preview": "/images/evidence/personal/solar-training/training-day-social-photo--118.webp",
+    "thumbnail": "/images/evidence/personal/solar-training/training-day-social-photo--118-thumb.webp",
+    "type": "image",
+    "caption": "Training day social photo",
+    "alt": "training day social photo",
+    "width": 1600,
+    "height": 901,
+    "concept": false,
+    "tags": [
+      "personal"
+    ],
+    "folder": "personal/solar-training"
+  },
+  {
+    "id": "119",
+    "src": "/images/evidence/certificates/soft-skills/bootcamp-participation--119.webp",
+    "preview": "/images/evidence/certificates/soft-skills/bootcamp-participation--119.webp",
+    "thumbnail": "/images/evidence/certificates/soft-skills/bootcamp-participation--119-thumb.webp",
+    "type": "image",
+    "caption": "Bootcamp participation",
+    "alt": "bootcamp participation",
+    "width": 1060,
+    "height": 1528,
+    "concept": false,
+    "tags": [
+      "certificate"
+    ],
+    "folder": "certificates/soft-skills"
+  },
+  {
+    "id": "120",
+    "src": "/images/evidence/certificates/solar-installation/bootcamp-success-certificate--120.webp",
+    "preview": "/images/evidence/certificates/solar-installation/bootcamp-success-certificate--120.webp",
+    "thumbnail": "/images/evidence/certificates/solar-installation/bootcamp-success-certificate--120-thumb.webp",
+    "type": "image",
+    "caption": "Bootcamp success certificate",
+    "alt": "bootcamp success certificate",
+    "width": 1539,
+    "height": 1097,
+    "concept": false,
+    "tags": [
+      "certificate"
+    ],
+    "folder": "certificates/solar-installation"
+  },
+  {
+    "id": "121",
+    "src": "/images/evidence/certificates/solar-training/orange-master-repair-participation--121.webp",
+    "preview": "/images/evidence/certificates/solar-training/orange-master-repair-participation--121.webp",
+    "thumbnail": "/images/evidence/certificates/solar-training/orange-master-repair-participation--121-thumb.webp",
+    "type": "image",
+    "caption": "Orange master repair participation",
+    "alt": "orange master repair participation",
+    "width": 1424,
+    "height": 936,
+    "concept": false,
+    "tags": [
+      "certificate"
+    ],
+    "folder": "certificates/solar-training"
+  },
+  {
+    "id": "125",
+    "src": "/images/evidence/certificates/solar-commercial/bootcamp-participation--125.webp",
+    "preview": "/images/evidence/certificates/solar-commercial/bootcamp-participation--125.webp",
+    "thumbnail": "/images/evidence/certificates/solar-commercial/bootcamp-participation--125-thumb.webp",
+    "type": "image",
+    "caption": "Bootcamp participation",
+    "alt": "bootcamp participation",
+    "width": 1567,
+    "height": 1101,
+    "concept": false,
+    "tags": [
+      "certificate"
+    ],
+    "folder": "certificates/solar-commercial"
+  },
+  {
+    "id": "127",
+    "src": "/images/evidence/projects/niotoshield/architecture/niotoshield-hardware-sequence--127.webp",
+    "preview": "/images/evidence/projects/niotoshield/architecture/niotoshield-hardware-sequence--127.webp",
+    "thumbnail": "/images/evidence/projects/niotoshield/architecture/niotoshield-hardware-sequence--127-thumb.webp",
+    "type": "image",
+    "caption": "NiotoShield hardware sequence",
+    "alt": "NiotoShield sequence from camera capture through anti-spoofing, face matching, and vehicle access",
+    "width": 688,
+    "height": 1101,
+    "concept": false,
+    "tags": [
+      "project:niotoshield"
+    ],
+    "folder": "projects/niotoshield/architecture"
+  },
+  {
+    "id": "037",
+    "src": "/images/evidence/milestones/graduation/ceremony/ceremony-group-portrait--037.webp",
+    "preview": "/images/evidence/milestones/graduation/ceremony/ceremony-group-portrait--037.webp",
+    "thumbnail": "/images/evidence/milestones/graduation/ceremony/ceremony-group-portrait--037-thumb.webp",
+    "type": "image",
+    "caption": "Graduation ceremony group portrait",
+    "alt": "Mohamed at the graduation ceremony with the group",
+    "width": 1450,
+    "height": 1085,
+    "concept": false,
+    "tags": [
+      "milestone:graduation"
+    ],
+    "folder": "milestones/graduation/ceremony"
+  }
+]

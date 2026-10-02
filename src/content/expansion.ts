@@ -1,7 +1,9 @@
+import evidenceStories from "./evidence-stories.json" with { type: "json" };
+const { milestoneStories, evidenceCertificates } = evidenceStories;
 // Owner-confirmed content. Year ranges intentionally preserve overlapping roles.
 // Add only selected public images here; private study scans stay in remainn/.
 export const journey = [
-  { id: "isima", period: "2022–2025", kind: "Education", title: "Computer Engineering degree", organization: "ISIMA Mahdia · Embedded Systems & IoT", description: "Three years of study, completed in June 2025. My final-year project, EasyShield, explored face anti-spoofing and edge AI.", href: "/projects/easyshield", linkLabel: "Explore EasyShield" },
+  { id: "isima", period: "2022–2025", kind: "Education", title: "Computer Engineering degree", organization: "ISIMA Mahdia · Embedded Systems & IoT", description: "Three years of study, completed in June 2025. My final-year project, NiotoShield, combined hardware and software. EasyShield grew from its AI work.", href: "/projects/niotoshield", linkLabel: "Explore NiotoShield" },
   { id: "fablab", period: "2025–2026", kind: "Teaching & engineering", title: "Embedded Systems Engineer & Trainer", organization: "FabLab Mahdia", description: "Created and taught practical courses in Arduino robotics, PCB design, and AI, connecting engineering concepts with hands-on projects." },
   { id: "plantini", period: "2025–2026", kind: "Technical leadership", title: "CTO · Plantini", organization: "Agricultural technology startup", description: "Took on technical leadership at Plantini, bringing my embedded systems and software background to the startup’s development." },
   { id: "katek", period: "2025–2026", kind: "Company leadership", title: "Former CEO · KaTEK", organization: "Software development company · now closed", description: "Led a software development company, with responsibility for technical work and business leadership. A completed chapter in my experience building and leading." },
@@ -23,19 +25,9 @@ export const interests = [
 
 // IELTS is retained from the existing verified content; its public scan is pending.
 // Empty slots are layout previews, not credentials or awards being claimed.
-export const certificates = [
-  { id: "ielts", title: "IELTS Academic", issuer: "IELTS", date: "10 May 2026", summary: "Overall band 6.0 · CEFR B2", image: null, alt: "", url: "" },
-];
-export const certificateSlots = [
-  { id: "certificates", title: "Course certificates", description: "Selected certificates will appear here once their details and public previews are added." },
-  { id: "awards", title: "Awards & achievements", description: "A space for documented milestones, with the story and evidence behind each one." },
-];
+export const certificates = evidenceCertificates;
+export const certificateSlots = [];
 
 // This is the visual record of the work: workshop photos, project moments, and
 // short videos belong here. It is intentionally separate from formal certificates.
-export const archive = [
-  { id: "robotics-workshops", category: "FabLab Mahdia · Robotics", title: "Building robots, one workshop at a time.", period: "2025–2026", description: "A record of the Arduino robotics courses I created and taught, from the first circuit to a moving prototype.", mediaLabel: "Workshop photos and short videos to add", motif: "robotics", image: null, alt: "", videoUrl: "" },
-  { id: "ai-courses", category: "FabLab Mahdia · AI", title: "Making AI practical in the classroom.", period: "2025–2026", description: "Course moments, demonstrations, and work from the AI sessions I developed and delivered.", mediaLabel: "Course images and demonstrations to add", motif: "ai", image: null, alt: "", videoUrl: "" },
-  { id: "pcb-training", category: "FabLab Mahdia · Electronics", title: "From a schematic to a PCB.", period: "2025–2026", description: "A visual record of PCB design training, hands-on electronics, and the hardware behind the projects.", mediaLabel: "Training photos and board details to add", motif: "pcb", image: null, alt: "", videoUrl: "" },
-  { id: "easyshield-research", category: "ISIMA Mahdia · Final-year research", title: "EasyShield: edge AI research in practice.", period: "2025", description: "The project work behind my final-year research in face anti-spoofing and edge AI.", mediaLabel: "Research images and prototype video to add", motif: "research", image: null, alt: "", videoUrl: "" },
-];
+export const archive = milestoneStories;
