@@ -45,7 +45,8 @@
 .cover.cover::after {
   display: none;
 }
-.card[data-project="niotoshield"] .cover {
+.card[data-project="niotoshield"] .cover,
+.card[data-project="easyshield"] .cover {
   background: #fff;
 }
 .card[data-project="plantini"] .cover {

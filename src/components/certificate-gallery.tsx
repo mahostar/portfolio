@@ -2,8 +2,39 @@
 
 import Image from "next/image";
 import { useRef, useState } from "react";
-import { ArrowUpRight, Award, FileBadge, Maximize2, X } from "lucide-react";
+import { ArrowUpRight, Award, FileBadge, LockKeyhole, Maximize2, X } from "lucide-react";
 import type { Certificate, CertificateSlot } from "@/lib/content-schema";
+import styles from "./ielts-certificate.module.css";
+import viewer from "./certificate-viewer.module.css";
+
+function IeltsCertificate({ item, compact = false }: { item: Certificate; compact?: boolean }) {
+  const [band, level] = item.summary.split(" · ");
+  return (
+    <div className={`${styles.paper}${compact ? ` ${styles.compact}` : ""}`}>
+      <div className={styles.brandRow}>
+        <Image className={styles.logo} src="/images/brands/ielts-logo.png" alt="IELTS" width={1280} height={482} sizes="160px" />
+        <span className={styles.previewLabel}>Public result summary</span>
+      </div>
+      <div className={styles.heading}>
+        <p>English language qualification</p>
+        <h3>{item.title}</h3>
+        {!compact && <span>Test result preview</span>}
+      </div>
+      <div className={styles.result}>
+        <span className={styles.band}>{band.replace(/ (\d+(?:\.\d+)?)$/, " ")}<strong>{band.match(/\d+(?:\.\d+)?$/)?.[0]}</strong></span>
+        {level && <><span className={styles.divider}> · </span><span className={styles.level}>{level}</span></>}
+      </div>
+      <dl className={styles.details}>
+        <div><dt>Test date</dt><dd>{item.date}</dd></div>
+        {!compact && item.reportNumber && <div><dt>Test Report Form number</dt><dd><code>{item.reportNumber}</code></dd></div>}
+      </dl>
+      <div className={styles.privacy}>
+        <LockKeyhole size={15} aria-hidden="true" />
+        <p>{compact ? "Full report kept private" : "Public summary only. The original Test Report Form is kept private."}</p>
+      </div>
+    </div>
+  );
+}
 
 export function CertificateGallery({
   items,
@@ -14,7 +45,16 @@ export function CertificateGallery({
 }) {
   const dialog = useRef<HTMLDialogElement>(null);
   const [selected, setSelected] = useState<Certificate | null>(null);
+  const [isClosing, setIsClosing] = useState(false);
+  const close = () => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      dialog.current?.close();
+      return;
+    }
+    setIsClosing(true);
+  };
   const open = (item: Certificate) => {
+    setIsClosing(false);
     setSelected(item);
     dialog.current?.showModal();
   };
@@ -38,7 +78,7 @@ export function CertificateGallery({
           {items.map((item) => (
             <article className={`certificate-card${item.image ? " certificate-image-card" : ""}`} key={item.id}>
               <button
-                className="certificate-preview"
+                className={`certificate-preview${item.id === "ielts" ? ` ${styles.thumbnail}` : ""}`}
                 onClick={() => open(item)}
                 aria-label={`Enlarge ${item.title}`}
               >
@@ -50,6 +90,8 @@ export function CertificateGallery({
                     height={item.height ?? 1800}
                     sizes="(max-width: 767px) 100vw, 50vw"
                   />
+                ) : item.id === "ielts" ? (
+                  <IeltsCertificate item={item} compact />
                 ) : (
                   <div className="credential-summary">
                     <FileBadge size={26} strokeWidth={1.3} aria-hidden="true" />
@@ -96,8 +138,18 @@ export function CertificateGallery({
         </div>
         <dialog
           ref={dialog}
-          className="certificate-dialog"
+          className={`certificate-dialog ${viewer.dialog} ${viewer.motion}${selected?.id === "ielts" ? ` ${viewer.resultDialog}` : ""}`}
           aria-labelledby="certificate-viewer-title"
+          data-closing={isClosing ? "true" : undefined}
+          onCancel={(event) => {
+            event.preventDefault();
+            close();
+          }}
+          onAnimationEnd={(event) => {
+            if (event.target !== event.currentTarget || !isClosing) return;
+            dialog.current?.close();
+            setIsClosing(false);
+          }}
           onKeyDown={(event) => {
             if (event.key !== "Tab") return;
             const targets = [
@@ -116,7 +168,7 @@ export function CertificateGallery({
             }
           }}
           onClick={(event) => {
-            if (event.target === event.currentTarget) dialog.current?.close();
+            if (event.target === event.currentTarget) close();
           }}
         >
           <div className="viewer-content">
@@ -126,16 +178,18 @@ export function CertificateGallery({
               </div>
               <button
                 className="viewer-close"
-                onClick={() => dialog.current?.close()}
+                onClick={close}
                 aria-label="Close certificate viewer"
+                title="Close preview (Esc)"
                 autoFocus
               >
-                <X size={22} />
+                <X size={22} strokeWidth={1.8} aria-hidden="true" />
               </button>
             </div>
             {selected && (
-              <>
+              <div className={viewer.body}>
                 {selected.image ? (
+                  <div className={viewer.document}>
                   <Image
                     className="viewer-image"
                     src={selected.image}
@@ -144,6 +198,11 @@ export function CertificateGallery({
                     height={selected.height ?? 1800}
                     sizes="(max-width: 767px) 95vw, 900px"
                   />
+                  </div>
+                ) : selected.id === "ielts" ? (
+                  <div className={styles.preview}>
+                    <IeltsCertificate item={selected} />
+                  </div>
                 ) : (
                   <div className="viewer-summary">
                     <FileBadge size={48} strokeWidth={1.2} aria-hidden="true" />
@@ -163,7 +222,15 @@ export function CertificateGallery({
                     </p>
                   </div>
                 )}
-                {selected.url && (
+                {selected.id === "ielts" && selected.url ? (
+                  <div className={styles.verification}>
+                    <p>Registered organisations can verify this result using the report number above.</p>
+                    <a href={selected.url} target="_blank" rel="noreferrer" className={styles.verifyLink}>
+                      IELTS verification for organisations <ArrowUpRight size={17} aria-hidden="true" />
+                    </a>
+                    <span>Opens the official IELTS website in a new tab</span>
+                  </div>
+                ) : selected.url && (
                   <a
                     href={selected.url}
                     target="_blank"
@@ -174,8 +241,12 @@ export function CertificateGallery({
                     <ArrowUpRight size={16} />
                   </a>
                 )}
-              </>
+              </div>
             )}
+            <div className={viewer.footer}>
+              <span>{selected?.image ? "Original certificate scan" : "Public qualification summary"}</span>
+              <span><kbd>Esc</kbd> to close</span>
+            </div>
           </div>
         </dialog>
       </div>

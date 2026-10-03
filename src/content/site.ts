@@ -16,7 +16,20 @@ export const site = {
   github: "https://github.com/mahostar",
   linkedin: "https://www.linkedin.com/in/mouhamed-wassim-mbarek-b09601334/",
   heroTags: ["IoT", "AI", "Robotics", "PCB"],
-  tickerPhrases: ["Engineer. Builder. Educator.", "From circuits to software", "Embedded systems & edge AI", "Robotics, PCB design & AI training", "Ideas turned into working systems", "Eight years on the windsurf board"],
+  tickerPhrases: [
+    "PCB design & analog electronics",
+    "Embedded firmware & IoT connectivity",
+    "Sensor integration & data acquisition",
+    "Automation & actuator control",
+    "Computer vision & face anti-spoofing",
+    "Multimodal learning & feature fusion",
+    "Face recognition & access control",
+    "Signal processing & noise filtering",
+    "AI retrieval & research pipelines",
+    "Thermal imaging & hotspot detection",
+    "Mobile apps & cloud integration",
+    "Teaching robotics, electronics & AI",
+  ],
   aboutText: "I’m Med Wassim Mbarek, a computer engineering graduate from ISIMA Mahdia, specializing in embedded systems and IoT. I build across electronics, firmware, AI, and software. After graduating in June 2025, I developed robotics, PCB design, and AI courses at FabLab Mahdia, took on technical leadership at Plantini, and led software development at KaTEK. These overlapping roles made for an intensive year of building and teaching. My next academic chapter is a planned master’s degree in Advanced Computing in Embedded Systems in Romania. I like taking an idea all the way to something I can assemble, test, and explain.",
   aboutHeading: "From the circuit\nto the complete system.",
   aboutNote: "Electronics → firmware → models → working products.",
@@ -26,7 +39,7 @@ export const site = {
   projectsIntro: "Embedded hardware, machine learning, and software built around real problems.",
   heroBg: "/images/hero-bg.webp",
   heroBgMobile: "/images/hero-bg-mobile.webp",
-  portrait: "/images/portrait.webp",
+  portrait: "/images/professional-portrait-cutout.png",
 };
 
 export const monogram = site.initials;

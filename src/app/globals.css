@@ -398,11 +398,19 @@ h2 {
   height: clamp(420px, 38vw, 500px);
   align-self: end;
   pointer-events: none;
+  container-type: size;
+  --portrait-overhang: 2px;
 }
 .portrait {
   position: absolute;
-  /* Keep the cropped torso just below the hero edge while it follows the pointer. */
-  inset: 10px 12px -2px;
+  /* Image and labels share the exact cutout bounds, including pointer movement. */
+  width: min(100%, calc((100cqh + var(--portrait-overhang)) * 1146 / 1373));
+  aspect-ratio: 1146 / 1373;
+  bottom: calc(-1 * var(--portrait-overhang));
+  left: 0;
+  right: 0;
+  margin-inline: auto;
+  container-type: inline-size;
   transform: translateX(calc(clamp(-1, var(--px, 0), 1) * 6px));
 }
 .portrait img {
@@ -421,11 +429,13 @@ h2 {
   position: absolute;
   inset: 0;
   z-index: 5;
+  --connector-length: clamp(24px, 11cqw, 54px);
 }
-/* Labels sit at chest level, below a conservative head exclusion rectangle. */
+/* Connector endpoints are fixed to shoulder and arm coordinates in the cutout. */
 .sticker {
   position: absolute;
-  display: inline-block;
+  width: 0;
+  height: 0;
   color: var(--color-ink);
   font-size: 0.875rem;
   font-weight: 800;
@@ -436,53 +446,46 @@ h2 {
   padding: 7px 12px;
   border-radius: 7px;
   display: block;
-  position: relative;
+  position: absolute;
+  right: calc(var(--connector-length) - 2px);
+  top: calc(var(--connector-length) * -0.16 - 16px);
+  white-space: nowrap;
+  transform: rotate(-6deg);
   z-index: 1;
 }
 .sticker-connector {
   position: absolute;
-  top: 50%;
-  left: calc(100% - 2px);
-  width: 44px;
-  height: 26px;
+  width: var(--connector-length);
+  height: calc(var(--connector-length) / 2);
+  right: 0;
+  top: calc(var(--connector-length) / -4);
   overflow: visible;
-  transform: translateY(-50%);
 }
 .sticker-connector path {
   stroke: var(--color-yellow);
-  stroke-width: 2;
+  stroke-width: 3;
   stroke-linecap: round;
   stroke-linejoin: round;
 }
-.sticker-connector circle {
-  fill: var(--color-yellow);
-}
+.sticker-connector circle { fill: var(--color-yellow); }
 .sticker-1 .sticker-connector,
 .sticker-3 .sticker-connector {
-  left: auto;
-  right: calc(100% - 2px);
-  transform: translateY(-50%) scaleX(-1);
-}
-.sticker-0 {
+  right: auto;
   left: 0;
-  bottom: 29%;
-  transform: rotate(-6deg);
+  transform: scaleX(-1);
 }
-.sticker-1 {
-  right: 0;
-  bottom: 29%;
+.sticker-1 > span,
+.sticker-3 > span {
+  right: auto;
+  left: calc(var(--connector-length) - 2px);
   transform: rotate(5deg);
 }
-.sticker-2 {
-  left: 0;
-  bottom: 10%;
-  transform: rotate(-6deg);
-}
-.sticker-3 {
-  right: 0;
-  bottom: 10%;
-  transform: rotate(4deg);
-}
+.sticker-0 { left: 21%; top: 48%; }
+.sticker-1 { left: 80%; top: 48%; }
+.sticker-2 { left: 30%; top: 63%; }
+.sticker-3 { left: 77%; top: 64%; }
+.sticker-2 > span,
+.sticker-3 > span { top: calc(var(--connector-length) * 0.16 - 16px); }
 .hero-bottom {
   grid-area: bottom;
   position: relative;
@@ -1337,21 +1340,13 @@ h2 {
     height: clamp(190px, calc(100svh - 368px), 340px);
   }
   .portrait {
-    inset: 0 10px -12px;
+    --portrait-overhang: 12px;
   }
   .sticker {
     font-size: 0.75rem;
   }
   .sticker > span {
     padding: 6px 10px;
-  }
-  .sticker-0,
-  .sticker-1 {
-    bottom: 48%;
-  }
-  .sticker-2,
-  .sticker-3 {
-    bottom: 82px;
   }
   .hero-bottom {
     margin-top: -72px;

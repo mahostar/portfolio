@@ -2,6 +2,7 @@
 
 import { useEffect, useId, useRef } from "react";
 import { usePathname } from "next/navigation";
+import type {} from "@/lib/welcome-policy";
 import styles from "./welcome-screen.module.css";
 
 export function WelcomeScreen({ name }: { name: string }) {
@@ -16,8 +17,16 @@ export function WelcomeScreen({ name }: { name: string }) {
 
   useEffect(() => {
     const element = screen.current;
-    if (!element || pathname !== "/") return;
+    const boot = window.__portfolioWelcome;
     const root = document.documentElement;
+    if (pathname !== "/") {
+      if (boot) boot.state = "retired";
+      delete root.dataset.welcome;
+      return;
+    }
+    if (!element || !boot || boot.initialPath !== "/" || boot.state !== "armed") return;
+    boot.state = "playing";
+    const generation = ++boot.generation;
     const apertureNode = aperture.current;
     const ringNode = ring.current;
     const reduced = matchMedia("(prefers-reduced-motion: reduce)");
@@ -35,18 +44,26 @@ export function WelcomeScreen({ name }: { name: string }) {
     let exiting = false;
     let frame = 0;
     let fade: Animation | undefined;
+    let restored = false;
     const restore = () => {
+      if (restored) return;
+      restored = true;
       background.forEach((node, index) => { node.inert = previousInert[index]; });
       delete root.dataset.welcome;
       element.setAttribute("aria-hidden", "true");
       delete element.dataset.phase;
     };
-    const finish = () => {
-      if (disposed || finished) return;
+    const finish = (restoreFocus = true) => {
+      if (disposed || finished || boot.generation !== generation) return;
       finished = true;
+      boot.state = "retired";
       cancelAnimationFrame(frame);
+      window.clearTimeout(timer);
+      window.clearTimeout(safety);
+      dismiss.current = () => {};
+      removeListeners();
       restore();
-      if (element.contains(document.activeElement)) {
+      if (restoreFocus && element.contains(document.activeElement)) {
         document.getElementById("main")?.focus({ preventScroll: true });
       }
     };
@@ -57,7 +74,7 @@ export function WelcomeScreen({ name }: { name: string }) {
       element.dataset.phase = "reveal";
       if (immediate || reduced.matches || !dot.current || !aperture.current || !ring.current) {
         fade = element.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 180, fill: "forwards" });
-        fade.finished.then(finish).catch(() => {});
+        fade.finished.then(() => finish()).catch(() => {});
         return;
       }
 
@@ -92,12 +109,31 @@ export function WelcomeScreen({ name }: { name: string }) {
     };
     dismiss.current = () => exit(true);
     const timer = window.setTimeout(() => exit(), reduced.matches ? 1100 : 4250);
-    const safety = window.setTimeout(finish, 7500);
+    const safety = window.setTimeout(() => finish(), 7500);
     const escape = (event: KeyboardEvent) => {
       if (event.key === "Escape") { event.preventDefault(); exit(true); }
     };
     const change = () => { if (reduced.matches) exit(true); };
+    const suspend = () => finish(false);
+    // History changes the URL before the router commits. A rapid Back/Forward
+    // pair must still retire an interrupted intro even if React batches routes.
+    const navigate = () => {
+      if (location.pathname !== boot.initialPath) finish(false);
+    };
+    const resume = (event: PageTransitionEvent) => {
+      if (event.persisted) finish(false);
+    };
+    const removeListeners = () => {
+      window.removeEventListener("keydown", escape);
+      window.removeEventListener("pagehide", suspend);
+      window.removeEventListener("pageshow", resume);
+      window.removeEventListener("popstate", navigate);
+      reduced.removeEventListener("change", change);
+    };
     window.addEventListener("keydown", escape);
+    window.addEventListener("pagehide", suspend);
+    window.addEventListener("pageshow", resume);
+    window.addEventListener("popstate", navigate);
     reduced.addEventListener("change", change);
     return () => {
       disposed = true;
@@ -105,12 +141,19 @@ export function WelcomeScreen({ name }: { name: string }) {
       window.clearTimeout(safety);
       cancelAnimationFrame(frame);
       fade?.cancel();
-      window.removeEventListener("keydown", escape);
-      reduced.removeEventListener("change", change);
+      removeListeners();
+      dismiss.current = () => {};
       restore();
+      // Strict Mode may clean up and immediately set up this same startup.
+      // A real departure or completed intro permanently retires the document.
+      if (boot.generation === generation && boot.state === "playing") {
+        boot.state = location.pathname === boot.initialPath ? "armed" : "retired";
+      }
       apertureNode?.setAttribute("r", "0");
       ringNode?.setAttribute("r", "0");
-      if (element.contains(document.activeElement)) previousFocus?.focus({ preventScroll: true });
+      if (location.pathname === boot.initialPath && element.contains(document.activeElement) && previousFocus?.isConnected) {
+        previousFocus.focus({ preventScroll: true });
+      }
     };
   }, [pathname]);
 

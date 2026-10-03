@@ -227,10 +227,11 @@
       "description": "A visual record of PCB layouts, assembled control boards, wiring and work at the electronics bench.",
       "motif": "pcb",
       "mediaLabel": "From a circuit to a board you can hold.",
-      "image": "/images/evidence/milestones/fablab/pcb-manufacturing/custom-control-pcb--105.webp",
-      "alt": "custom control pcb",
+      "image": "/images/evidence/milestones/fablab/pcb-manufacturing/natural-daylight-pcb-portrait.png",
+      "alt": "Med Wassim Mbarek holding a manufactured printed circuit board",
       "videoUrl": "",
       "mediaIds": [
+        "128",
         "097",
         "098",
         "104",

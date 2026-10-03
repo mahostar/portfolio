@@ -145,12 +145,6 @@
 .plane-front {
   opacity: 0.4;
 }
-.blueprint-pulse {
-  stroke: #ffe568;
-  stroke-width: 1.5;
-  stroke-dasharray: 7 93;
-  stroke-dashoffset: 100;
-}
 .sticker > span {
   border-radius: 3px;
   box-shadow: 3px 3px 0 #08265c38;
@@ -191,9 +185,6 @@
   }
   .hero-scene[data-motion="ready"] .plane-front {
     animation: blueprint-breathe 8s ease-in-out -4s infinite alternate-reverse;
-  }
-  .hero-scene[data-motion="ready"] .blueprint-pulse {
-    animation: blueprint-signal 5s linear infinite;
   }
   .hero-paused *,
   .hero-paused *::before,
@@ -241,11 +232,6 @@
   }
   to {
     transform: translateY(8px);
-  }
-}
-@keyframes blueprint-signal {
-  to {
-    stroke-dashoffset: 0;
   }
 }
 
@@ -566,8 +552,7 @@
 @media (prefers-reduced-motion: reduce) {
   .hero-copy h1 > span,
   .portrait img,
-  .blueprint-plane,
-  .blueprint-pulse {
+  .blueprint-plane {
     animation: none !important;
   }
   .name-outline::after {

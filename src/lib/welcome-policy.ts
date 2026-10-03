@@ -1,0 +1,63 @@
+type WelcomeDocument = {
+  initialPath: string;
+  navigationType: string;
+  state: "inactive" | "armed" | "playing" | "retired";
+  generation: number;
+};
+
+declare global {
+  interface Window {
+    __portfolioWelcome?: WelcomeDocument;
+  }
+}
+
+// This function is serialized into the head script. Keep it self-contained:
+// it runs before hydration and never reclassifies a client-side route change.
+function initializeWelcomeDocument() {
+  if (window.__portfolioWelcome) return;
+  const root = document.documentElement;
+  try {
+    const navigation = performance.getEntriesByType("navigation")[0] as
+      | PerformanceNavigationTiming
+      | undefined;
+    const initialPath = location.pathname;
+    const navigationType = navigation?.type ?? "unknown";
+    const boot: WelcomeDocument = {
+      initialPath,
+      navigationType,
+      state: initialPath === "/" && navigationType === "reload" ? "armed" : "inactive",
+      generation: 0,
+    };
+    window.__portfolioWelcome = boot;
+    if (boot.state === "armed") {
+      root.dataset.welcome = "pending";
+      setTimeout(() => {
+        if (boot.state === "armed") {
+          boot.state = "retired";
+          delete root.dataset.welcome;
+        }
+      }, 8000);
+    }
+    // Retire before cache suspension, including when hydration has not started.
+    addEventListener("pagehide", () => {
+      boot.state = "retired";
+      delete root.dataset.welcome;
+    });
+    addEventListener("pageshow", (event) => {
+      if (event.persisted) {
+        boot.state = "retired";
+        delete root.dataset.welcome;
+      }
+    });
+    addEventListener("popstate", () => {
+      if (location.pathname !== boot.initialPath) {
+        boot.state = "retired";
+        delete root.dataset.welcome;
+      }
+    });
+  } catch {
+    delete root.dataset.welcome;
+  }
+}
+
+export const welcomeStartupScript = `(${initializeWelcomeDocument.toString()})();`;

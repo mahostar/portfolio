@@ -5,6 +5,7 @@ import { useId, useRef, useState } from "react";
 import { ArrowUpRight, ChevronLeft, ChevronRight, Images, Play, X } from "lucide-react";
 import type { EvidenceItem } from "@/lib/evidence";
 import styles from "./media-gallery.module.css";
+import viewer from "./certificate-viewer.module.css";
 
 export function MediaGallery({ items: sourceItems, title, compact = false, story }: {
   items: EvidenceItem[];
@@ -21,13 +22,22 @@ export function MediaGallery({ items: sourceItems, title, compact = false, story
   const opener = useRef<HTMLElement | null>(null);
   const [index, setIndex] = useState<number | null>(null);
   const [expanded, setExpanded] = useState(false);
+  const [isClosing, setIsClosing] = useState(false);
   const labelId = useId();
   const selected = index === null ? null : items[index];
   if (!items.length) return null;
   const open = (position: number, trigger: HTMLElement) => {
+    setIsClosing(false);
     opener.current = trigger;
     setIndex(position);
     dialog.current?.showModal();
+  };
+  const close = () => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      dialog.current?.close();
+      return;
+    }
+    setIsClosing(true);
   };
   const move = (direction: number) => setIndex((current) =>
     current === null ? null : (current + direction + items.length) % items.length);
@@ -55,20 +65,29 @@ export function MediaGallery({ items: sourceItems, title, compact = false, story
           {items.length > 6 && <button className={styles.more} onClick={() => setExpanded(!expanded)}>{expanded ? "Show fewer" : `Show all ${items.length} photos & videos`}</button>}
         </>
       )}
-      <dialog ref={dialog} className={styles.dialog} aria-labelledby={labelId}
+      <dialog ref={dialog} className={`${styles.dialog} ${viewer.motion}`} aria-labelledby={labelId}
+        data-closing={isClosing ? "true" : undefined}
+        onCancel={(event) => { event.preventDefault(); close(); }}
+        onAnimationEnd={(event) => {
+          if (event.target !== event.currentTarget || !isClosing) return;
+          dialog.current?.close();
+          setIsClosing(false);
+        }}
         onClose={() => { setIndex(null); opener.current?.focus(); }}
-        onClick={(event) => { if (event.target === event.currentTarget) dialog.current?.close(); }}
+        onClick={(event) => { if (event.target === event.currentTarget) close(); }}
         onKeyDown={(event) => {
           if (event.key === "ArrowLeft") {event.preventDefault();move(-1);}
           if (event.key === "ArrowRight") {event.preventDefault();move(1);}
         }}>
         <div className={styles.viewer}>
-          <header><div><p>{title}</p><h3 id={labelId}>{selected?.caption}</h3></div><button aria-label="Close gallery" autoFocus onClick={() => dialog.current?.close()}><X size={24} /></button></header>
+          <header><div><h3 id={labelId}>{selected?.caption}</h3><p>{title}</p></div><button aria-label="Close gallery" title="Close gallery (Esc)" autoFocus onClick={close}><X size={22} strokeWidth={1.8} aria-hidden="true" /></button></header>
+          <div className={styles.body}>
           {story && <p className={styles.storyText}>{story}</p>}
           {selected && <div className={styles.stage}>
             {selected.type === "video" ? <video key={selected.src} src={selected.src} poster={selected.preview} controls playsInline preload="none" aria-label={selected.caption} /> : <Image src={selected.src} alt={selected.alt} width={selected.width} height={selected.height} sizes="95vw" unoptimized />}
           </div>}
-          <footer><button aria-label="Previous media" disabled={items.length < 2} onClick={() => move(-1)}><ChevronLeft size={22} /></button><span aria-live="polite">{index === null ? 0 : index + 1} / {items.length}{selected?.concept ? " · Concept visual" : ""}</span><button aria-label="Next media" disabled={items.length < 2} onClick={() => move(1)}><ChevronRight size={22} /></button></footer>
+          </div>
+          <footer><button aria-label="Previous media" title="Previous photo (left arrow)" disabled={items.length < 2} onClick={() => move(-1)}><ChevronLeft size={20} aria-hidden="true" /></button><span aria-live="polite">{index === null ? 0 : index + 1} / {items.length}{selected?.concept ? " · Concept visual" : ""}</span><button aria-label="Next media" title="Next photo (right arrow)" disabled={items.length < 2} onClick={() => move(1)}><ChevronRight size={20} aria-hidden="true" /></button></footer>
         </div>
       </dialog>
     </div>

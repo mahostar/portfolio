@@ -6,6 +6,7 @@ import { MotionProvider } from "@/components/motion-provider";
 import { PortfolioMotion } from "@/components/portfolio-motion";
 import { WelcomeScreen } from "@/components/welcome-screen";
 import { GlassLab } from "@/components/glass-lab";
+import { welcomeStartupScript } from "@/lib/welcome-policy";
 import { fullName, monogram, site, siteUrl } from "@/content/site";
 import "./globals.css";
 import "./motion-design.css";
@@ -48,7 +49,7 @@ export default function RootLayout({
   return (
     <html lang="en" data-scroll-behavior="smooth" suppressHydrationWarning>
       <head>
-        <script dangerouslySetInnerHTML={{ __html: `(()=>{try{if(location.pathname==='/'){document.documentElement.dataset.welcome='pending';setTimeout(()=>{if(document.documentElement.dataset.welcome==='pending')delete document.documentElement.dataset.welcome},8000)}}catch{}})()` }} />
+        <script dangerouslySetInnerHTML={{ __html: welcomeStartupScript }} />
       </head>
       <body className={`${archivo.variable} ${inter.variable}`}>
         <MotionProvider>

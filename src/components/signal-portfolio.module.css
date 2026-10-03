@@ -1494,6 +1494,9 @@
 .site :global(.archive-visual img) {
   object-fit: cover;
 }
+.site :global([data-story="pcb-training"] .archive-visual img) {
+  object-position: center top;
+}
 .site :global([data-story="graduation"] .archive-visual img),
 .site :global([data-story="plantini-events"] .archive-visual img),
 .site :global([data-story="agrinova-training"] .archive-visual img) {

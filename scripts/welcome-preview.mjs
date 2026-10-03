@@ -12,6 +12,8 @@ try {
     const page = await context.newPage();
     page.on('pageerror', error => errors.push(error.message));
     await page.goto(base, { waitUntil: 'domcontentloaded' });
+    assert.equal(await page.locator('[data-welcome-screen]').isVisible(), false, 'First visit skips the intro');
+    await page.reload({ waitUntil: 'domcontentloaded' });
     await page.waitForSelector('[data-welcome-screen][data-phase="greeting"]');
     const intro = page.locator('[data-welcome-screen]');
     assert.equal(await page.locator('#main').evaluate(node => node.inert), true);
@@ -52,6 +54,7 @@ try {
     await page.goto(`${base}${mode === 'hash' ? '/#skills' : mode === 'project' ? '/projects' : '/'}`, { waitUntil: 'domcontentloaded' });
     const intro = page.locator('[data-welcome-screen]');
     if (mode === 'skip' || mode === 'escape' || mode === 'reduced') {
+      await page.reload({ waitUntil: 'domcontentloaded' });
       await page.waitForSelector('[data-welcome-screen][data-phase="greeting"]');
       if (mode === 'skip') await page.getByRole('button', { name: 'Skip intro' }).click();
       if (mode === 'escape') await page.keyboard.press('Escape');

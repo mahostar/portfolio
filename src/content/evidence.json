@@ -1732,5 +1732,19 @@
       "milestone:graduation"
     ],
     "folder": "milestones/graduation/ceremony"
+  },
+  {
+    "id": "128",
+    "src": "/images/evidence/milestones/fablab/pcb-manufacturing/natural-daylight-pcb-portrait.png",
+    "preview": "/images/evidence/milestones/fablab/pcb-manufacturing/natural-daylight-pcb-portrait.png",
+    "thumbnail": "/images/evidence/milestones/fablab/pcb-manufacturing/natural-daylight-pcb-portrait.png",
+    "type": "image",
+    "caption": "PCB portrait",
+    "alt": "Med Wassim Mbarek holding a manufactured printed circuit board",
+    "width": 1122,
+    "height": 1402,
+    "concept": false,
+    "tags": ["milestone:pcb-training"],
+    "folder": "milestones/fablab/pcb-manufacturing"
   }
 ]

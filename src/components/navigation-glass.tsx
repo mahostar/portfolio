@@ -38,7 +38,7 @@ void main() {
   gl_FragColor = vec4(color, alpha);
 }`;
 
-export function NavigationGlass() {
+export function NavigationGlass({ surface = true }: { surface?: boolean }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const progressRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
@@ -48,13 +48,13 @@ export function NavigationGlass() {
     const progress = progressRef.current;
     const header = canvas?.closest("header");
     if (!canvas || !progress || !header) return;
-    const gl = canvas.getContext("webgl", {
+    const gl = surface ? canvas.getContext("webgl", {
       alpha: true,
       premultipliedAlpha: false,
       antialias: false,
       depth: false,
       powerPreference: "low-power",
-    });
+    }) : null;
     const shaders: WebGLShader[] = [];
     const program = gl?.createProgram();
     let ready = false;
@@ -164,7 +164,7 @@ export function NavigationGlass() {
         shaders.forEach((shader) => gl.deleteShader(shader));
       }
     };
-  }, [pathname]);
+  }, [pathname, surface]);
 
   return (
     <>

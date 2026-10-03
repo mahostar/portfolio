@@ -134,7 +134,8 @@
 }
 @media (max-width: 767px) {
   .footer.footer {
-    padding: 18px 0 calc(72px + env(safe-area-inset-bottom));
+    /* The body already reserves clearance for the fixed mobile navigation. */
+    padding: 18px 0 14px;
   }
   .footer :global(.container) {
     width: calc(100% - 40px);

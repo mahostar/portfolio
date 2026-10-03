@@ -1,0 +1,80 @@
+/* The shared header owns the material on every route, including server render.
+   Keep its fallback available before hydration and without WebGL. */
+:global(body):has(.marker) :global(.site-header) {
+  background: linear-gradient(90deg, #4f7dd0, #3f5c99 40%, #4265a8);
+  -webkit-backdrop-filter: blur(3px) saturate(1.2);
+  backdrop-filter: blur(3px) saturate(1.2);
+  border-bottom-color: #337de6;
+  box-shadow: inset 0 1px 0 #82c4ff80, 0 1px 2px #2b71de40;
+}
+
+:global(body):has(.marker) :global(.nav-glass-shader) {
+  visibility: hidden;
+}
+
+:global(body):has(.marker) :global(.site-header):has(.canvas[data-blue-glass="ready"]) {
+  background: transparent;
+  box-shadow: none;
+  border-bottom-color: transparent;
+}
+
+.canvas {
+  position: absolute;
+  inset: 0 auto auto 0;
+  width: 100%;
+  height: calc(100% + 7px);
+  pointer-events: none;
+}
+
+.canvas[data-blue-glass="fallback"] {
+  visibility: hidden;
+}
+
+/* This page background scrolls away; it never covers or changes the glass. */
+.backdrop {
+  position: absolute;
+  inset: 0 0 auto;
+  height: calc(var(--header-clearance, 97px) - 16px);
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 22% 35%, #ffd4001a, #ffd40000 42%),
+    radial-gradient(ellipse at 78% 80%, #ffe4770f, #ffe47700 38%),
+    linear-gradient(115deg, #09245f, #07388f 50%, #082966);
+  background-size: 170% 240%, 190% 260%, 100% 100%;
+  background-position: 15% 65%, 85% 30%, center;
+  animation: sunlight-drift 20s ease-in-out infinite alternate;
+}
+
+@keyframes sunlight-drift {
+  to { background-position: 85% 30%, 15% 70%, center; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .backdrop {
+    animation: none;
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  :global(body):has(.marker) :global(.site-header):has(.canvas) {
+    background: linear-gradient(90deg, #4f7dd0, #3f5c99 40%, #4265a8);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+
+  .canvas { visibility: hidden; }
+}
+
+@media (forced-colors: active) {
+  :global(body):has(.marker) :global(.site-header):has(.canvas) {
+    background: Canvas;
+    color: CanvasText;
+    border-bottom-color: CanvasText;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+
+  .canvas { display: none; }
+  .backdrop { display: none; }
+}

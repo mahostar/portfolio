@@ -5,6 +5,7 @@ import { HomeLink as Link } from "./home-link";
 import { usePathname } from "next/navigation";
 import { ArrowRight, Folder, Home, Mail, UserRound, Sparkles } from "lucide-react";
 import { NavigationGlass } from "./navigation-glass";
+import { BlueNavigationBackdrop, BlueNavigationGlass } from "./blue-navigation-glass";
 import { BrandLogo } from "./brand-logo";
 import { LiquidGlassLink } from "./liquid-glass";
 import styles from "./signal-navigation.module.css";
@@ -112,12 +113,14 @@ export function Navigation({ monogram, name }: { monogram: string; name: string 
   const href = (id: string) => (onHome ? `#${id}` : `/#${id}`);
   return (
     <>
+      {onHome && <BlueNavigationBackdrop />}
       <header
         className="site-header"
         data-scroll-state="top"
         data-signal-lower={onHome ? undefined : "true"}
       >
-        <NavigationGlass />
+        <NavigationGlass surface={false} />
+        <BlueNavigationGlass />
         <div className="container nav-inner">
           <Link
             href={href("home")}
@@ -138,7 +141,7 @@ export function Navigation({ monogram, name }: { monogram: string; name: string 
                 className={active === id ? "active" : ""}
                 aria-current={active === id ? "page" : undefined}
               >
-                {id === "impact" && active !== "home" ? "Proof" : label}
+                {label}
               </Link>
             ))}
           </nav>
@@ -163,9 +166,9 @@ export function Navigation({ monogram, name }: { monogram: string; name: string 
             <Icon
               size={22}
               strokeWidth={1.7}
-              fill={active === id && id === "home" ? "currentColor" : "none"}
+              fill="none"
             />
-            <span>{id === "impact" && active !== "home" ? "Proof" : label}</span>
+            <span>{label}</span>
           </Link>
         ))}
       </nav>

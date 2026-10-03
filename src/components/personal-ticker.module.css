@@ -15,7 +15,7 @@
 .ticker-track {
   display: flex;
   width: max-content;
-  animation: personal-ticker-flow 34s linear infinite;
+  animation: personal-ticker-flow 68s linear infinite;
 }
 .ticker-group {
   display: flex;

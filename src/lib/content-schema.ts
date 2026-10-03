@@ -44,7 +44,7 @@ export const siteSchema = z.object({
   github: optionalUrl,
   linkedin: optionalUrl,
   heroTags: z.array(z.string()).length(4),
-  tickerPhrases: z.array(z.string().min(1).max(80)).min(3).max(10),
+  tickerPhrases: z.array(z.string().min(1).max(80)).min(3).max(12),
   aboutText: z
     .string()
     .refine(

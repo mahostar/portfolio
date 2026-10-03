@@ -8,6 +8,8 @@
 .hero-background img {
   object-fit: fill;
   object-position: center;
+  filter: blur(2px);
+  transform: scale(1.015);
 }
 .hero-circuit.pcb-motion {
   position: absolute;
@@ -42,25 +44,13 @@
   background: linear-gradient(100deg, transparent 40%, #9bd2ff 50%, transparent 60%);
   opacity: .04;
 }
-.pcb-pulses { position:absolute; inset:0; width:100%; height:100%; overflow:hidden; }
-.pcb-pulses-mobile { display:none; }
-.pcb-pulse, .pcb-pulse-glow {
-  fill:none; stroke:#ffe568; stroke-linecap:round; stroke-linejoin:round;
-  stroke-dasharray:8 200; stroke-dashoffset:8;
-}
-.pcb-pulse { stroke-width:2; }
-.pcb-pulse-glow { stroke-width:7; opacity:.18; }
 @media (prefers-reduced-motion:no-preference) {
   .hero-scene[data-motion="ready"] .pcb-trace-sweep { animation:pcb-trace-sweep 9s ease-in-out infinite; }
-  .hero-scene[data-motion="ready"] .pcb-pulse,
-  .hero-scene[data-motion="ready"] .pcb-pulse-glow { animation:pcb-signal-run .65s linear var(--pcb-delay) 1 forwards; }
 }
 @keyframes pcb-trace-sweep { from {transform:translateX(-30%);} to {transform:translateX(30%);} }
-@keyframes pcb-signal-run { to {stroke-dashoffset:-100;} }
 @media(max-width:767px) {
   .pcb-trace-mask { -webkit-mask-image:url(/images/hero-traces-mask-mobile.webp); mask-image:url(/images/hero-traces-mask-mobile.webp); }
-  .pcb-pulses-mobile { display:block; }
-  .pcb-pulses-desktop, .pcb-trace-light { display:none; }
+  .pcb-trace-light { display:none; }
 }
 /* Preserve the original hero height and the image's proportions on desktop. */
 @media(min-width:768px) {
