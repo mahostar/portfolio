@@ -29,6 +29,12 @@ Bambu Lab's mark comes from the bundled Simple Icons library. The SOLIDWORKS red
 Copy `.env.example` to `.env.local`. Set `NEXT_PUBLIC_SITE_URL`, `RESEND_API_KEY`, `CONTACT_TO_EMAIL`, and `CONTACT_FROM`.
 Verify your sending domain with Resend. Development without credentials logs messages; production returns 503.
 
+### Cloudflare Workers
+
+The Worker is `mohamedwassimmbarek`, serving https://mohamedwassimmbarek.darkcompiler.workers.dev.
+Workers Builds uses `pnpm run build:cloudflare` as the build command and `pnpm exec opennextjs-cloudflare deploy` as the deploy command. The adapter and Wrangler versions are locked in the repository. `pnpm-workspace.yaml` allows the required esbuild and workerd installation scripts.
+Set `NEXT_PUBLIC_SITE_URL` to the production URL in build variables. Configure the Resend contact variables above as Worker secrets to enable email delivery. Use `pnpm preview:cloudflare` for a local Workers preview or `pnpm deploy` for a manual build and deployment. OpenNext bundling is best run on Linux/WSL.
+
 ### Netlify
 
 In Netlify, add a new project by importing `mahostar/portfolio` from GitHub and select the `main` branch. Leave the base directory empty. The committed `netlify.toml` sets the build command to `pnpm build`, the publish directory to `.next`, Node 24, and pnpm hoisting. The `packageManager` field pins pnpm. Netlify automatically installs its Next.js adapter, which supports the contact API and image optimization; keep the normal Next.js build rather than exporting static HTML.
