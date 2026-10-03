@@ -57,7 +57,7 @@ async function expectNoWelcome(page: Page) {
 }
 
 async function reloadAndSkip(page: Page) {
-  await page.reload();
+  await page.reload({ waitUntil: "domcontentloaded" });
   await expect(page.locator('[data-welcome-screen][data-phase="greeting"]')).toBeVisible();
   await expect(page.locator("#main")).toHaveAttribute("inert", "");
   await page.getByRole("button", { name: "Skip intro" }).click();
@@ -66,11 +66,14 @@ async function reloadAndSkip(page: Page) {
   await resetAudit(page);
 }
 
-test("fresh home and section URLs skip welcome; every home-section refresh plays", async ({ page }) => {
+test("fresh home and section URLs welcome visitors; every home-section refresh plays", async ({ page }) => {
   test.setTimeout(120000);
   for (const section of homeSections) {
-    await page.goto(`/#${section}`);
-    await expectNoWelcome(page);
+    await page.goto("/projects", { waitUntil: "domcontentloaded" });
+    await page.goto(`/#${section}`, { waitUntil: "domcontentloaded" });
+    await expect(page.locator('[data-welcome-screen][data-phase="greeting"]')).toBeVisible();
+    await page.getByRole("button", { name: "Skip intro" }).click();
+    await expect(page.locator("[data-welcome-screen]")).toBeHidden();
     await reloadAndSkip(page);
     await expect(page).toHaveURL(new RegExp(`#${section}$`));
     await expectNoWelcome(page);
@@ -78,7 +81,7 @@ test("fresh home and section URLs skip welcome; every home-section refresh plays
 });
 
 test("a home reload cannot replay through catalog, projects, or browser history", async ({ page }) => {
-  await page.goto("/");
+  await page.goto("/", { waitUntil: "domcontentloaded" });
   await reloadAndSkip(page);
   const documentId = await page.evaluate(() => window.__welcomeAudit.documentId);
   await page.locator('a[href="/projects"]').first().click();
@@ -103,9 +106,9 @@ test("a home reload cannot replay through catalog, projects, or browser history"
 test("every project stays ineligible after project refresh and home return", async ({ page }) => {
   test.setTimeout(120000);
   for (const slug of projectSlugs) {
-    await page.goto(`/projects/${slug}`);
+    await page.goto(`/projects/${slug}`, { waitUntil: "domcontentloaded" });
     await expectNoWelcome(page);
-    await page.reload();
+    await page.reload({ waitUntil: "domcontentloaded" });
     await expectNoWelcome(page);
     await page.locator(".nav-brand").click();
     await expect(page).toHaveURL(/\/#home$/);
@@ -116,13 +119,13 @@ test("every project stays ineligible after project refresh and home return", asy
 test("all home navigation destinations and 404 recovery skip welcome", async ({ page }) => {
   test.setTimeout(120000);
   for (const section of homeSections) {
-    await page.goto("/projects");
+    await page.goto("/projects", { waitUntil: "domcontentloaded" });
     const link = page.locator(`.desktop-nav a[href="/#${section}"]`);
     await (await link.count() ? link : page.locator(`.site-footer a[href="/#${section}"]`).first()).click();
     await expect(page).toHaveURL(new RegExp(`#${section}$`));
     await expectNoWelcome(page);
   }
-  await page.goto("/missing-welcome-test");
+  await page.goto("/missing-welcome-test", { waitUntil: "domcontentloaded" });
   await page.getByRole("link", { name: "Back home", exact: true }).click();
   await expect(page).toHaveURL(/\/$/);
   await expectNoWelcome(page);
@@ -130,7 +133,7 @@ test("all home navigation destinations and 404 recovery skip welcome", async ({ 
 
 test("mobile navigation and same-home repeated anchors never play welcome", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
-  await page.goto("/projects/plantini");
+  await page.goto("/projects/plantini", { waitUntil: "domcontentloaded" });
   await page.locator('.bottom-nav a[href="/#contact"]').click();
   await expect(page).toHaveURL(/#contact$/);
   await expectNoWelcome(page);
@@ -142,7 +145,7 @@ test("mobile navigation and same-home repeated anchors never play welcome", asyn
 });
 
 test("intro completion releases Escape for home dialogs and leaves contact usable", async ({ page }) => {
-  await page.goto("/");
+  await page.goto("/", { waitUntil: "domcontentloaded" });
   await reloadAndSkip(page);
   await page.locator(".certificate-preview").first().click();
   await expect(page.locator("dialog[open]")).toHaveCount(1);
@@ -155,10 +158,10 @@ test("intro completion releases Escape for home dialogs and leaves contact usabl
 });
 
 test("history interrupts a playing intro without rearming it", async ({ page }) => {
-  await page.goto("/projects");
+  await page.goto("/projects", { waitUntil: "domcontentloaded" });
   await page.getByRole("link", { name: "Back home", exact: true }).click();
   await expect(page).toHaveURL(/#work$/);
-  await page.reload();
+  await page.reload({ waitUntil: "domcontentloaded" });
   await expect(page.locator('[data-phase="greeting"]')).toBeVisible();
   await page.goBack();
   await expect(page).toHaveURL(/\/projects$/);
@@ -169,8 +172,8 @@ test("history interrupts a playing intro without rearming it", async ({ page }) 
 });
 
 test("page suspension retires a playing intro and restores input", async ({ page }) => {
-  await page.goto("/");
-  await page.reload();
+  await page.goto("/", { waitUntil: "domcontentloaded" });
+  await page.reload({ waitUntil: "domcontentloaded" });
   await expect(page.locator('[data-phase="greeting"]')).toBeVisible();
   // Deterministic lifecycle contract; this does not claim an actual BFCache hit.
   await page.evaluate(() => dispatchEvent(new PageTransitionEvent("pagehide", { persisted: true })));
@@ -184,14 +187,31 @@ test("page suspension retires a playing intro and restores input", async ({ page
   await expectNoWelcome(page);
 });
 
-test("missing Navigation Timing leaves a refreshed homepage usable", async ({ page }) => {
+test("missing Navigation Timing welcomes fresh and refreshed homepage visits", async ({ page }) => {
   await page.addInitScript(() => {
     const getEntries = performance.getEntriesByType.bind(performance);
     performance.getEntriesByType = (type) => type === "navigation" ? [] : getEntries(type);
   });
-  await page.goto("/");
-  await page.reload();
+  await page.goto("/", { waitUntil: "domcontentloaded" });
+  await expect(page.locator('[data-welcome-screen][data-phase="greeting"]')).toBeVisible();
+  await page.getByRole("button", { name: "Skip intro" }).click();
+  await reloadAndSkip(page);
   await expectNoWelcome(page);
+});
+
+test("mobile fresh tab welcomes once and finishes with usable content", async ({ browser, baseURL }) => {
+  const context = await browser.newContext({ baseURL, viewport: { width: 393, height: 852 }, isMobile: true, hasTouch: true });
+  const page = await context.newPage();
+  try {
+    await page.goto("/", { waitUntil: "domcontentloaded" });
+    await expect(page.locator('[data-welcome-screen][data-phase="greeting"]')).toBeVisible();
+    await expect(page.locator("#main")).toHaveAttribute("inert", "");
+    await expect(page.locator("[data-welcome-screen]")).toBeHidden({ timeout: 10000 });
+    await expect(page.locator("#main")).not.toHaveAttribute("inert");
+    await expect(page.locator("h1")).toBeVisible();
+  } finally {
+    await context.close();
+  }
 });
 
 test("no JavaScript never blocks a refreshed homepage", async ({ browser, baseURL }) => {
@@ -224,3 +244,4 @@ test("expired pending intro cannot restart after delayed hydration", async ({ pa
   await page.getByRole("link", { name: "Back home", exact: true }).click();
   await expectNoWelcome(page);
 });
+

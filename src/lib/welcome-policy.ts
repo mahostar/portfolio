@@ -25,12 +25,15 @@ function initializeWelcomeDocument() {
     const boot: WelcomeDocument = {
       initialPath,
       navigationType,
-      state: initialPath === "/" && navigationType === "reload" ? "armed" : "inactive",
+      // A pasted URL/new tab is "navigate", while Refresh is "reload".
+      // Missing timing data should still welcome a fresh homepage document.
+      // History restores must not replay the intro.
+      state: initialPath === "/" && navigationType !== "back_forward" ? "armed" : "inactive",
       generation: 0,
     };
     window.__portfolioWelcome = boot;
     if (boot.state === "armed") {
-      // Suppress the browser's saved scroll position for this homepage reload.
+      // Start homepage arrivals at the top before the intro reveals the page.
       const previousRestoration = history.scrollRestoration;
       history.scrollRestoration = "manual";
       window.scrollTo({ top: 0, left: 0, behavior: "instant" });
