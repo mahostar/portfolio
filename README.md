@@ -20,12 +20,18 @@ Stats use real projects only. An unset career year displays an em dash. Empty pe
 Place a real CV at `public/cv.pdf` to enable its download button.
 
 ## Images
+Run `pnpm audit:media` to inspect every published image, animation, and video. The report in `artifacts/media-audit/current.json` includes sizes, dimensions, animation frames, duplicate hashes, and video delivery metadata. Its `referenced` flag finds literal source references only; dynamic logo paths also need inspection. Do not use that flag alone to delete assets.
+
+Keep full-size originals in the ignored `Achievements/originals/` archive, outside `public`. Publish WebP covers, dedicated small gallery thumbnails, and fast-start H.264 videos with playback deferred until requested. Preserve transparency, animation timing, and readable text; existing optimized WebPs do not need repeated encoding. `scripts/optimize-public-media.mjs` records the selected PNG conversions and verifies originals before archiving them.
+
 Replace root `bg.png` and transparent `photo.png`, then run `pnpm make-images`.
 An optional `bg-mobile.png` supplies a mobile crop. The script preserves portrait proportions and alpha.
 Project covers are labeled SVG system concepts, not photographs of completed hardware. Replace them with authentic project media when available.
 Bambu Lab's mark comes from the bundled Simple Icons library. The SOLIDWORKS red cube is stored locally in `public/logos/solidworks-cube.png` ([asset source](https://www.pngegg.com/en/png-nmikn)). Skill badges display each label once, even when no logo is available.
 
 ## Email and deployment
+The contact form opens a prefilled Gmail compose draft addressed to the portfolio owner's email. Visitors review and send it in Gmail; the website does not send or store their message. A `mailto:` link supports another email app. Gmail may open in the browser or an installed app depending on the visitor's device settings. The existing `/api/contact` endpoint is retained but is not called by the form.
+
 Copy `.env.example` to `.env.local`. Set `NEXT_PUBLIC_SITE_URL`, `RESEND_API_KEY`, `CONTACT_TO_EMAIL`, and `CONTACT_FROM`.
 Verify your sending domain with Resend. Development without credentials logs messages; production returns 503.
 

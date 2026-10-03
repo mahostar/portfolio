@@ -4,7 +4,9 @@ import {
   Camera,
   Cpu,
   Leaf,
-  ScanFace,
+  GraduationCap,
+  Film,
+  FileArchive,
   Radio,
   Workflow,
 } from "lucide-react";
@@ -17,11 +19,16 @@ const motifs = {
   smarthart: Activity,
   algobrain: BrainCircuit,
   cyclops: Workflow,
-  "depthfusion-vit": ScanFace,
+  eazycode: GraduationCap,
+  movinight: Film,
+  shrinkify: FileArchive,
   "remote-pc-power": Radio,
   niotoshield: Cpu,
 };
 export const categoryColors: Record<string, string> = {
+  "Web + Education": "#7cf2c2",
+  "Desktop + Discovery": "#b9a8ff",
+  "Desktop + Media": "#ffd400",
   "AI + Edge": "#7fd8ff",
   "IoT + Hardware": "#7cf2c2",
   "AI + IoT": "#ffd400",

@@ -88,9 +88,9 @@ export default async function CaseStudy({
         </h1>
         <p className="case-summary">{project.summary}</p>
       </div>
-      <div className="case-cover">
+      <div className="case-cover" style={project.coverFit === "contain" ? { background: "#fff" } : undefined}>
         {project.coverVideo ? (
-          <video src={project.coverVideo} poster={project.cover} controls playsInline preload="metadata" aria-label={`${project.title} principal demonstration`} style={{ width: "100%", height: "100%", objectFit: "contain" }} />
+          <video src={project.coverVideo} poster={project.cover} controls playsInline preload="none" aria-label={`${project.title} principal demonstration`} style={{ width: "100%", height: "100%", objectFit: "contain" }} />
         ) : <Image
           src={project.cover}
           style={{ objectFit: project.coverFit }}

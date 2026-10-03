@@ -39,7 +39,7 @@ export const site = {
   projectsIntro: "Embedded hardware, machine learning, and software built around real problems.",
   heroBg: "/images/hero-bg.webp",
   heroBgMobile: "/images/hero-bg-mobile.webp",
-  portrait: "/images/professional-portrait-cutout.png",
+  portrait: "/images/professional-portrait-cutout.webp",
 };
 
 export const monogram = site.initials;

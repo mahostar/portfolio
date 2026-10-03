@@ -3,8 +3,9 @@ title: "SmartHart"
 slug: "smarthart"
 pipeline: ["VITAL SIGNS","BiLSTM","DASHBOARD"]
 category: "AI + IoT"
-summary: "BiLSTM anomaly detection with generated vital-sign data and a live dashboard."
-cover: "/images/projects/smarthart.svg"
+summary: "A simulated vital-sign pipeline with seven-feature sequence classification and live charts."
+cover: "/images/projects/smarthart.webp"
+coverFit: "contain"
 year: 2025
 tech: ["python","tensorflow"]
 featured: false
@@ -13,16 +14,43 @@ role: "Designer & developer · academic project"
 placeholder: false
 ---
 ## Problem
-A monitoring system needs to detect changes across several vital signs and display them clearly over time. SmartHart explores that pipeline with generated physiological data.
+An isolated reading tells only part of a monitoring story. A sequence can reveal how several signals change together, but making that useful requires a consistent path from data generation to preprocessing, inference, and visualization.
+
+SmartHart explores that path with simulated blood pressure, heart rate, oxygen saturation, and respiratory rate. It is an academic prototype for studying sequence classification and monitoring interfaces. Its current data source is a configurable simulator, rather than a deployed patient-sensor network.
 
 ## What I built
-I built a data generator, a BiLSTM anomaly-detection model, and a Tkinter dashboard for blood pressure, heart rate, oxygen saturation, and respiration. The repository contains separate generation, training, and model-running tools.
+The repository separates three responsibilities: generating labeled readings, training a temporal classifier, and running an interactive Tkinter dashboard. The dashboard plots signals, displays the predicted class, and compares predictions with the simulator's known labels.
+
+The simulator includes normal conditions and timed anomaly scenarios. A scenario changes several signal distributions over its duration, rather than changing just one number to an outlier. Controls adjust generation frequency and anomaly probability, making it possible to explore transitions and inspect how the classifier reacts.
+
+The supplied cover is a visual overview. The implementation details below come from the repository's Python files.
 
 ## How it works
-The generator creates timestamped vital-sign sequences with anomaly scenarios. A two-layer BiLSTM learns from those sequences. The dashboard runs the model on incoming windows and visualizes the readings and predictions.
+### Turn five measurements into seven features
+Training starts by validating CSV columns, parsing timestamps, dropping invalid timestamps, and sorting readings chronologically. Five measurements become seven features by adding the difference between systolic and diastolic pressure, and heart rate divided by systolic pressure with a small denominator guard.
+
+These derived features encode relationships between signals. They are inputs to a classification experiment, not independent evidence that the system can diagnose a medical condition.
+
+Preprocessing scales the features and encodes class labels. It groups readings into ten-step sequences, each labeled using its last reading. The configured training run uses nonoverlapping windows. A window crossing a scenario boundary can therefore contain mixed conditions while still having one target class.
+
+### Classify a completed window
+The network stacks bidirectional LSTM layers with 128 and 64 units, dropout, a dense hidden layer, and a softmax output. Early stopping monitors validation loss and restores the selected weights. Evaluation includes a confusion matrix, per-class classification report, and ROC curves, rather than accuracy alone.
+
+Bidirectionality operates inside the completed ten-reading window. The dashboard does not require future readings beyond that window: it waits for enough samples, scales the buffer, reshapes it into one sequence of ten rows and seven features, and predicts the class of the latest reading.
+
+### Ship preprocessing with the model
+Training saves the model, scaler, and label order as separate artifacts. The dashboard loads those same artifacts and reconstructs the same seven features in the same order. This is an essential inference contract: a correctly loaded network can still produce unreliable output if runtime scaling or feature order differs from training.
+
+After the first ten readings, the dashboard advances a sliding window one sample at a time. Its displayed accuracy compares predictions with the simulator's current labels and retains up to 100 recent comparisons. That percentage is a moving simulation result, rather than a fixed held-out test score or confidence estimate for one prediction.
 
 ## Result
-The project reports 98.34% accuracy and AUC 1.00 in its generated-data evaluation, with about 93% accuracy on a ten-point window. These results concern a research prototype and synthetic data; they are not clinical validation. Reinforcement-learning resource optimization remains future work.
+SmartHart demonstrates a complete simulation-to-inference workflow in the [public repository](https://github.com/mahostar/SmartHart). The same data contract connects offline training and the live dashboard, while the simulator makes labels available for immediate feedback.
+
+The documentation reports strong generated-data results, but those figures are not a new benchmark from this review. The more useful outcome is an inspectable experiment: change the simulation, observe a transition, and see which classes the model confuses. Resource-management extensions described in the documentation remain future work.
 
 ## What I would improve
-The next study should test external, properly sourced datasets, quantify false alarms, and evaluate missing or noisy readings. Clinical use would require a separate validation process.
+The scaler is currently fitted before the chronological train/test split. I would fit preprocessing on the training partition only, then apply it unchanged to validation and test data. I would also isolate simulation runs across partitions so neighboring windows cannot make evaluation look easier than an independent run.
+
+Next, I would test missing readings, noisy inputs, class imbalance, and windows crossing scenario boundaries. Per-class recall, false alarms, and inference latency would be more useful than a single accuracy figure. External datasets and a separate validation process would be necessary before claiming real-world health-monitoring performance.
+
+Source references: [data generator](https://github.com/mahostar/SmartHart/blob/main/DataGenerator.py), [training and preprocessing](https://github.com/mahostar/SmartHart/blob/main/modelTraining.py), [live inference dashboard](https://github.com/mahostar/SmartHart/blob/main/RunTheModel.py).

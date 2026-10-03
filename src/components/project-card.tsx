@@ -25,7 +25,10 @@ export function ProjectCard({
       }
       aria-label={`View project: ${project.title}`}
     >
-      <div className={`project-cover ${styles.cover}`}>
+      <div
+        className={`project-cover ${styles.cover}`}
+        style={project.coverFit === "contain" ? { background: "#fff" } : undefined}
+      >
         {project.cover.endsWith(".svg") && project.pipeline.length > 0 ? (
           <ProjectSchematic slug={project.slug} pipeline={project.pipeline} />
         ) : (
@@ -40,14 +43,6 @@ export function ProjectCard({
         {project.year && <span className={`project-year ${styles.year}`}>{project.year}</span>}
       </div>
       <div className={`project-content ${styles.content}`}>
-        {!featured && (
-          <div className="project-chips">
-            <span className={styles.category}>{project.category}</span>
-            {project.placeholder && process.env.NODE_ENV === "development" && (
-              <span className="sample-tag">Sample</span>
-            )}
-          </div>
-        )}
         <Heading className={`project-title ${styles.title}`}>{project.title}</Heading>
         <p className={`project-summary ${styles.summary}`}>{project.summary}</p>
         <div className={`project-bottom ${styles.bottom}`}>

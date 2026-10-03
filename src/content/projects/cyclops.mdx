@@ -3,8 +3,9 @@ title: "Cyclops"
 slug: "cyclops"
 pipeline: ["RETRIEVAL","SYNTHESIS","REPORT"]
 category: "AI + Agents"
-summary: "A staged research pipeline connecting retrieval, document processing, and reports."
-cover: "/images/projects/cyclops.svg"
+summary: "A staged research engine turning a clarified question into organized web and paper evidence."
+cover: "/images/projects/cyclops.webp"
+coverFit: "contain"
 year: 2025
 tech: ["python"]
 featured: false
@@ -13,16 +14,44 @@ role: "AI & pipeline developer"
 placeholder: false
 ---
 ## Problem
-Long research tasks need organized retrieval and document processing so that a final report can be traced back to its sources.
+Deep research fails in several ways before writing begins. The question may be too vague, results may repeat the same source, a paper may be unavailable, or a PDF may hide important information inside figures and tables.
+
+Cyclops treats research as a sequence of evidence-processing tasks. Its goal is to turn an initial question into a clearer brief, collect relevant web and academic material, and produce organized reports that retain connections to their sources.
 
 ## What I built
-I developed Cyclops as a research-agent pipeline, combining retrieval-augmented generation, staged processing, scraping, PDF handling, and report generation.
+I built a Python workflow with separate stages for interviewing the user, generating queries, collecting sources, removing duplicates, downloading documents, extracting information, and writing reports. The implementation is private; this article focuses on its behavior and architecture.
+
+The supplied cover is a concept overview. The reviewed implementation is a staged research pipeline, so the illustrated interface and feature labels should not be treated as proof that every depicted screen is implemented.
 
 ## How it works
-The workflow moves from queries through source collection and document processing to synthesis. JSON state and deduplication help organize long-running stages.
+### Start with a research brief
+The opening stage collects research intent and source preferences. Query generation expands the brief into searches appropriate to the topic. Later analysis uses that intent and its relevance criteria when deciding which information is useful.
+
+Finding a document and finding an answer are different tasks. A broadly related paper may appear in search results without supporting the specific question being investigated.
+
+### Process papers and web pages differently
+The academic path discovers paper links, removes repeated results, resolves document locations, and downloads PDFs. An additional search path looks for alternative document sources when the first route is insufficient. Another deduplication pass limits repeated work across sources.
+
+PDF analysis goes beyond treating a document as one plain text block. The implementation examines page complexity and includes paths for text extraction, tables, OCR, and rendered page images. Complex pages can be processed differently from ordinary text pages, preserving information a text-only pass may overlook.
+
+The web path collects URLs, deduplicates them, and retrieves content through browser workers. Saved pages are analyzed in batches before their results are assembled into a web report. Keeping the paths separate lets the extraction method match the material.
+
+### Make intermediate work visible
+Query lists, filtered URLs, extracted content, and analysis outputs are saved between stages. These artifacts help locate where a weak result began: discovery, download, extraction, relevance filtering, or synthesis.
+
+The sequence runner executes stages in order and stops when a stage fails or a required script is missing. This prevents downstream work after an explicit process failure. It is still a simple runner, rather than a durable workflow service with automatic resumption and versioned checkpoints.
+
+### Preserve a route back to evidence
+Paper analysis records relevance information and produces structured summaries. The academic report combines summaries with references to retained local PDFs, while the web report follows its own collected material. Document links give the reader a route back to evidence, although links alone do not prove that each sentence is supported.
+
+The reviewed folder contains academic and web report stages. A combined final PDF and video-research path appear in planning notes, so they are not presented here as completed outputs of this runner.
 
 ## Result
-Cyclops connects source collection, document processing, and report generation in extended research runs. The implementation is private; its staged workflow is the focus of this case study.
+Cyclops connects question clarification, source collection, document processing, and report generation in one inspectable workflow. Its useful design idea is separating research into stages with visible inputs and outputs: a report can be improved by fixing the evidence pipeline that produced it.
+
+The local implementation includes generated reports and intermediate analysis artifacts. No research-quality score or execution benchmark is claimed here, and private source code is not distributed with the portfolio.
 
 ## What I would improve
-The next iteration should make citation checks and evaluation of unsupported statements explicit, while improving local-model and OCR processing.
+I would add a run manifest recording input hashes, completed stages, output locations, and failures. That would allow a failed extraction to resume without repeating successful downloads and prevent stale artifacts from entering a new report.
+
+Citation validation should connect important statements to specific pages or passages, with uncertain findings visibly marked. URL normalization also needs care: removing all query parameters can merge genuinely different documents. A stronger pipeline would retain original URLs, use source-aware canonicalization, and compare downloaded content hashes before deciding two sources are identical.

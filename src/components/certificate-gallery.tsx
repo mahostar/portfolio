@@ -12,7 +12,7 @@ function IeltsCertificate({ item, compact = false }: { item: Certificate; compac
   return (
     <div className={`${styles.paper}${compact ? ` ${styles.compact}` : ""}`}>
       <div className={styles.brandRow}>
-        <Image className={styles.logo} src="/images/brands/ielts-logo.png" alt="IELTS" width={1280} height={482} sizes="160px" />
+        <Image className={styles.logo} src="/images/brands/ielts-logo.webp" alt="IELTS" width={640} height={241} sizes="160px" />
         <span className={styles.previewLabel}>Public result summary</span>
       </div>
       <div className={styles.heading}>

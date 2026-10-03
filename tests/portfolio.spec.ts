@@ -13,7 +13,7 @@ for (const width of widths) {
     await page.setViewportSize({ width, height });
     await page.emulateMedia({ reducedMotion: "reduce" });
     await page.goto("/");
-    await expect(page.locator("h1")).toHaveText("Med WassimMbarek.");
+    await expect(page.locator("h1")).toHaveText("Mohamed WassimMbarek.");
     await page.evaluate(() => document.fonts.ready);
     await page
       .locator(".portrait img")
@@ -83,7 +83,7 @@ test("mobile targets, stacked projects, and active navigation", async ({ page })
     expect(cards[index].top).toBeGreaterThan(cards[index - 1].bottom);
     expect(cards[index].left).toBe(cards[0].left);
   }
-  await expect(page.getByRole("link", { name: "Explore all 8 projects" })).toBeVisible();
+  await expect(page.getByRole("link", { name: /Explore all \d+ projects/ })).toBeVisible();
   await page
     .locator(".bottom-nav")
     .getByRole("link", { name: "About", exact: true })
@@ -119,26 +119,22 @@ test("twelve-letter names fit on a small phone", async ({ page }) => {
     .toBe(true);
 });
 
-test("case-study routes and category filters", async ({ page }) => {
+test("case-study routes and unfiltered project list", async ({ page }) => {
   await page.goto("/projects");
-  await expect(page.locator(".project-list .project-card")).toHaveCount(8);
-  const preserved = await page.evaluate(() => {
-    (window as Window & { navigationMarker?: boolean }).navigationMarker = true;
-    return true;
-  });
-  expect(preserved).toBe(true);
-  await page.getByRole("link", { name: "Electronics + BCI", exact: true }).click();
-  await expect(page.locator(".project-list .project-card")).toHaveCount(1);
-  expect(
-    await page.evaluate(
-      () => (window as Window & { navigationMarker?: boolean }).navigationMarker,
-    ),
-  ).toBe(true);
-  await page.goBack();
-  await expect(page.locator(".project-list .project-card")).toHaveCount(8);
+  const projectCount = Number(await page.locator(".catalog-total strong").innerText());
+  expect(projectCount).toBeGreaterThan(0);
+  await expect(page.locator(".project-list .project-card")).toHaveCount(projectCount);
+  await expect(page.getByRole("navigation", { name: "Filter projects" })).toHaveCount(0);
+  await expect(page.locator(".project-card .project-chips")).toHaveCount(0);
   const slugs = await page
     .locator(".project-card")
     .evaluateAll((cards) => cards.map((card) => card.getAttribute("href")!));
+  expect(slugs.slice(-4)).toEqual([
+    "/projects/algobrain",
+    "/projects/cleenolve",
+    "/projects/eazycode",
+    "/projects/faza3d",
+  ]);
   for (const slug of slugs) {
     const response = await page.goto(slug);
     expect(response!.status()).toBe(200);
@@ -153,35 +149,30 @@ test("case-study routes and category filters", async ({ page }) => {
   expect(missing!.status()).toBe(404);
 });
 
-test("contact validates fields and handles a successful preview response", async ({
+test("contact validates fields and opens an encoded Gmail draft", async ({
   page,
 }) => {
   await page.goto("/");
-  await page.route("**/api/contact", (route) =>
-    route.fulfill({
-      status: 200,
-      contentType: "application/json",
-      body: '{"ok":true,"development":true}',
-    }),
-  );
+  let apiCalled = false;
+  await page.route("**/api/contact", route => { apiCalled = true; return route.abort(); });
+  // Intercept before Gmail receives any test data or requires sign-in.
+  await page.route("https://mail.google.com/**", route => route.fulfill({ body: "Draft intercepted" }));
   await page.getByRole("button", { name: "Send message" }).click();
   await expect(page.locator("#name")).toHaveAttribute("aria-describedby", "name-error");
   await expect(page.locator("#name")).toBeFocused();
   await expect(page.locator("#email-error")).toBeVisible();
-  await page.getByLabel("Name", { exact: true }).fill("Preview test");
+  await page.getByLabel("Name", { exact: true }).fill("Preview & test");
   await page.getByLabel("Email", { exact: true }).fill("preview@example.com");
   await page
     .getByLabel("Message", { exact: true })
-    .fill("This is a local preview test of the portfolio contact form.");
-  await page.waitForTimeout(3100);
-  const sent = page.waitForResponse("**/api/contact");
+    .fill("A project idea with & symbols, + signs, and a new line.\nPlease reply with details.");
   await page.getByRole("button", { name: "Send message" }).click();
-  const response = await sent;
-  expect(response.status()).toBe(200);
-  await expect(
-    page.getByText("Preview recorded locally. No email was sent.", { exact: true }),
-  ).toBeVisible();
-  await expect(page.locator("#name")).toHaveValue("");
+  await page.waitForURL("https://mail.google.com/**");
+  const draft = new URL(page.url()).searchParams;
+  expect(draft.get("to")).toBe("medwassimmbarek@gmail.com");
+  expect(draft.get("su")).toBe("Portfolio enquiry from Preview & test");
+  expect(draft.get("body")).toBe("A project idea with & symbols, + signs, and a new line.\nPlease reply with details.\n\nFrom: Preview & test\nReply email: preview@example.com");
+  expect(apiCalled).toBe(false);
 });
 
 test("contact rejects malformed, fast, and oversized requests and silently absorbs spam", async ({
@@ -216,25 +207,18 @@ test("contact rejects malformed, fast, and oversized requests and silently absor
   expect(await honeypot.json()).toEqual({ ok: true });
 });
 
-test("contact keeps the message after a server failure", async ({ page }) => {
-  await page.route("**/api/contact", (route) =>
-    route.fulfill({
-      status: 503,
-      contentType: "application/json",
-      body: '{"error":"Email is not configured"}',
-    }),
-  );
+test("contact keeps invalid drafts and offers another email app", async ({ page }) => {
   await page.goto("/");
+  await page.getByRole("button", { name: "Send message" }).click();
+  await expect(page.locator("#name-error")).toBeVisible();
   await page.getByLabel("Name", { exact: true }).fill("Preview test");
-  await page.getByLabel("Email", { exact: true }).fill("preview@example.com");
+  await page.getByLabel("Email", { exact: true }).fill("invalid");
   await page
     .getByLabel("Message", { exact: true })
     .fill("This message must remain available after the server fails.");
-  await page.waitForTimeout(3100);
   await page.getByRole("button", { name: "Send message" }).click();
-  await expect(page.locator(".contact-form [role='alert']")).toHaveText(
-    "Could not send. Please email medwassimmbarek@gmail.com.",
-  );
+  await expect(page.locator("#email-error")).toBeVisible();
+  await expect(page.getByRole("link", { name: "Use another email app" })).toHaveAttribute("href", "mailto:medwassimmbarek@gmail.com");
   await expect(page.locator("#message")).not.toHaveValue("");
 });
 
@@ -256,7 +240,7 @@ test("reduced motion, keyboard focus, and local assets", async ({ page }) => {
   const external: string[] = [];
   page.on("request", (request) => {
     if (
-      !request.url().startsWith("http://localhost:3000") &&
+      !request.url().startsWith(new URL(process.env.PREVIEW_URL || "http://localhost:3000").origin) &&
       !request.url().startsWith("data:")
     )
       external.push(request.url());

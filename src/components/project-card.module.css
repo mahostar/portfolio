@@ -49,9 +49,6 @@
 .card[data-project="easyshield"] .cover {
   background: #fff;
 }
-.card[data-project="plantini"] .cover {
-  background: center / cover no-repeat url("/images/evidence/projects/plantini/concept-renders/tower-concept-still--091.webp");
-}
 .year.year {
   position: absolute;
   right: 20px;

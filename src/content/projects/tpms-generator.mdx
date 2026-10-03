@@ -1,30 +1,57 @@
 ---
 slug: tpms-generator
-title: TPMS Generator
+title: TPMS Studio
 category: 3D + Design
-summary: 'A Python engine for generating mathematical, 3D-printable TPMS structures.'
+summary: 'A desktop geometry engine that turns periodic surface equations into closed, 3D-printable meshes.'
 tech:
   - python
   - cad
-cover: /images/evidence/projects/tpms-generator/models/blue-tpms-mesh--009.webp
+cover: /images/projects/tpms-generator.webp
+coverFit: contain
 year: null
 featured: false
 links: {}
-role: ''
+role: 'Geometry engine and desktop-tool development'
 placeholder: false
 pipeline: []
 ---
 ## Problem
-Generating a 3D-printable mathematical surface requires control over its geometry, wall thickness and output mesh.
+Triply Periodic Minimal Surfaces are attractive for lightweight structures, filters, and lattice-like parts because a small mathematical rule can repeat through a volume. The hard part is turning that rule into a mesh that a printer or CAD workflow can use.
+
+A surface equation alone does not specify physical wall thickness, part dimensions, how many unit cells fit in the part, mesh resolution, or whether the exported model is closed. TPMS Studio treats those as first-class engineering inputs instead of leaving them as manual fixes after export.
 
 ## What I built
-I developed a Python engine for Triply Periodic Minimal Surface structures, with controllable cell repetition, level-set parameters and wall thickness.
+TPMS Studio is a Python geometry engine with a desktop interface for generating TPMS shells and exporting meshes. It includes Gyroid, Primitive, Diamond, IWP, Neovius, and BCC templates, plus a custom-equation path. The interface runs generation in a worker thread, updates a 3D view, reports triangle count and watertight status, and exports the current result as STL.
+
+The configuration captures reproducible geometry: physical dimensions in millimetres, unit-cell counts along each axis, an isovalue that changes the topology and open-space balance, wall thickness, and either a target file size or an explicit grid resolution.
 
 ## How it works
-The engine combines implicit surface generation, mesh extraction, optimization, validation and binary STL export.
+### Describe the structure as a scalar field
+For every point in a 3D grid, the engine evaluates a periodic mathematical function. For a Gyroid, for example, the field combines sine and cosine terms along all three axes. Unit-cell count and physical dimensions determine the angular frequency, so the same formula can repeat more densely without changing the requested part size.
+
+The isovalue shifts the field before extracting geometry. This changes the balance of material and void space, which is why it belongs in the saved configuration rather than being treated as a cosmetic slider.
+
+### Turn a zero-thickness surface into a printable shell
+An implicit TPMS surface has no thickness. The engine converts it into a shell by keeping the region where the absolute field value falls within half the requested wall thickness. In effect, the mathematical surface becomes the centre plane of a solid band.
+
+The engine pads the field with outside values before extracting the isosurface. That forces the mesh to close at the domain boundary instead of leaving open edges where the periodic pattern reaches the box. It then uses marching cubes to convert the sampled 3D field into vertices and triangular faces, rescales the vertices into millimetres, merges coincident points, and fixes normals.
+
+### Choose resolution before mesh extraction
+Mesh resolution controls both surface fidelity and file size. Rather than generate an excessively dense mesh and simplify it afterwards, the engine estimates a grid dimension from a target triangle budget. It also applies a minimum density per unit cell so curved features are not undersampled, and a soft cap to limit memory use.
+
+This is a useful trade-off, not a guarantee. Triangle count depends on the formula, thickness, isovalue, and dimensions, so the file-size result is an estimate. A serious production workflow should record the actual output size and allow a controlled retry if it misses the target.
+
+### Validate the mesh before export
+After generation, the engine checks whether the mesh is watertight and reports its Euler number alongside triangle count. A watertight mesh is an important prerequisite for reliable solid printing, but it is not the same thing as a successful print. Thin walls, very small features, unsupported overhangs, material behaviour, and a slicer's settings still matter.
+
+The application exposes hooks for curvature and periodicity checks, but the reviewed generation path currently performs the topology check directly. The custom-equation feature evaluates expressions inside a restricted math namespace; it needs stronger parsing if equations are ever accepted from an untrusted source.
 
 ## Result
-The supplied screenshots show several generated mesh structures. The workflow is designed to keep the exported models within practical file-size limits.
+The generated meshes in the project gallery show several TPMS variants produced by the workflow. The source implements the path from parameterised field to shell mesh, validation result, and STL export, with a desktop interface that keeps expensive generation work off the UI thread.
+
+No mechanical performance, porosity, flow-rate, or printed-part benchmark is claimed here. Those properties depend on the specific geometry, material, print orientation, and manufacturing process.
 
 ## What I would improve
-A future update will include exported examples, print results and documented validation checks for representative geometries.
+I would add automatic wall-thickness and minimum-feature checks based on a selected printer and nozzle profile, then run a slicer estimate before presenting a part as ready to print. The export record should include every input parameter, actual triangle count, actual file size, validation result, and a hash of the STL so the same part can be reproduced later.
+
+For custom equations, I would replace direct expression evaluation with an abstract syntax tree that permits only approved operators and functions. I would also add a regression suite of known geometries that checks closure, dimensions, periodic boundary alignment, and mesh stability across resolutions.

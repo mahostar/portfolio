@@ -1,38 +1,23 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
-import { ArrowUpRight, LoaderCircle } from "lucide-react";
-import dynamic from "next/dynamic";
+import { useState } from "react";
+import { ArrowUpRight } from "lucide-react";
 import { LiquidGlassButton } from "./liquid-glass";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-const Toaster = dynamic(
-  () => import("@/components/ui/sonner").then((module) => module.Toaster),
-  { ssr: false },
-);
 
 type FieldErrors = Partial<Record<"name" | "email" | "message" | "form", string>>;
 export function ContactForm({ email, note }: { email: string; note: string }) {
-  const loadedAt = useRef(0);
   const [errors, setErrors] = useState<FieldErrors>({});
-  const [sending, setSending] = useState(false);
-  const [feedback, setFeedback] = useState(false);
-  useEffect(() => {
-    loadedAt.current = Date.now();
-  }, []);
   async function submit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    if (sending) return;
-    setFeedback(true);
     const form = event.currentTarget;
     const data = new FormData(form);
     const { contactSchema } = await import("@/lib/contact-schema");
-    const parsed = contactSchema.safeParse({
+    const parsed = contactSchema.pick({ name: true, email: true, message: true }).safeParse({
       name: data.get("name"),
       email: data.get("email"),
       message: data.get("message"),
-      website: data.get("website") || "",
-      loadedAt: loadedAt.current,
     });
     if (!parsed.success) {
       const next: FieldErrors = {};
@@ -44,47 +29,27 @@ export function ContactForm({ email, note }: { email: string; note: string }) {
       form.querySelector<HTMLElement>(`[name="${Object.keys(next)[0]}"]`)?.focus();
       return;
     }
-    if (Date.now() - loadedAt.current < 3000) {
-      setErrors({ form: "Please wait a moment, then send your message again." });
+    if (!email) {
+      setErrors({ form: "The contact email is unavailable. Please try again later." });
       return;
     }
     setErrors({});
-    setSending(true);
-    try {
-      const response = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(parsed.data),
-      });
-      if (!response.ok) throw new Error("Unable to send");
-      const result = (await response.json()) as { development?: boolean };
-      const { toast } = await import("sonner");
-      toast.success(
-        result.development
-          ? "Preview recorded locally. No email was sent."
-          : "Message sent. I will reply by email.",
-      );
-      form.reset();
-    } catch {
-      const message = email
-        ? `Could not send. Please email ${email}.`
-        : "Could not send. Please try again later.";
-      setErrors({ form: message });
-      const { toast } = await import("sonner");
-      toast.error(message);
-    } finally {
-      setSending(false);
-    }
+    const query = new URLSearchParams({
+      view: "cm",
+      fs: "1",
+      to: email,
+      su: `Portfolio enquiry from ${parsed.data.name}`,
+      body: `${parsed.data.message}\n\nFrom: ${parsed.data.name}\nReply email: ${parsed.data.email}`,
+    });
+    window.location.assign(`https://mail.google.com/mail/?${query.toString()}`);
   }
   return (
     <form
       className="contact-form"
       onSubmit={submit}
-      onFocusCapture={() => setFeedback(true)}
       noValidate
       aria-label="Contact form"
     >
-      {feedback && <Toaster theme="light" position="top-center" richColors closeButton />}
       {note && <p className="form-note">{note}</p>}
       <div className="form-row">
         {(
@@ -144,38 +109,21 @@ export function ContactForm({ email, note }: { email: string; note: string }) {
           </p>
         )}
       </div>
-      <div className="honeypot" aria-hidden="true">
-        <label htmlFor="website">Website</label>
-        <input id="website" name="website" type="text" tabIndex={-1} autoComplete="off" />
-      </div>
       {errors.form && (
         <p className="field-error" role="alert">
           {errors.form}
         </p>
       )}
-      {errors.form && email && (
+      {email && (
         <a className="text-link contact-email-fallback" href={`mailto:${email}`}>
-          Send an email instead <ArrowUpRight size={16} />
+          Use another email app <ArrowUpRight size={16} />
         </a>
       )}
-      <LiquidGlassButton type="submit" disabled={sending}>
-        {sending ? (
-          <>
-            Sending
-            <LoaderCircle size={18} className="sending-icon" />
-          </>
-        ) : (
-          <>
+      <LiquidGlassButton type="submit">
             Send message
             <ArrowUpRight size={18} />
-          </>
-        )}
       </LiquidGlassButton>
-      {process.env.NODE_ENV === "development" && (
-        <p className="development-note">
-          Preview form · messages are logged locally until email is configured.
-        </p>
-      )}
+      <p className="form-note">Opens a draft in Gmail. Review it and press Send there.</p>
     </form>
   );
 }

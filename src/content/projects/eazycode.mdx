@@ -1,0 +1,57 @@
+---
+title: "EazyCode"
+slug: "eazycode"
+pipeline: ["COURSES", "ENROLLMENT", "LEARNING"]
+category: "Web + Education"
+summary: "A training platform connecting course discovery, enrollment, and learner schedules."
+cover: "/images/projects/eazycode.webp"
+coverFit: "contain"
+year: null
+tech: ["react", "javascript", "firebase"]
+featured: false
+links: {"demo":"https://eazycodeacademy.com"}
+role: "Platform developer"
+placeholder: false
+---
+## Problem
+Publishing a course catalogue is only the beginning of running a training platform. The harder work starts when a learner enrolls in several courses, an administrator changes their access, or two live sessions compete for the same person's time.
+
+EazyCode connects these workflows for a technology training platform in Tunisia. Its public catalogue covers AI, cloud computing, web development, cybersecurity, and certification-oriented training. The engineering challenge is keeping the catalogue, enrollment records, and learning spaces consistent as the programme changes.
+
+## What I built
+The application combines a React and Vite frontend, React Router navigation, Firestore-backed course and enrollment data, and separate administration, learner, and trainer experiences. Course detail and account pages load through lazy imports, with a shared loading fallback rather than loading every dashboard with the landing page.
+
+<img src="/images/projects/eazycode-courses.webp" alt="EazyCode course catalogue with training cards and enrollment actions" width="1600" height="798" loading="lazy" />
+
+Beyond the public site, the implementation includes configurable enrollment questions, coupon pricing, participant management, course scheduling, and enrollment email integration. The repository is private; this case study describes the architecture without distributing its source.
+
+## How it works
+### Treat enrollment as a relationship
+One of the most useful design decisions is matching enrollment records by course ID first, while retaining title matching for older records. A stable identifier survives a course rename; the compatibility path lets older data remain usable during migration.
+
+Account updates reconcile the learner's selected courses against existing enrollment rows. The process keeps and updates a matching row, creates a row for a newly selected course, and removes rows no longer represented in the selection. It also normalizes email addresses before matching them. This is more deliberate than appending another enrollment whenever an administrator saves an account.
+
+The important lesson is that reconciliation is a desired-state operation: the selected course set describes what should exist. The current implementation performs multiple Firestore operations, so the algorithm itself does not guarantee an atomic update.
+
+### Make flexible forms predictable
+Enrollment questions are represented as field definitions with stable IDs, types, and required flags. The validator handles required checkboxes separately from text-like values, so a required consent-style answer cannot pass merely because a field exists. The same definitions feed a structured WhatsApp handoff message, including the course, price information, and additional responses.
+
+Pricing distinguishes percentage discounts from fixed reductions and clamps the final price at zero. These small boundaries matter: form configuration and promotion rules should remain understandable to administrators without becoming scattered UI conditions.
+
+### Check the learner's whole schedule
+Scheduling checks combine account course assignments with enrollment-derived course IDs. This catches a learner whose relationship to a course exists in either representation. Session intervals include a default 15-minute gap, and conflict checks can exclude the session currently being edited.
+
+For example, a two-hour session beginning at 10:00 conflicts with another beginning at 12:10 because the transition window is still active. The overlap comparison uses strict inequalities, so an exact 15-minute boundary is allowed. Locally entered date-time values are converted to ISO timestamps before storage; consistent time-zone handling remains an important design consideration.
+
+### Keep email transport separate
+The Cloudflare request handler delegates enrollment email work to a shared server module and translates failures into HTTP responses. Separating the handler from message construction makes it easier to keep deployment adapters thin and evolve the email workflow without duplicating the whole application.
+
+## Result
+[EazyCode is available online](https://eazycodeacademy.com). The implementation goes beyond course presentation: it links enrollment configuration, account-course reconciliation, scheduling, and communication in one platform.
+
+The useful engineering takeaway is that education software is largely a consistency problem. A polished catalogue helps someone choose a course; stable relationships and predictable updates help the team deliver it. No enrollment, conversion, or email-delivery metrics are claimed here.
+
+## What I would improve
+I would make enrollment reconciliation transactional or move it behind an authoritative server operation, then test retries and simultaneous account edits. Scheduling should use an explicit academy time zone and test daylight-saving transitions for international learners. Email delivery would benefit from idempotency keys and recorded delivery state so a retry cannot silently send duplicate messages.
+
+For a growing catalogue, I would also replace collection-wide matching with indexed queries and introduce a clear migration path that eventually retires title-based enrollment matching.

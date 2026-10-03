@@ -2,6 +2,11 @@ import fs from "node:fs";
 import path from "node:path";
 import Image from "next/image";
 import {
+  siReact,
+  siJavascript,
+  siRust,
+  siTauri,
+  siFfmpeg,
   siPython,
   siCplusplus,
   siTensorflow,
@@ -21,6 +26,11 @@ import {
 import { getTechnologies } from "@/lib/content";
 
 const icons: Record<string, SimpleIcon> = {
+  react: siReact,
+  javascript: siJavascript,
+  rust: siRust,
+  tauri: siTauri,
+  ffmpeg: siFfmpeg,
   python: siPython,
   cplusplus: siCplusplus,
   tensorflow: siTensorflow,

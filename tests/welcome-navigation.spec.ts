@@ -154,7 +154,7 @@ test("mobile navigation and same-home repeated anchors never play welcome", asyn
   await page.locator('.bottom-nav a[href="#home"]').click();
   await expectNoWelcome(page);
   await expect(page).toHaveURL(/#home$/);
-  expect(await page.evaluate(() => scrollY)).toBe(0);
+  await expect.poll(() => page.evaluate(() => scrollY)).toBe(0);
 });
 
 test("intro completion releases Escape for home dialogs and leaves contact usable", async ({ page }) => {

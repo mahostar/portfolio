@@ -2,28 +2,51 @@
 slug: faza3d
 title: Faza3D
 category: 3D + Design
-summary: 'A storefront for 3D-printed products, custom orders and in-house fabrication.'
+summary: 'A 3D-printing storefront that separates ready-to-order products from custom fabrication requests.'
 tech:
+  - react
+  - firebase
   - cad
 cover: /images/evidence/projects/faza3d/website/store-homepage--005.webp
 year: null
 featured: false
 links: {}
-role: ''
+role: 'Storefront and custom-order workflow development'
 placeholder: false
 pipeline: []
 ---
 ## Problem
-Selling printed products brings the storefront, custom-order process and physical fabrication together.
+A small 3D-printing service has two very different order types. Ready-made products should be simple to browse and order. Custom jobs need enough information to decide whether a model can be made, how much material it needs, how long it may take, and what the customer actually wants.
+
+Treating both paths as one generic contact form hides the manufacturing decisions from the customer and creates unnecessary back-and-forth for the maker.
 
 ## What I built
-Faza3D is an online shop for products manufactured with a fleet of 3D printers. The supplied record shows the storefront, catalogue, custom-order form and printing equipment.
+Faza3D is a React storefront with a catalogue, a custom-print route, a protected admin route, and theme preferences stored in the browser. The catalogue presents a fixed set of product cards with a material weight, price, product description, and an order link to Messenger.
+
+The custom-print screen accepts either a model file or a model link, collects colour, infill, contact details, and notes, then shows an immediate planning estimate. It accepts common fabrication inputs including STL, OBJ, 3MF, STEP, and STP. The supplied gallery also documents the physical side of the service: finished prints and multiple printer setups.
 
 ## How it works
-Customers can browse the catalogue or request a custom print. The manufacturing record includes Bambu Lab, Creality and Ultimaker equipment described in the project notes.
+### Keep catalogue checkout lightweight
+The catalogue is deliberately direct. Product information is defined in the frontend, and each card sends the buyer to the same Messenger ordering channel. That can be a reasonable early operating model: customers ask questions in a familiar channel and the maker can confirm stock, colour, and delivery before accepting an order.
+
+It also exposes the limit of the current approach. Stock, orders, payments, and fulfilment status are not modelled as a transactional storefront, so Messenger is the handoff point rather than an integrated checkout.
+
+### Ask for fabrication inputs before estimating
+Custom printing needs more than a picture. The order form asks where the model comes from, the requested colour, infill, and notes. The source uses selected file size as a temporary stand-in for part weight, or a default weight for a linked model. It then combines a setup cost, an estimated material cost, an infill multiplier, and an estimated print-time charge.
+
+That is useful as an expectation-setting estimate, but it is not a slicer result. File size does not reliably describe the geometry, wall count, support requirement, material volume, or print time. The interface should label this distinction clearly so a customer understands that the final quote follows model review.
+
+### Make visual preference persistent without making it account data
+The theme switcher stores light/dark mode and the selected visual style in local storage. This makes the experience feel consistent for a returning visitor without requiring authentication or sending a preference to a server.
+
+The project includes Firebase dependencies and an admin route, but the reviewed custom-order flow currently simulates a successful submission in the browser. The source reviewed here does not show a file upload or an order record being written to a backend.
 
 ## Result
-The gallery documents the shop interface, printer setup and a finished articulated print.
+Faza3D demonstrates a useful separation between standard products and custom fabrication. The gallery supports both parts of the story: a public-facing shop interface and real printing equipment and outputs.
+
+The custom-order estimate is a frontend planning aid, not a confirmed quote, and the submitted request is not yet persisted by the reviewed code. Those boundaries matter because manufacturing promises should come from geometry and machine planning, not from a polished form alone.
 
 ## What I would improve
-The next update will add the live store link, project timeline and a detailed account of the ordering and fulfilment workflow.
+I would move models to private object storage, run a server-side parser for supported formats, and derive the quote from slicer output: filament volume, chosen material, layer height, support material, machine profile, and estimated duration. Each request should receive a status trail from intake through review, quote approval, printing, quality check, and delivery.
+
+For the catalogue, the next step is inventory and order data with a proper payment or confirmed-order state. The existing Messenger handoff can remain useful for questions, but it should not be the only record of a job once the service handles more than a small number of orders.

@@ -1,0 +1,61 @@
+---
+title: "MoviNight"
+slug: "movinight"
+pipeline: ["TMDB", "RUST + TAURI", "LOCAL LISTS"]
+category: "Desktop + Discovery"
+summary: "A Rust and Tauri movie explorer with filtered discovery and locally saved watchlists."
+cover: "/images/projects/movinight.webp"
+coverFit: "contain"
+year: null
+tech: ["rust", "tauri", "javascript"]
+featured: false
+links: {"github":"https://github.com/mahostar/MoviNight"}
+role: "Desktop application developer"
+placeholder: false
+---
+## Problem
+Finding something to watch involves two different tasks: exploring a catalogue and remembering what caught your attention. A discovery app becomes more useful when browsing, trailers, a watchlist, and viewing history share one interface.
+
+MoviNight puts those tasks in a desktop application. Catalogue data comes from TMDB, while the user's watchlist and watched history remain in local files. That distinction matters: local persistence removes the need for an account-based list service, but discovery and embedded trailers still depend on network services.
+
+## What I built
+The application uses a vanilla JavaScript interface inside Tauri v2, with Rust commands handling API calls and persistence. It supports movie and television discovery, title search, genre and language filters, streaming-provider selection, detail views, and YouTube trailers.
+
+### See the application in motion
+
+<video src="/images/projects/movinight-demo.mp4" poster="/images/projects/movinight-demo-poster.webp" aria-label="Animated MoviNight application demonstration from the project repository" width="1332" height="720" controls loop muted playsInline preload="none" style={{ width: "100%", height: "auto" }} />
+
+The source review follows the shipped frontend in `dist/main.js` and the backend in `src-tauri/src/lib.rs`. These files show the actual command boundary and data model more precisely than the README's feature list.
+
+## How it works
+### Keep the webview-to-Rust boundary explicit
+The frontend calls named Tauri commands through `invoke`. Rust deserializes TMDB responses into separate movie and TV structures, including optional poster paths and different title and release-date fields. A generic response wrapper carries results and pagination metadata.
+
+An empty query selects a discovery endpoint; a nonempty query selects a title-search endpoint. This is a useful separation because discovery and search answer different questions. Discovery asks which items match a set of catalogue constraints; search asks which names match text. The implementation appends filter parameters, but each endpoint's supported parameters still determine their effect.
+
+Streaming-provider requests currently use the US region. The source therefore supports provider filtering, but it does not establish availability in every user's country.
+
+### Use a compound identity for mixed catalogues
+Watched and watchlist records carry both a numeric ID and a content type. Before inserting a record, Rust removes an existing record with the same pair. That prevents a movie and a TV show with the same numeric ID from being treated as one item.
+
+The same identity rule belongs everywhere: card state, membership checks, deletion, and persistence. If one path compares only the numeric ID, an apparently minor shortcut can corrupt the user's intent across two catalogues.
+
+### Combine in-memory state with durable snapshots
+Rust holds the API key and both lists in mutex-protected application state. The configuration directory contains separate JSON files for configuration, watched items, and the watchlist. List mutations update memory and serialize a snapshot; retrieval can load persisted records back into state.
+
+JSON makes the storage easy to inspect and back up. The tradeoff is that each mutation rewrites a list, and a direct file write is not an atomic commit. The API key is also persisted in configuration rather than an operating-system credential vault; local storage alone should not be described as encryption.
+
+### Design the surrounding states
+The frontend distinguishes loading, empty, error, and result views. Pagination appends new cards rather than replacing the whole list, while missing poster paths use a fallback immediately. Trailer selection happens in Rust, keeping another piece of API interpretation outside the rendering code.
+
+## Result
+The [MoviNight repository](https://github.com/mahostar/MoviNight) contains a complete discovery-to-tracking workflow built around a small command interface. Its most reusable idea is pairing a web UI with native persistence while keeping media identity consistent across lists.
+
+This case study is based on source inspection, rather than a new installer or performance benchmark. Platform support and speed need separate runtime verification; the README's operating-system claims are not treated as measured compatibility here.
+
+## What I would improve
+I would reuse a configured HTTP client with timeouts and explicit status handling, make provider region selectable, and add cancellation or request-version guards so an older search cannot overwrite newer results. Persistence should write a temporary file and replace the destination atomically, while API keys should use platform credential storage.
+
+The most useful tests would exercise movie/TV ID collisions, malformed saved JSON, interrupted writes, and pagination after a filter change. These target the boundaries that can damage a watchlist, rather than merely checking that a card renders.
+
+Source references: [Rust commands and persistence](https://github.com/mahostar/MoviNight/blob/main/src-tauri/src/lib.rs), [shipped JavaScript frontend](https://github.com/mahostar/MoviNight/blob/main/dist/main.js).

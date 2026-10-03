@@ -15,6 +15,7 @@
     "check:content": "node scripts/lint-content.mjs",
     "prebuild": "node scripts/lint-content.mjs && node scripts/bundle-content.mjs",
     "make-images": "node scripts/make-images.mjs",
+    "audit:media": "node scripts/audit-media.mjs",
     "test": "playwright test",
     "test:content": "node --test tests/content.test.mjs",
     "test:ui": "playwright test --ui"

@@ -1,10 +1,11 @@
 ---
 title: "Remote PC Power Control"
 slug: "remote-pc-power"
-pipeline: ["FLUTTER","FIREBASE","ESP32 RELAY"]
+pipeline: ["CONTROL REQUEST","ETHERNET RELAY","DUAL HEARTBEATS"]
 category: "IoT + Hardware"
-summary: "An ESP32-ETH01 relay, cloud state, and a mobile app for remote computer access."
-cover: "/images/projects/remote-pc-power.svg"
+summary: "An Ethernet-connected relay and dual heartbeats for remote PC power control and visibility."
+cover: "/images/projects/remote-pc-power.webp"
+coverFit: "contain"
 year: 2024
 tech: ["espressif","cplusplus","firebase","nodejs","flutter"]
 featured: false
@@ -13,16 +14,46 @@ role: "Hardware, firmware & app developer"
 placeholder: false
 ---
 ## Problem
-Remote desktop access is only useful when the computer can be powered on and its availability can be checked.
+Remote desktop software cannot help when the computer is powered down. Solving that requires a control path that stays available independently of the PC, plus feedback about whether the controller and operating system are reachable.
+
+A motherboard power button is a momentary switch, rather than an explicit “turn on” command. The same press can start a powered-down machine or request shutdown from a running one, depending on its state and operating-system configuration.
 
 ## What I built
-I connected an ESP32-ETH01 and relay to the computer power-button circuit, with Firebase Realtime Database, a Node.js heartbeat service, and a Flutter control app. Tailscale supports remote access.
+The project combines a WT32-ETH01 Ethernet-connected ESP32 board, a relay across the motherboard's power-button contacts, Firebase Realtime Database, and a Node.js heartbeat process on the PC. A Flutter control application is described in the architecture; the reviewed folder contains firmware, the PC service, and design documents.
+
+The controller has its own power supply and network connection, so it can receive a request while the PC's operating system is unavailable. This private project exposes no repository link or credentials through the portfolio.
 
 ## How it works
-The app writes control state to the cloud. The embedded device reads that state and operates the power-button relay. A heartbeat indicates whether the computer is reachable, and remote desktop provides access after startup.
+### Translate a request into a physical action
+The control interface sets a cloud command flag. In the continuously connected firmware, a database stream delivers updates to the controller. The callback records a request; the main loop handles a one-second relay pulse and returns the relay to its inactive state.
+
+Keeping pulse timing outside the callback avoids holding the physical action inside the network event handler. The design also separates the persistent stream from ordinary command-reset and heartbeat writes.
+
+A successful pulse says the controller acted. It does not establish that the PC booted successfully or completed shutdown.
+
+### Clear stale commands before accepting new ones
+The connected firmware blocks relay activation while a command reset remains unconfirmed. On startup, it clears an old pending command before allowing ordinary operation. After a pulse, it resets the flag and retries failed writes.
+
+This matters during reboot and network recovery. A flag left true must not be interpreted as a new click every time a connection returns. The guard is useful, but a boolean still lacks a unique request identity and expiration time.
+
+### Observe two independent systems
+The controller publishes its own heartbeat, while the PC service updates a separate timestamp every five seconds. The service uses the database's server timestamp, avoiding dependence on the PC's local clock for the stored value. It sends immediately at startup and continues periodically.
+
+When the service stops, it leaves the last timestamp intact. The interface can interpret its age to decide whether contact is fresh. Separate heartbeats distinguish “the controller is reachable” from “the PC service is reporting.”
+
+A stale PC heartbeat can mean shutdown, a crash, a stopped service, or a network outage. The honest state is “not reporting,” rather than a definitive claim about electrical power. This uncertainty matters when another press could affect an already-running machine.
+
+### Explore latency against active time
+The folder includes a deep-sleep firmware variant. It wakes periodically to check for a request, performs a pulse when needed, publishes periodic heartbeats, and returns to sleep. The sleep interval is ten seconds, with ordinary heartbeats every third wake cycle.
+
+This reduces active time but adds polling delay and repeated connection setup. It also handles pending commands differently from the connected firmware. These are alternative strategies, rather than interchangeable guarantees; selecting one requires tests of response time, reconnect behavior, and command replay under failure.
 
 ## Result
-I use the system to power on and access my computer remotely. The embedded relay, heartbeat service, and mobile app have supported this workflow over multiple years.
+The implementation provides an independent hardware action path and separate controller/PC visibility. It addresses a part of remote access that desktop software cannot supply: requesting a physical button action before an operating system is available.
+
+The practical lesson is to separate requested intent, controller execution, and observed PC availability. They are related signals, but none safely substitutes for the others. This article describes the source and architecture rather than claiming a new hardware endurance or power-consumption test.
 
 ## What I would improve
-More structured logging, command acknowledgement, and recovery tests would help distinguish a network outage from a powered-off or unresponsive computer.
+I would replace the boolean flag with expiring requests carrying unique IDs, then record acknowledgements for receipt and execution. The interface should distinguish fresh contact, stale contact, and unknown state, with a deliberate action when the PC state is uncertain.
+
+Recovery tests should cover a connection lost immediately after a pulse, failed acknowledgement, reboot with a pending request, and a heartbeat service that stops while the PC remains running. For the sleep variant, measuring wake-to-action latency and actual energy use would establish whether the tradeoff is worthwhile.

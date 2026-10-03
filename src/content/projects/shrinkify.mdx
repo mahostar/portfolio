@@ -1,0 +1,56 @@
+---
+title: "Shrinkify"
+slug: "shrinkify"
+pipeline: ["ANALYZE", "ENCODE", "VERIFY SIZE"]
+category: "Desktop + Media"
+summary: "A Python media optimizer coordinating image engines and hardware-aware FFmpeg encoding."
+cover: "/images/projects/shrinkify.webp"
+coverFit: "contain"
+year: null
+tech: ["python", "ffmpeg"]
+featured: false
+links: {"github":"https://github.com/mahostar/Shrinkify"}
+role: "Media tooling developer"
+placeholder: false
+---
+## Problem
+A single quality slider cannot express every compression decision. JPEG, PNG, WebP, and video have different encoders, different failure modes, and different relationships between quality and file size. A useful desktop tool must coordinate those differences without making the user build command lines for every file.
+
+Shrinkify wraps that coordination in a Python and Tkinter application for Windows. The interesting work is the decision pipeline behind the interface: inspect the source, choose a format-specific strategy, run the encoder, and check whether the output actually helps.
+
+## What I built
+The main application coordinates Pillow, MozJPEG, pngquant, oxipng, FFmpeg, and ffprobe. It provides single-image and folder workflows, video batch processing, theme switching, saved configuration, and progress and diagnostic views.
+
+External executables are resolved from an `engine` directory and checked at startup. Those binaries are distributed separately from the source. This keeps the Python repository smaller, while making dependency discovery and packaging part of the product experience.
+
+## How it works
+### Choose a strategy for each format
+JPEG optimization prefers MozJPEG when available and falls back to Pillow. PNG optimization can try lossy palette quantization through pngquant, then lossless optimization through oxipng, then a Pillow fallback. WebP uses Pillow's encoder with a configured quality and method.
+
+These paths have different semantics. Palette quantization can change pixels; lossless PNG optimization changes the representation without intentionally changing the image. Presenting both as one generic quality promise would hide the decision the user is making.
+
+The intelligent image path inspects characteristics such as dimensions and image complexity, then chooses settings for the selected profile. After encoding, it compares output size with the original. If the result is no smaller, it copies the original instead. This size guard belongs to that optimization path; it is not a universal guarantee for every action in the application.
+
+### Keep expensive work off the UI thread
+Image and video batches run on background threads. Logs, progress updates, completion messages, and button state changes are scheduled back through Tkinter's `root.after` mechanism. That lets a long-running encoder finish without forcing the interface's event loop to do the encoding itself.
+
+The distinction is useful: the external process performs compression, Python coordinates it, and the UI receives updates. The current subprocess calls often capture output until completion, so the diagnostic panel should not be mistaken for a continuous FFmpeg frame-progress stream.
+
+### Probe before choosing a video command
+ffprobe supplies video metadata used to select quality, frame-rate, bitrate, and audio settings. The command builder can choose NVIDIA NVENC, Intel Quick Sync, AMD AMF, or software `libx264`. When a hardware attempt fails, the worker retries with CPU encoding.
+
+The software branch uses CRF and a preset, while hardware branches use encoder-specific quality controls. Reusing one numeric setting does not make those controls perceptually equivalent. A future tuning pass needs separate calibration for each encoder.
+
+The reviewed command builder emits H.264, adds MP4 fast-start metadata and `yuv420p`, and conditionally encodes audio as AAC. Although the README mentions H.265, this particular implementation path does not justify advertising a working H.265 selector.
+
+## Result
+The [Shrinkify repository](https://github.com/mahostar/Shrinkify) demonstrates an orchestration approach to media optimization: established encoders do the specialist work, while Python supplies selection, fallback, batch handling, and understandable feedback.
+
+The reusable lesson is that compression success has two dimensions: the process must complete, and the output must be worth keeping. The image size guard addresses the second dimension without claiming that lossy compression preserves identical visual quality. No compression ratio or throughput benchmark is claimed here.
+
+## What I would improve
+I would add cancellation, subprocess timeouts, and incremental FFmpeg progress parsing. Worker inputs should be captured from UI controls before launching a thread, keeping Tkinter access on its owning thread. Encoder selection and quality settings should move into separately testable modules; the current file also repeats a video-settings method, which makes maintenance harder.
+
+A meaningful validation set would include transparent PNGs, animated images, JPEGs with metadata, portrait videos, clips without audio, and failing GPU encoders. Each check should compare readability, dimensions, retained metadata, output size, and visual differences. Smaller output alone is insufficient evidence of a successful media transformation.
+
+Source references: [compression and worker implementation](https://github.com/mahostar/Shrinkify/blob/main/Production-Ready-ts-darkMode.py), [engine setup](https://github.com/mahostar/Shrinkify/blob/main/engine/README.md).

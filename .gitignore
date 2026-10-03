@@ -47,6 +47,7 @@ next-env.d.ts
 # Generated preview and test artifacts
 /portfolio-scaffold/
 /artifacts/
+/temp/
 /playwright-report/
 /test-results/
 

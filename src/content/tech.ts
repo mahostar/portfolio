@@ -1,6 +1,11 @@
 // Tools from the supplied CV, project records, and the owner's updates.
 export const techGroups = ["Hardware and PCB", "Firmware and IoT", "AI and Agents", "Full-stack", "3D and Design"] as const;
 export const technologies = [
+  { id: "react", name: "React", group: "Full-stack", logo: "simple:react", placeholder: false },
+  { id: "javascript", name: "JavaScript", group: "Full-stack", logo: "simple:javascript", placeholder: false },
+  { id: "rust", name: "Rust", group: "Full-stack", logo: "simple:rust", placeholder: false },
+  { id: "tauri", name: "Tauri", group: "Full-stack", logo: "simple:tauri", placeholder: false },
+  { id: "ffmpeg", name: "FFmpeg", group: "Full-stack", logo: "simple:ffmpeg", placeholder: false },
   { id: "python", name: "Python", group: "AI and Agents", logo: "simple:python", placeholder: false },
   { id: "pytorch", name: "PyTorch", group: "AI and Agents", logo: "simple:pytorch", placeholder: false },
   { id: "tensorflow", name: "TensorFlow", group: "AI and Agents", logo: "simple:tensorflow", placeholder: false },
