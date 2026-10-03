@@ -13,6 +13,19 @@ const projectSlugs = readdirSync("src/content/projects")
   .map((file) => file.slice(0, -4));
 const homeSections = ["home", "work", "about", "journey", "interests", "impact", "skills", "certificates", "contact"];
 
+test("root startup script does not warn during client navigation", async ({ page }) => {
+  const scriptWarnings: string[] = [];
+  page.on("console", (message) => {
+    if (message.text().includes("Encountered a script tag")) scriptWarnings.push(message.text());
+  });
+  await page.goto("/projects", { waitUntil: "domcontentloaded" });
+  await page.getByRole("link", { name: "Back home", exact: true }).click();
+  await expect(page).toHaveURL(/\/#work$/);
+  await page.locator('a[href="/projects"]').first().click();
+  await expect(page).toHaveURL(/\/projects$/);
+  expect(scriptWarnings).toEqual([]);
+});
+
 test.beforeEach(async ({ page }) => {
   await page.addInitScript(() => {
     const events: AuditEvent[] = [];

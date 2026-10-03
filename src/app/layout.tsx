@@ -6,7 +6,6 @@ import { MotionProvider } from "@/components/motion-provider";
 import { PortfolioMotion } from "@/components/portfolio-motion";
 import { WelcomeScreen } from "@/components/welcome-screen";
 import { GlassLab } from "@/components/glass-lab";
-import { welcomeStartupScript } from "@/lib/welcome-policy";
 import { fullName, monogram, site, siteUrl } from "@/content/site";
 import "./globals.css";
 import "./motion-design.css";
@@ -49,7 +48,7 @@ export default function RootLayout({
   return (
     <html lang="en" data-scroll-behavior="smooth" suppressHydrationWarning>
       <head>
-        <script dangerouslySetInnerHTML={{ __html: welcomeStartupScript }} />
+        <script async src="/welcome-startup.js" fetchPriority="high" />
       </head>
       <body className={`${archivo.variable} ${inter.variable}`}>
         <MotionProvider>

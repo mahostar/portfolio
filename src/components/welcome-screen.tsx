@@ -1,12 +1,13 @@
 "use client";
 
-import { useEffect, useId, useRef } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import type {} from "@/lib/welcome-policy";
 import styles from "./welcome-screen.module.css";
 
 export function WelcomeScreen({ name }: { name: string }) {
   const pathname = usePathname();
+  const [startupReady, setStartupReady] = useState(false);
   const screen = useRef<HTMLDivElement>(null);
   const dot = useRef<SVGCircleElement>(null);
   const camera = useRef<HTMLDivElement>(null);
@@ -17,6 +18,14 @@ export function WelcomeScreen({ name }: { name: string }) {
   const maskId = useId().replace(/:/g, "");
 
   useEffect(() => {
+    const ready = () => setStartupReady(true);
+    if (window.__portfolioWelcome) ready();
+    window.addEventListener("portfolio-welcome-ready", ready);
+    return () => window.removeEventListener("portfolio-welcome-ready", ready);
+  }, []);
+
+  useEffect(() => {
+    if (!startupReady) return;
     const element = screen.current;
     const boot = window.__portfolioWelcome;
     const root = document.documentElement;
@@ -189,7 +198,7 @@ export function WelcomeScreen({ name }: { name: string }) {
         previousFocus.focus({ preventScroll: true });
       }
     };
-  }, [pathname]);
+  }, [pathname, startupReady]);
 
   return (
     <div ref={screen} className={styles.screen} data-welcome-screen role="dialog" aria-modal="true" aria-labelledby="welcome-title" aria-describedby="welcome-subtitle" aria-hidden="true">
