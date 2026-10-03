@@ -1,0 +1,306 @@
+{
+  "projects": [
+    {
+      "data": {
+        "title": "AlgoBrain BCI",
+        "slug": "algobrain",
+        "pipeline": [
+          "BIO-AMP",
+          "EEG / EMG",
+          "CONTROL"
+        ],
+        "category": "Electronics + BCI",
+        "summary": "A custom bio-amplifier and embedded signal-processing prototype for device control.",
+        "cover": "/images/evidence/projects/algobrain/prototype/project-exhibition-display--027.webp",
+        "year": 2023,
+        "tech": [
+          "arduino",
+          "cplusplus",
+          "pcb",
+          "python"
+        ],
+        "featured": false,
+        "links": {},
+        "role": "Project designer & R&D developer",
+        "placeholder": false
+      },
+      "body": "## Problem\r\n\r\nAlgoBrain began with a simple but demanding goal: turn a weak biological signal into a reliable physical action. The prototype explored using forehead electrodes to control a light or relay, but it also exposed the hard part of a brain-computer interface: signals from people are small, noisy, inconsistent across users, and easy to confuse with motion, muscle activity, and electrical interference.\r\n\r\nThis was a research prototype, not a clinical device and not a claim of dependable thought control. Its value was the full engineering chain: an analog front end, embedded acquisition, digital signal processing, visualization, and a hardware output that made the quality of the decision visible.\r\n\r\n## What I built\r\n\r\nI designed a custom TL074 bio-amplifier and PCB, built the enclosure and prototype hardware, and developed Arduino firmware for acquisition and control. The project files include circuit and PCB work, SPICE exploration, breadboard and recorded tests, 3D-print files, Arduino sketches, a Processing visual client, and a later Python visualizer for recording and analysis.\r\n\r\nThe analog path uses a four-stage operational-amplifier arrangement: differential acquisition, high-pass filtering, gain, and low-pass filtering. The electrode setup in the project notes uses a forehead channel with ear-mounted references. Its job is to move a microvolt-scale biological signal into the Arduino's ADC range while rejecting as much common noise and drift as practical.\r\n\r\nThe project was deliberately end to end. It did not stop at displaying a waveform: the sender can transmit processed samples over serial, and a separate receiver sketch can interpret an IR command and drive a relay with red/green status indicators.\r\n\r\n## How it works\r\n\r\n### Analog signal before software\r\n\r\nBiological signals are unforgiving of poor front-end design. The amplifier has to preserve a useful signal while the electrodes, mains interference, body movement, and the ADC reference all introduce unwanted variation. The TL074 circuit and its filter stages were the first attempt to create a signal that firmware could work with at all.\r\n\r\nThat also explains why the project is more accurately described as EEG/EMG experimentation. The hardware and code were used to investigate a forehead-based signal path, but a visible response can come from muscle activity or motion as well as any intended EEG pattern. Treating those sources as separable is a key requirement for a stronger second version.\r\n\r\n### Sampling, filtering, and envelope detection\r\n\r\nThe active data-sender sketch targets 500 samples per second from analog pin A0 and emits raw value, filtered value, and a cycle counter at 115200 baud. The firmware implements four cascaded second-order filter sections using persistent state variables, then produces a serial stream that can be inspected outside the microcontroller.\r\n\r\nThe controller sketch follows the same signal path but adds a 128-sample circular-buffer envelope. It rectifies the filtered signal, averages the recent history, applies a sensitivity factor, and compares the result with a threshold to drive an LED. At the intended 500 Hz cadence, a 128-sample window represents roughly 256 ms of history: enough to smooth a transient, but still short enough to make control feel responsive.\r\n\r\nThere is an important archival detail: the data-sender uses a `1,000,000 / SAMPLE_RATE` microsecond timer interval, while the older controller sketch uses `10,000,000 / SAMPLE_RATE`. The latter schedules ten times more slowly than its 500 Hz label suggests. The files document the prototype honestly: the timing needs to be verified on the exact sketch and hardware being demonstrated.\r\n\r\n### From signal to an external action\r\n\r\nThe serial path made the prototype observable. The later Python visualizer keeps five seconds of raw and filtered data, plots a 0–50 Hz spectrum, reports basic signal statistics, and supports recording sessions for future analysis. This is the bridge between an embedded experiment and a dataset: it makes it possible to compare a user action with the signal that preceded it instead of tuning a threshold by feel alone.\r\n\r\nThe output side was kept separate. An IR receiver sketch listens for a received command, changes relay state, illuminates a red or green status indicator, and blocks repeated triggers for five seconds. This split makes the design easier to debug: signal acquisition, visual feedback, and the physical output can each be tested independently.\r\n\r\n## Result\r\n\r\nAlgoBrain placed fourth among more than 150 teams at the national innovation competition in Rades. More importantly, it produced a working record of the decisions behind a bio-signal prototype: analog amplification, custom PCB work, fixed-rate embedded acquisition, digital filtering, envelope-based control, serial visualization, and a relay output.\r\n\r\nThe prototype also revealed its limits clearly. A fixed threshold can work for a controlled demonstration but cannot account for electrode placement, user differences, fatigue, movement, or an unstable baseline. That evidence is valuable because it turns AlgoBrain v2 into a specific engineering problem rather than an abstract AI idea.\r\n\r\n## What I would improve\r\n\r\nAlgoBrain v2 should start with synchronized data collection: record the raw signal, filtered signal, event label, user, electrode placement, and session conditions together. Calibration should establish a per-user baseline before any control threshold is chosen. Artifact checks should explicitly flag blinks, movement, and obvious EMG contamination instead of treating every high envelope as intent.\r\n\r\nOn the hardware side, I would validate the analog front end with known inputs, document ADC scaling and the actual sampling rate, and add a clear safety boundary between the sensing electronics and any power output. On the software side, I would compare the current envelope baseline with simple spectral features and a small personalized classifier only after the recorded data shows a repeatable signal. The goal is not to make a bigger claim; it is to make each decision in the control chain measurable.\r\n"
+    },
+    {
+      "data": {
+        "slug": "aquaflow",
+        "title": "AquaFlow",
+        "category": "IoT + Hardware",
+        "summary": "Fish-water monitoring with custom AC-based TDS sensing, ESP32 controls and a mobile dashboard.",
+        "tech": [
+          "espressif",
+          "cplusplus",
+          "pcb",
+          "cad"
+        ],
+        "cover": "/images/evidence/projects/aquaflow/hardware/controller-enclosure-open--033.webp",
+        "year": null,
+        "featured": true,
+        "featuredOrder": 4,
+        "links": {},
+        "role": "",
+        "placeholder": false,
+        "pipeline": [
+          "SENSING",
+          "ESP32",
+          "AQUACULTURE"
+        ]
+      },
+      "body": "## Problem\r\nA fish-water system is only useful when its physical flow, measurements and operating controls are legible in the same place. AquaFlow explored that connection with a small water-tank test bench: make the equipment observable, give an operator clear status signals, and provide a practical control surface rather than treating the hardware as a black box.\r\n\r\nThe challenge was not only to assemble the plumbing and electronics. The prototype had to make a changing fish-water setup understandable: what the water level and quality readings are saying, which equipment is available to control, and when the system needs attention.\r\n\r\nThat required the same sensing foundation developed for Plantini, but applied to a different operating context. A TDS reading has to be treated as a measurement with uncertainty, not as an unquestioned dashboard number: it needs a calibration context and a controller that can tell the difference between a usable reading and one that is stale, unsettled or implausible.\r\n\r\n## What I built\r\nAquaFlow brings together three tangible pieces of the prototype:\r\n\r\n- A **water-tank test bench** with the tank, tubing and connected equipment used to exercise the physical setup.\r\n- A **controller enclosure** containing the control electronics and a multi-channel relay board for connecting equipment.\r\n- A **mobile control dashboard** that presents the system state and the operating controls in one interface.\r\n- A **proprietary AC-based TDS sensing path** and ESP32 control layer, adapted from the in-house technology developed for Plantini.\r\n\r\nThe TDS sensor, its AC excitation, analog conditioning, calibration routine and production firmware are proprietary. As with Plantini, the aim is to keep the sensing technology understandable and manufacturable in-house while protecting the implementation details that make it work.\r\n\r\nThe gallery separates the real prototype from the illustrative water-system diagram. The diagram communicates the intended flow path; the bench, wiring, enclosure and demonstration document the hardware that was actually assembled.\r\n\r\n## How it works\r\n### From the tank to a readable state\r\n\r\nThe mobile dashboard is organized around the conditions that matter to a fish-water operator: temperature, TDS and water level. In the captured interface, an urgent low-water warning and a high-TDS warning are surfaced before the lower-level controls, so attention is drawn to the condition before an action is taken.\r\n\r\nThe proprietary sensor measures a property of the water that AquaFlow uses as a TDS proxy. The AC approach avoids a persistent DC bias at the interface with the water. An ESP32 receives the conditioned sensor output, applies the private calibration and decision logic, and exposes a usable state to the rest of the system.\r\n\r\n### From a control screen to hardware\r\n\r\nThe same dashboard groups equipment controls into clear cards, including compressor and filter/pump controls. The controller enclosure shows the corresponding physical side of that design: an ESP32-based control board, power hardware and relay wiring are housed together so the prototype can connect interface-level choices to external equipment.\r\n\r\nThe private firmware is responsible for more than passing a number to the screen. A reliable control layer needs to consider whether the reading is fresh, whether the water has settled after an equipment change, and whether a deviation is meaningful enough to surface as an alert. Those decisions remain private; the public design is the path from fish water, through a calibrated sensing layer, to a readable operating state.\r\n\r\n### A prototype, not a product claim\r\n\r\nThe concept diagram is an illustrative system view, while the tank, controller and video are the evidence of the working prototype. Together they show the direction of the system without overstating long-term reliability, sensor accuracy or production readiness.\r\n\r\n## Result\r\nThe result is a documented end-to-end prototype: a physical fish-water setup, a controller enclosure, proprietary in-house sensing technology, a mobile monitoring and control surface, and a demonstration of the assembled system. It gives the project a concrete bridge between the water system, the electronics and the person operating it.\r\n\r\nMost importantly, the project evidence now makes the process visible. Rather than presenting only a diagram or only an app screen, AquaFlow shows the proprietary sensing context, the control experience and the hardware it is connected to.\r\n\r\n## What I would improve\r\nThe next iteration should turn the prototype record into a measurable operating story:\r\n\r\n- Run long-duration sensing tests with raw and calibrated readings, reference checks and maintenance events to understand drift and repeatability in fish water.\r\n- Document the safe operating ranges and calibration approach behind the temperature, TDS and water-level states.\r\n- Record time-series telemetry so alerts can be reviewed against real tank behaviour rather than a single screen state.\r\n- Define safe actuator defaults, manual overrides and interlocks for pump, filter and compressor control.\r\n- Add a repeatable test plan that covers low-water, high-TDS and connectivity-loss scenarios.\r\n\r\nThose additions would make it possible to evaluate the system's behaviour as an engineered product, not only as an assembled prototype.\r\n"
+    },
+    {
+      "data": {
+        "slug": "cleenolve",
+        "title": "Cleenolve",
+        "category": "AI + Hardware",
+        "summary": "Solar-panel thermal hotspot detection, with software and a robot concept.",
+        "tech": [],
+        "cover": "/images/evidence/projects/cleenolve/software/thermal-hotspot-detector-interface--036.webp",
+        "year": null,
+        "featured": false,
+        "links": {},
+        "role": "",
+        "placeholder": false,
+        "pipeline": []
+      },
+      "body": "## Problem\r\nThermal images can help make variations across a solar-panel array visible for inspection.\r\n\r\n## What I built\r\nThe project record contains a thermal hotspot detection interface and a solar-panel robot concept visual.\r\n\r\n## How it works\r\nThe software interface displays a thermal panel image alongside detection controls. The robot image is presented separately as a concept render.\r\n\r\n## Result\r\nThe current gallery documents the software interface and the hardware concept. It does not establish physical robot performance.\r\n\r\n## What I would improve\r\nA fuller case study will show the detection workflow, representative outputs and any hardware testing that has been completed.\r\n"
+    },
+    {
+      "data": {
+        "title": "Cyclops",
+        "slug": "cyclops",
+        "pipeline": [
+          "RETRIEVAL",
+          "SYNTHESIS",
+          "REPORT"
+        ],
+        "category": "AI + Agents",
+        "summary": "A staged research pipeline connecting retrieval, document processing, and reports.",
+        "cover": "/images/projects/cyclops.svg",
+        "year": 2025,
+        "tech": [
+          "python"
+        ],
+        "featured": false,
+        "links": {},
+        "role": "AI & pipeline developer",
+        "placeholder": false
+      },
+      "body": "## Problem\r\nLong research tasks need organized retrieval and document processing so that a final report can be traced back to its sources.\r\n\r\n## What I built\r\nI developed Cyclops as a research-agent pipeline, combining retrieval-augmented generation, staged processing, scraping, PDF handling, and report generation.\r\n\r\n## How it works\r\nThe workflow moves from queries through source collection and document processing to synthesis. JSON state and deduplication help organize long-running stages.\r\n\r\n## Result\r\nCyclops connects source collection, document processing, and report generation in extended research runs. The implementation is private; its staged workflow is the focus of this case study.\r\n\r\n## What I would improve\r\nThe next iteration should make citation checks and evaluation of unsupported statements explicit, while improving local-model and OCR processing.\r\n"
+    },
+    {
+      "data": {
+        "title": "DepthFusion-ViT",
+        "slug": "depthfusion-vit",
+        "pipeline": [
+          "RGB + DEPTH",
+          "ViT",
+          "EDGE INFERENCE"
+        ],
+        "category": "AI + Edge",
+        "summary": "RGB, pseudo-depth, and temporal features for a lightweight liveness-detection model.",
+        "cover": "/images/projects/depthfusion-vit.svg",
+        "year": 2025,
+        "tech": [
+          "python",
+          "tensorflow",
+          "opencv",
+          "raspberrypi"
+        ],
+        "featured": false,
+        "links": {
+          "github": "https://github.com/mahostar/PFE_Anti-Spoofing_DL_Model"
+        },
+        "role": "Model & tooling developer",
+        "placeholder": false
+      },
+      "body": "## Problem\r\nA single image can miss clues that distinguish a live face from a presentation attack. This project explores complementary spatial and temporal features.\r\n\r\n## What I built\r\nI developed a multi-modal temporal-aware Vision Transformer project with data collection, training, and inference tools. The implementation targets constrained hardware such as Raspberry Pi 4.\r\n\r\n## How it works\r\nRGB images, estimated pseudo-depth, and temporal features feed a lightweight transformer. The workflow includes camera-based data collection and TensorFlow Lite conversion for edge inference.\r\n\r\n## Result\r\nThe project combines its data-collection, training, and inference tools in one workflow. The repository reports approximately 12 FPS on Raspberry Pi 4; the measurement applies to that project configuration.\r\n\r\n## What I would improve\r\nThe next comparison should use documented cross-dataset splits and report per-device latency, memory use, and failure cases.\r\n"
+    },
+    {
+      "data": {
+        "title": "EasyShield",
+        "slug": "easyshield",
+        "pipeline": [
+          "CAMERA",
+          "YOLOv12",
+          "REAL / FAKE"
+        ],
+        "category": "AI + Edge",
+        "summary": "A complete face anti-spoofing pipeline, from dataset preparation to live testing.",
+        "cover": "/images/evidence/projects/easyshield/easyshield-thumbnail.png",
+        "coverFit": "contain",
+        "coverVideo": "/videos/evidence/projects/easyshield/demonstrations/anti-spoofing-demo-montage--053.mp4",
+        "year": 2025,
+        "tech": [
+          "python",
+          "pytorch",
+          "opencv"
+        ],
+        "featured": true,
+        "featuredOrder": 1,
+        "links": {
+          "github": "https://github.com/mahostar/EasyShield_v2.5"
+        },
+        "role": "Model training & AI tool-suite developer",
+        "placeholder": false
+      },
+      "body": "## Problem\r\n\r\nFace recognition answers who a person resembles; it does not, by itself, answer whether a camera is seeing a present person. A printed portrait or replayed screen can be accepted as an identity match unless a separate liveness step stops it first.\r\n\r\nEasyShield began as that protective step for [NiotoShield](/projects/niotoshield). I turned the anti-spoofing work into a standalone, open-source model and tool suite for distinguishing a live face from common presentation attacks before identity recognition proceeds.\r\n\r\n## What I built\r\n\r\nI built EasyShield around a YOLOv12-nano classifier and the surrounding workflow needed to train and inspect it: face extraction, data augmentation, image filtering, dataset preparation, model training, and live GUI testing. The release includes trained weights, example data, Windows and Linux testing paths, and the scripts that connect those stages.\r\n\r\nThe goal was not only to train one model. It was to make the dataset and iteration process repeatable: move from source photos or video to aligned face crops, curate the samples, make a YOLO-ready split, train a run, then inspect real-time predictions with their confidence scores.\r\n\r\n## How it works\r\n\r\n### A liveness gate before identity matching\r\n\r\nEasyShield treats liveness as an independent decision. A camera frame is first reduced to a face region, then the classifier labels that crop as **Real** or **Fake**. In the NiotoShield flow, a fake result stops the request before the face-recognition component compares identity embeddings. A real result can continue to the identity stage.\r\n\r\nThis separation keeps the question being answered clear. The anti-spoofing model is responsible for detecting presentation attacks; an identity recognizer is responsible for matching an enrolled person. Combining those claims into one score would make failures harder to diagnose.\r\n\r\n### Building the dataset deliberately\r\n\r\nThe preparation tools use MTCNN to extract faces from images and video, adding a margin around the detected face and resizing crops to 640 × 640. A filtering step helps remove low-quality or badly aligned samples before they become training data. The augmentation tool then varies rotation, blur, brightness, contrast, and horizontal orientation to broaden the visual conditions represented in the dataset.\r\n\r\nThe dataset-preparation script organizes the curated images into YOLO train, validation, and test partitions and generates the dataset configuration used by the trainer. That workflow matters because liveness performance is shaped as much by the coverage and labelling of real and fake examples as by the model architecture.\r\n\r\n### Training, testing, and reviewing predictions\r\n\r\nThe training tool produces the model weights and run metrics from a prepared dataset. The testing application loads a trained model and accepts a live camera feed or file input, displaying a Real/Fake label with a confidence score. This closes the loop between offline training results and the conditions a user sees through a camera.\r\n\r\nThe repository also documents a CUDA 11.8 and cuDNN 8.9.6 environment with a CUDA-enabled PyTorch build for GPU-backed experiments. The same project includes Linux-oriented setup notes for edge devices, where available acceleration and camera hardware determine the actual runtime behavior.\r\n\r\n## Result\r\n\r\nThe published evaluation reports 92.30% accuracy, 88.32% precision, 97.50% recall, a 98.61% AUC, and a 6.25% equal error rate on an 8,000-image test dataset. Average inference time in that evaluation was 75.47 ms. Those are project benchmark results, not a universal deployment guarantee: camera quality, attack media, lighting, compute hardware, and the population represented in the data can all change the outcome.\r\n\r\nEasyShield grew out of [NiotoShield](/projects/niotoshield), the complete university hardware and software project. Its open-source tools are available in the [EasyShield v2.5 repository](https://github.com/mahostar/EasyShield_v2.5).\r\n\r\n## What I would improve\r\n\r\nThe next evaluation should publish the exact hardware configuration, dataset splits, attack-media definitions, and per-condition metrics. I would test on cameras, screens, printers, lighting conditions, and subjects that were held out from training, then report false-accept and false-reject behavior by condition.\r\n\r\nFor a deployed access system, I would also add explicit handling for uncertain predictions and camera-quality failures. A liveness score near the decision boundary should request another capture or deny access safely; it should not silently be treated as a reliable identity decision.\r\n"
+    },
+    {
+      "data": {
+        "slug": "faza3d",
+        "title": "Faza3D",
+        "category": "3D + Design",
+        "summary": "A storefront for 3D-printed products, custom orders and in-house fabrication.",
+        "tech": [
+          "cad"
+        ],
+        "cover": "/images/evidence/projects/faza3d/website/store-homepage--005.webp",
+        "year": null,
+        "featured": false,
+        "links": {},
+        "role": "",
+        "placeholder": false,
+        "pipeline": []
+      },
+      "body": "## Problem\r\nSelling printed products brings the storefront, custom-order process and physical fabrication together.\r\n\r\n## What I built\r\nFaza3D is an online shop for products manufactured with a fleet of 3D printers. The supplied record shows the storefront, catalogue, custom-order form and printing equipment.\r\n\r\n## How it works\r\nCustomers can browse the catalogue or request a custom print. The manufacturing record includes Bambu Lab, Creality and Ultimaker equipment described in the project notes.\r\n\r\n## Result\r\nThe gallery documents the shop interface, printer setup and a finished articulated print.\r\n\r\n## What I would improve\r\nThe next update will add the live store link, project timeline and a detailed account of the ordering and fulfilment workflow.\r\n"
+    },
+    {
+      "data": {
+        "title": "NiotoShield",
+        "slug": "niotoshield",
+        "pipeline": [
+          "PROFILE",
+          "EMBEDDINGS",
+          "MATCH"
+        ],
+        "category": "IoT + Security",
+        "summary": "CUDA-ready vehicle vision security: anti-spoofing, embeddings, and controlled access.",
+        "cover": "/images/projects/niotoshield/niotoshield-main.webp",
+        "coverFit": "contain",
+        "year": 2025,
+        "tech": [
+          "python",
+          "raspberrypi",
+          "supabase",
+          "pcb"
+        ],
+        "featured": true,
+        "featuredOrder": 3,
+        "links": {
+          "github": "https://github.com/mahostar/NiotoShield-Firmware"
+        },
+        "role": "Graduation project engineer",
+        "placeholder": false
+      },
+      "body": "## Problem\r\n\r\nNiotoShield asks a difficult edge-AI question: how can a vehicle-security device decide quickly enough to be useful, without treating every detected face as trustworthy? Face recognition alone is not sufficient. A printed portrait or replayed screen can pass a recognizer unless liveness is checked first.\r\n\r\nThe system therefore needs two distinct gates: an anti-spoofing decision before identity matching, then a local authorization decision after a match. It also needs a safe way to refresh the enrolled identities without shipping a new firmware image every time a profile changes.\r\n\r\n## What I built\r\n\r\nI built NiotoShield as a graduation project that joins a camera, Raspberry Pi software, custom electronics, cloud-backed enrollment, and a vehicle-access output. The device is provisioned with a product key, synchronizes its owner profile from Supabase, converts the approved images into local face embeddings, and keeps the recognition path local at scan time.\r\n\r\nThe public [NiotoShield firmware repository](https://github.com/mahostar/NiotoShield-Firmware) documents the provisioning and recognition side: environment-based credentials, product-key lookup, image download, update tracking, embedding generation, and local matching. It deliberately avoids keeping the downloaded enrollment photos after embeddings are generated.\r\n\r\nThe liveness side became [EasyShield](/projects/easyshield), a separate open-source anti-spoofing project. That separation matters: NiotoShield owns the access-control flow, while EasyShield owns the data preparation, model training, evaluation, and live Real/Fake inference workflow.\r\n\r\n## How it works\r\n\r\n### A two-gate vision path\r\n\r\nThe sequence diagram in the project gallery shows the intended runtime path. The camera captures a short set of face images. EasyShield evaluates the frames for spoofing before the recognizer is allowed to compare identity embeddings. A spoofing result ends the flow immediately; a verified face is compared with the locally stored enrollment vectors. A match above the decision threshold authorizes the output that activates vehicle access.\r\n\r\nThe design is intentionally ordered this way. Running identity matching on an unverified face would make the recognizer the first security boundary, which is the wrong place to detect a printed or replayed attack. Anti-spoofing reduces that risk before the access relay is involved.\r\n\r\n### Enrollment and synchronization\r\n\r\nThe firmware uses the device product key to retrieve the associated user profile. It compares the profile's `updated_at` value with its last successful synchronization, so it only rebuilds the local image and embedding data when the enrollment changes. This keeps the recognition path independent from round-trip cloud latency while allowing a profile to be updated remotely.\r\n\r\nInsightFace generates the face embeddings, which are stored with metadata for later comparison. The public firmware README documents a default similarity threshold of `0.5`. The supplied system diagram shows a 70% decision point, so a deployment should make the final operating threshold explicit and validate it against false-accept and false-reject rates instead of leaving two different representations of the rule.\r\n\r\n### CUDA is part of the deployment contract\r\n\r\nThe acceleration story is about the whole inference stack, not a CUDA label on a project. EasyShield documents a CUDA 11.8 and cuDNN 8.9.6 setup with a CUDA-enabled PyTorch build (`cu118`) for its YOLOv12-nano anti-spoofing model. Its published 8,000-image evaluation reports a 75.47 ms average inference time, while the hardware sequence diagram frames a sub-80 ms analysis target. Those figures describe the model evaluation and design target; they are not a guarantee of end-to-end latency on every device or camera.\r\n\r\nFor an NVIDIA edge target such as Jetson, the deployment path is JetPack, CUDA, cuDNN, and TensorRT. CUDA accelerates the neural-network work; camera capture, decoding, data movement, thresholding, cloud synchronization, and relay actuation still have their own cost. Treating these as separate stages is how I reason about whether a vision pipeline can feel real-time rather than only reporting a fast model benchmark.\r\n\r\nThe current public repositories document the CUDA/cuDNN PyTorch environment and the Edge/Jetson runtime prerequisites. They do not include a committed TensorRT engine or an INT8 calibration pipeline, so those belong in the next deployment phase rather than being claimed as already shipped.\r\n\r\n## Result\r\n\r\nNiotoShield demonstrates a complete security chain: provisioned profile sync, local embedding generation, anti-spoofing before matching, a thresholded identity decision, and a physical authorization step. The result is a more credible edge-security architecture than a standalone face-recognition demo because the model, identity store, update mechanism, and output action all have a defined place.\r\n\r\nEasyShield supports the model side with its own [open-source repository](https://github.com/mahostar/EasyShield_v2.5): YOLOv12-nano training tools, MTCNN-assisted face preparation, live testing, and CUDA-aware environment guidance. Together, the two repositories show the link between model work and a hardware system that can use it.\r\n\r\n## What I would improve\r\n\r\nThe next technical milestone is a measured edge deployment. I would profile camera-to-decision latency stage by stage on the target hardware, publish the camera resolution and batch policy, and separate anti-spoofing latency from face-embedding and similarity latency. On Jetson, I would export and validate a TensorRT engine, test FP16 first, then evaluate INT8 only with a representative calibration set and accuracy checks.\r\n\r\nI would also unify the matching threshold across the design diagram and firmware, test replay attacks and poor lighting, rotate product credentials, make synchronization recover safely after interruption, and document the relay's fail-safe behavior. Those details turn a promising vision pipeline into an auditable access-control system.\r\n"
+    },
+    {
+      "data": {
+        "title": "Plantini",
+        "slug": "plantini",
+        "pipeline": [
+          "SENSING",
+          "ESP32",
+          "HYDROPONICS"
+        ],
+        "category": "IoT + Hardware",
+        "summary": "Hydroponic towers connecting custom sensing, ESP32 firmware, and in-house fabrication.",
+        "cover": "/images/evidence/projects/plantini/concept-renders/tower-concept-still--091.webp",
+        "coverFit": "contain",
+        "year": 2025,
+        "tech": [
+          "espressif",
+          "cplusplus",
+          "pcb",
+          "cad"
+        ],
+        "featured": true,
+        "featuredOrder": 2,
+        "links": {},
+        "role": "Co-founder · hardware & farm design",
+        "placeholder": false
+      },
+      "body": "## Problem\r\n\r\nIn hydroponics, the nutrient reservoir is part of the product. A plant can only receive a consistent recipe if the controller has a credible picture of what is in the water. Plantini needed a sensor path that could turn a changing nutrient solution into a usable signal for its ESP32 controller and dosing decisions.\r\n\r\nCommercial AC TDS options were expensive and difficult to source for the product we were building. That made the sensor a core engineering problem rather than an off-the-shelf purchase: Plantini needed a design it could understand, control, and produce as part of its own hardware.\r\n\r\nThe challenge is not merely reading a number. A reading must be repeatable enough to support a target, stable enough to distinguish a real nutrient change from measurement noise, and maintainable enough to work in a real growing system rather than only on a bench.\r\n\r\n## What I built\r\n\r\nAs a co-founder, I worked on Plantini's proprietary AC-based TDS sensing work and the ESP32 side that receives and acts on sensor data. **We created proprietary sensing technology and our own TDS sensor, designed so Plantini can fully manufacture it in-house.**\r\n\r\nGetting there took four months of research and reverse-engineering competitor products. I studied the choices behind commercially available AC TDS solutions, then used that work to define a sensor path that fit Plantini's cost, availability, and manufacturing needs. The sensor design, its excitation method, analog conditioning, calibration routine, and production firmware remain private. This case study focuses on the engineering questions the sensing system had to answer without exposing that implementation.\r\n\r\nThe public project gallery shows the physical context around that work: the controller board concept, the hydroponic architecture, the tower, and the pump configuration. The sensing work connected those physical parts to a control target rather than treating the electronics as an isolated board.\r\n\r\n## How it works\r\n\r\n### From nutrient solution to a control signal\r\n\r\nThe sensor measures a property of the circulating solution that Plantini uses as a TDS proxy. An AC approach is appropriate for conductivity-related sensing because it avoids a persistent DC bias at the interface with the solution. The ESP32 then turns the conditioned sensor output into a value that can be compared against a dosing target.\r\n\r\nThat value is only useful when it is treated as a measurement, not a fact. The firmware has to decide when a reading is fresh, whether it has settled after a pump or dosing event, and whether a deviation is significant enough to act on. This is where embedded control starts: the measurement closes the loop between reservoir, dosing hardware, and plant environment.\r\n\r\n### Calibration is the product work\r\n\r\nThe public record includes calibration around a 1,000 ppm dosing target. Calibration is more than selecting a scale factor. It defines the relationship between the sensor output and the operational value that the product displays or uses to make a decision. A useful procedure needs known reference solutions, repeated readings, and a way to record the conditions under which the reference was taken.\r\n\r\nFor a hydroponic device, long-term behavior matters as much as a single calibration point. Deposits, water temperature, mixing, probe aging, cable routing, and the time between dosing and sampling can all change what the controller sees. Designing around these sources of variation is the difference between a sensor demo and a system that can be maintained.\r\n\r\n### Sensor data belongs to the system\r\n\r\nThe ESP32 is the boundary between the sensing subsystem and the rest of the tower. It receives the measurement, applies the private calibration and decision logic, and coordinates with the rest of the system. The controller has to preserve safe operating behavior when a reading is missing, implausible, or stale; a dosing action should never depend on a single unexamined sample.\r\n\r\nThe specific private code is not published here. The system design is: sense the nutrient solution, give the reading a calibration context, decide whether it is trustworthy, then use it as part of a controlled growing environment.\r\n\r\n## Result\r\n\r\nPlantini brought custom sensing into the same product conversation as the hydroponic tower, controller, dosing workflow, and in-house fabrication. The sensor work gave the system a route from physical water conditions to an embedded decision, with calibration around the 1,000 ppm target as an early operating reference.\r\n\r\nIt also set a standard for how I approach embedded sensing: protect the parts that are proprietary, document the engineering boundary clearly, and make the measurement's uncertainty part of the design rather than hiding it behind a dashboard value.\r\n\r\n## What I would improve\r\n\r\nThe next step would be a long-duration sensing and dosing study. I would log raw and calibrated values, dosing events, settling time, reference checks, and maintenance events across multiple assembled units. That data would show drift, unit-to-unit variation, and the right filtering or confirmation policy for automatic dosing.\r\n\r\nI would also define clear sensor-health states: valid, settling, suspect, and fault. That would make the controller's behavior easier to audit and would keep a bad reading from quietly becoming a bad dosing decision.\r\n"
+    },
+    {
+      "data": {
+        "title": "Remote PC Power Control",
+        "slug": "remote-pc-power",
+        "pipeline": [
+          "FLUTTER",
+          "FIREBASE",
+          "ESP32 RELAY"
+        ],
+        "category": "IoT + Hardware",
+        "summary": "An ESP32-ETH01 relay, cloud state, and a mobile app for remote computer access.",
+        "cover": "/images/projects/remote-pc-power.svg",
+        "year": 2024,
+        "tech": [
+          "espressif",
+          "cplusplus",
+          "firebase",
+          "nodejs",
+          "flutter"
+        ],
+        "featured": false,
+        "links": {},
+        "role": "Hardware, firmware & app developer",
+        "placeholder": false
+      },
+      "body": "## Problem\r\nRemote desktop access is only useful when the computer can be powered on and its availability can be checked.\r\n\r\n## What I built\r\nI connected an ESP32-ETH01 and relay to the computer power-button circuit, with Firebase Realtime Database, a Node.js heartbeat service, and a Flutter control app. Tailscale supports remote access.\r\n\r\n## How it works\r\nThe app writes control state to the cloud. The embedded device reads that state and operates the power-button relay. A heartbeat indicates whether the computer is reachable, and remote desktop provides access after startup.\r\n\r\n## Result\r\nI use the system to power on and access my computer remotely. The embedded relay, heartbeat service, and mobile app have supported this workflow over multiple years.\r\n\r\n## What I would improve\r\nMore structured logging, command acknowledgement, and recovery tests would help distinguish a network outage from a powered-off or unresponsive computer.\r\n"
+    },
+    {
+      "data": {
+        "title": "SmartHart",
+        "slug": "smarthart",
+        "pipeline": [
+          "VITAL SIGNS",
+          "BiLSTM",
+          "DASHBOARD"
+        ],
+        "category": "AI + IoT",
+        "summary": "BiLSTM anomaly detection with generated vital-sign data and a live dashboard.",
+        "cover": "/images/projects/smarthart.svg",
+        "year": 2025,
+        "tech": [
+          "python",
+          "tensorflow"
+        ],
+        "featured": false,
+        "links": {
+          "github": "https://github.com/mahostar/SmartHart"
+        },
+        "role": "Designer & developer · academic project",
+        "placeholder": false
+      },
+      "body": "## Problem\r\nA monitoring system needs to detect changes across several vital signs and display them clearly over time. SmartHart explores that pipeline with generated physiological data.\r\n\r\n## What I built\r\nI built a data generator, a BiLSTM anomaly-detection model, and a Tkinter dashboard for blood pressure, heart rate, oxygen saturation, and respiration. The repository contains separate generation, training, and model-running tools.\r\n\r\n## How it works\r\nThe generator creates timestamped vital-sign sequences with anomaly scenarios. A two-layer BiLSTM learns from those sequences. The dashboard runs the model on incoming windows and visualizes the readings and predictions.\r\n\r\n## Result\r\nThe project reports 98.34% accuracy and AUC 1.00 in its generated-data evaluation, with about 93% accuracy on a ten-point window. These results concern a research prototype and synthetic data; they are not clinical validation. Reinforcement-learning resource optimization remains future work.\r\n\r\n## What I would improve\r\nThe next study should test external, properly sourced datasets, quantify false alarms, and evaluate missing or noisy readings. Clinical use would require a separate validation process.\r\n"
+    },
+    {
+      "data": {
+        "slug": "tpms-generator",
+        "title": "TPMS Generator",
+        "category": "3D + Design",
+        "summary": "A Python engine for generating mathematical, 3D-printable TPMS structures.",
+        "tech": [
+          "python",
+          "cad"
+        ],
+        "cover": "/images/evidence/projects/tpms-generator/models/blue-tpms-mesh--009.webp",
+        "year": null,
+        "featured": false,
+        "links": {},
+        "role": "",
+        "placeholder": false,
+        "pipeline": []
+      },
+      "body": "## Problem\r\nGenerating a 3D-printable mathematical surface requires control over its geometry, wall thickness and output mesh.\r\n\r\n## What I built\r\nI developed a Python engine for Triply Periodic Minimal Surface structures, with controllable cell repetition, level-set parameters and wall thickness.\r\n\r\n## How it works\r\nThe engine combines implicit surface generation, mesh extraction, optimization, validation and binary STL export.\r\n\r\n## Result\r\nThe supplied screenshots show several generated mesh structures. The workflow is designed to keep the exported models within practical file-size limits.\r\n\r\n## What I would improve\r\nA future update will include exported examples, print results and documented validation checks for representative geometries.\r\n"
+    }
+  ],
+  "hasCv": false
+}

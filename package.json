@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "predev": "node scripts/bundle-content.mjs",
     "build": "next build",
     "build:cloudflare": "opennextjs-cloudflare build",
     "preview:cloudflare": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
@@ -12,7 +13,7 @@
     "lint": "eslint src scripts tests playwright.config.ts next.config.ts",
     "typecheck": "tsc --noEmit",
     "check:content": "node scripts/lint-content.mjs",
-    "prebuild": "node scripts/lint-content.mjs",
+    "prebuild": "node scripts/lint-content.mjs && node scripts/bundle-content.mjs",
     "make-images": "node scripts/make-images.mjs",
     "test": "playwright test",
     "test:content": "node --test tests/content.test.mjs",
