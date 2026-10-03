@@ -35,7 +35,12 @@ export function HomeLink({ href, onClick, ...props }: Props) {
         }
         const headerHeight = document.querySelector<HTMLElement>(".site-header")?.offsetHeight || 0;
         const top = destination.hash === "#home" ? 0 : window.scrollY + target.getBoundingClientRect().top - headerHeight - 12;
-        window.scrollTo({ top: Math.max(0, top), left: 0, behavior: "instant" });
+        const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        window.scrollTo({
+          top: Math.max(0, top),
+          left: 0,
+          behavior: reduceMotion ? "instant" : "smooth",
+        });
       }}
     />
   );
