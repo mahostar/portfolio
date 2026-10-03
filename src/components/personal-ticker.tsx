@@ -32,7 +32,7 @@ export function PersonalTicker({ phrases }: { phrases: string[] }) {
       className={styles["personal-ticker"]}
       data-paused={paused}
       role="region"
-      aria-label="A little about Med Wassim"
+      aria-label="A little about Mohamed Wassim"
     >
       <div className={styles["ticker-window"]}>
         <div className={styles["ticker-track"]}>

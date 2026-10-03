@@ -34,7 +34,7 @@ try {
       const point = dot.getBoundingClientRect();
       return { expected: (point.left + point.width / 2 - bounds.left) * screen.clientWidth / bounds.width, actual: Number(hole.getAttribute('cx')) };
     });
-    assert(Math.abs(center.expected - center.actual) < 1, 'Reveal should start at the yellow dot, including QHD zoom');
+    assert(Math.abs(center.expected - center.actual) < 1, 'Reveal should start at the zoomed yellow period, including QHD zoom');
     await intro.waitFor({ state: 'hidden' });
     assert.equal(await page.locator('#main').evaluate(node => node.inert), false);
     assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth), false);

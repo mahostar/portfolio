@@ -64,18 +64,30 @@ export function SkillTree({ groups }: { groups: Group[] }) {
     let disposed = false;
     const measure = () => {
       frame = 0;
-      const box = element.getBoundingClientRect();
+      const svg = element.querySelector<SVGSVGElement>("svg");
+      if (!svg) return;
+      const bounds = svg.getBoundingClientRect();
+      if (!bounds.width || !bounds.height) return;
+      // Normalize rendered pixels to local SVG units using its actual size.
+      // Browsers differ in whether getScreenCTM includes CSS zoom.
+      const size = getComputedStyle(svg);
+      const scaleX = parseFloat(size.width) / bounds.width;
+      const scaleY = parseFloat(size.height) / bounds.height;
       const root = element.querySelector<HTMLElement>("[data-root]")!;
       const mobile = window.matchMedia("(max-width: 900px)").matches;
       const rect = (node: HTMLElement) => {
         const r = node.getBoundingClientRect();
+        const left = (r.left - bounds.left) * scaleX;
+        const top = (r.top - bounds.top) * scaleY;
+        const right = (r.right - bounds.left) * scaleX;
+        const bottom = (r.bottom - bounds.top) * scaleY;
         return {
-          left: r.left - box.left,
-          top: r.top - box.top,
-          right: r.right - box.left,
-          bottom: r.bottom - box.top,
-          cx: r.left - box.left + r.width / 2,
-          cy: r.top - box.top + r.height / 2,
+          left,
+          top,
+          right,
+          bottom,
+          cx: (left + right) / 2,
+          cy: (top + bottom) / 2,
         };
       };
       const origin = rect(root);
@@ -312,7 +324,7 @@ export function SkillTree({ groups }: { groups: Group[] }) {
             <Network size={23} />
           </span>
           <span>
-            <small>MED WASSIM MBAREK</small>
+            <small>MOHAMED WASSIM MBAREK</small>
             <strong>Engineering toolkit</strong>
           </span>
           <span className={styles.rootLight} />

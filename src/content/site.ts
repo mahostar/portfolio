@@ -2,9 +2,9 @@
 // Public identity and biography confirmed by the owner in the expansion request.
 export const site = {
   placeholder: false,
-  firstName: "Med Wassim",
+  firstName: "Mohamed Wassim",
   lastName: "Mbarek",
-  fullName: "Med Wassim Mbarek",
+  fullName: "Mohamed Wassim Mbarek",
   greeting: "Hi, I'm",
   initials: "WM",
   roleLabel: "Embedded / Edge AI Engineer",
@@ -30,7 +30,7 @@ export const site = {
     "Mobile apps & cloud integration",
     "Teaching robotics, electronics & AI",
   ],
-  aboutText: "I’m Med Wassim Mbarek, a computer engineering graduate from ISIMA Mahdia, specializing in embedded systems and IoT. I build across electronics, firmware, AI, and software. After graduating in June 2025, I developed robotics, PCB design, and AI courses at FabLab Mahdia, took on technical leadership at Plantini, and led software development at KaTEK. These overlapping roles made for an intensive year of building and teaching. My next academic chapter is a planned master’s degree in Advanced Computing in Embedded Systems in Romania. I like taking an idea all the way to something I can assemble, test, and explain.",
+  aboutText: "I’m Mohamed Wassim Mbarek, a computer engineering graduate from ISIMA Mahdia, specializing in embedded systems and IoT. I build across electronics, firmware, AI, and software. After graduating in June 2025, I developed robotics, PCB design, and AI courses at FabLab Mahdia, took on technical leadership at Plantini, and led software development at KaTEK. These overlapping roles made for an intensive year of building and teaching. My next academic chapter is a planned master’s degree in Advanced Computing in Embedded Systems in Romania. I like taking an idea all the way to something I can assemble, test, and explain.",
   aboutHeading: "From the circuit\nto the complete system.",
   aboutNote: "Electronics → firmware → models → working products.",
   contactHeading: "Let’s build",

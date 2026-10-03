@@ -39,6 +39,9 @@
 .hero-copy h1 > span {
   position: relative;
 }
+.hero-copy h1 .name-outline {
+  word-spacing: 0.2em;
+}
 .hero-copy h1 .name-solid {
   font-size: 1.22em;
   line-height: 0.92;

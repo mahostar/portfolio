@@ -30,6 +30,19 @@ function initializeWelcomeDocument() {
     };
     window.__portfolioWelcome = boot;
     if (boot.state === "armed") {
+      // Suppress the browser's saved scroll position for this homepage reload.
+      const previousRestoration = history.scrollRestoration;
+      history.scrollRestoration = "manual";
+      window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+      addEventListener("pageshow", (event) => {
+        // Restoration and anchor scrolling can run after pageshow is dispatched.
+        requestAnimationFrame(() => {
+          if (!event.persisted && location.pathname === initialPath) {
+            window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+          }
+          history.scrollRestoration = previousRestoration;
+        });
+      }, { once: true });
       root.dataset.welcome = "pending";
       setTimeout(() => {
         if (boot.state === "armed") {

@@ -62,6 +62,7 @@
 .topline > span:first-child { font-weight: 650; }
 .edition { color: #ffffff80; }
 .bottomline { bottom: max(28px, env(safe-area-inset-bottom)); }
+.camera { position: absolute; inset: 0; }
 .center {
   position: absolute;
   inset: 0;
@@ -76,7 +77,7 @@
 .kicker > span { width: 5px; height: 5px; background: #ffd400; border-radius: 50%; }
 .handwriting { display: block; width: clamp(280px, 32vw, 450px); height: auto; overflow: visible; margin: -8px 0 18px; flex-shrink: 0; }
 .penStroke { stroke-dasharray: 1; stroke-dashoffset: 0; }
-.screen:not([data-phase]) .penStroke { stroke-dashoffset: 1; }
+.screen:not([data-phase]) .penStroke { stroke-dashoffset: 1; opacity: 0; }
 .screen:not([data-phase]) .dot, .screen:not([data-phase]) .subtitle, .screen:not([data-phase]) .note { opacity: 0; }
 .dot { transform-box: fill-box; transform-origin: center; }
 .subtitleClip { overflow: hidden; padding: 3px 0; }
@@ -93,18 +94,27 @@
 .screen[data-phase="greeting"] .crossStroke { animation-delay: 1050ms; animation-duration: 420ms; }
 .screen[data-phase="greeting"] .secondStroke { animation-delay: 1370ms; animation-duration: 850ms; }
 .screen[data-phase="greeting"] .thirdStroke { animation-delay: 2150ms; animation-duration: 550ms; }
-.screen[data-phase="greeting"] .iDot { animation-delay: 2700ms; animation-duration: 180ms; }
-.screen[data-phase="greeting"] .dot { animation: ink-dot 450ms var(--welcome-ease) 2870ms both; }
+.screen[data-phase="greeting"] .iDot { animation-delay: 2750ms; animation-duration: 180ms; }
+.screen[data-phase="greeting"] .dot { animation: ink-dot 450ms var(--welcome-ease) 2980ms both; }
 .screen[data-phase="greeting"] .subtitle { animation: subtitle-in 850ms var(--welcome-ease) 2450ms both; }
 .screen[data-phase="greeting"] .kicker { animation: quiet-in 700ms ease 200ms both; }
 .screen[data-phase="greeting"] .note { animation: quiet-in 700ms ease 2900ms both; }
 .screen[data-phase="greeting"] .orbit { animation: orbit-in 2500ms var(--welcome-ease) both; }
 .screen[data-phase="greeting"] .outerOrbit { animation: quiet-in 1600ms ease both; }
 .screen[data-phase="greeting"] .spark { animation: spark-in 1300ms var(--welcome-ease) 250ms both; }
-.screen[data-phase="greeting"] .track > span { animation: progress 4250ms linear both; }
+.screen[data-phase="greeting"] .track > span { animation: progress 3900ms linear both; }
 .screen[data-phase="reveal"] .artwork, .screen[data-phase="reveal"] .topline, .screen[data-phase="reveal"] .bottomline { opacity: 0; pointer-events: none; transition: opacity 240ms ease; }
-.screen[data-phase="reveal"] .center { opacity: 0; transform: translateY(-28px); transition: opacity 200ms ease, transform 600ms var(--welcome-ease); }
-@keyframes write-stroke { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+.screen[data-phase="zoom"] .artwork, .screen[data-phase="zoom"] .topline { opacity: 0; transition: opacity 400ms ease; }
+.screen[data-phase="zoom"] .kicker, .screen[data-phase="zoom"] .subtitleClip, .screen[data-phase="zoom"] .note { opacity: 0; transition: opacity 250ms ease; }
+.screen[data-phase="reveal"] .center { opacity: 0; transition: opacity 450ms cubic-bezier(.4, 0, .2, 1); }
+.screen[data-phase="reveal"] .kicker, .screen[data-phase="reveal"] .subtitleClip, .screen[data-phase="reveal"] .note { opacity: 0; }
+.screen[data-phase="zoom"] .track > span, .screen[data-phase="reveal"] .track > span { transform: scaleX(1); }
+/* Rounded SVG caps can remain visible even when the dash hides the stroke. */
+@keyframes write-stroke {
+  from { stroke-dashoffset: 1; opacity: 0; }
+  0.01% { opacity: 1; }
+  to { stroke-dashoffset: 0; opacity: 1; }
+}
 @keyframes ink-dot { from { opacity: 0; transform: scale(.15); } to { opacity: 1; transform: scale(1); } }
 @keyframes subtitle-in { from { transform: translateY(115%); } to { transform: none; } }
 @keyframes quiet-in { from { opacity: 0; } to { opacity: 1; } }

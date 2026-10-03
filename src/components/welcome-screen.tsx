@@ -9,6 +9,7 @@ export function WelcomeScreen({ name }: { name: string }) {
   const pathname = usePathname();
   const screen = useRef<HTMLDivElement>(null);
   const dot = useRef<SVGCircleElement>(null);
+  const camera = useRef<HTMLDivElement>(null);
   const aperture = useRef<SVGCircleElement>(null);
   const ring = useRef<SVGCircleElement>(null);
   const skip = useRef<HTMLButtonElement>(null);
@@ -44,6 +45,7 @@ export function WelcomeScreen({ name }: { name: string }) {
     let exiting = false;
     let frame = 0;
     let fade: Animation | undefined;
+    let zoom: Animation | undefined;
     let restored = false;
     const restore = () => {
       if (restored) return;
@@ -63,6 +65,7 @@ export function WelcomeScreen({ name }: { name: string }) {
       dismiss.current = () => {};
       removeListeners();
       restore();
+      zoom?.cancel();
       if (restoreFocus && element.contains(document.activeElement)) {
         document.getElementById("main")?.focus({ preventScroll: true });
       }
@@ -71,14 +74,14 @@ export function WelcomeScreen({ name }: { name: string }) {
       if (finished || disposed) return;
       if (exiting) { finish(); return; }
       exiting = true;
-      element.dataset.phase = "reveal";
-      if (immediate || reduced.matches || !dot.current || !aperture.current || !ring.current) {
+      if (immediate || reduced.matches || !dot.current || !camera.current || !aperture.current || !ring.current) {
+        element.dataset.phase = "reveal";
         fade = element.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 180, fill: "forwards" });
         fade.finished.then(() => finish()).catch(() => {});
         return;
       }
 
-      // Open the blue backdrop from the exact location of the yellow period.
+      element.dataset.phase = "zoom";
       const bounds = element.getBoundingClientRect();
       const point = dot.current.getBoundingClientRect();
       // Convert viewport pixels to SVG units, including the site's QHD zoom.
@@ -86,29 +89,59 @@ export function WelcomeScreen({ name }: { name: string }) {
       const scaleY = element.clientHeight / bounds.height;
       const x = (point.left + point.width / 2 - bounds.left) * scaleX;
       const y = (point.top + point.height / 2 - bounds.top) * scaleY;
-      const radius = Math.hypot(Math.max(x, element.clientWidth - x), Math.max(y, element.clientHeight - y)) + 20;
-      const initial = point.width / 2 * scaleX;
+      camera.current.style.transformOrigin = `${x}px ${y}px`;
+      zoom = camera.current.animate([
+        { transform: "translate(0, 0) scale(1)" },
+        { transform: `translate(${element.clientWidth / 2 - x}px, ${element.clientHeight / 2 - y}px) scale(2.4)` },
+      ], { duration: 1450, easing: "cubic-bezier(.33, 0, .2, 1)", fill: "forwards" });
+      const beginReveal = () => {
+      if (disposed || finished || !dot.current || !aperture.current || !ring.current) return;
+      // Begin opening while the camera is still approaching the yellow period.
+      const zoomedPoint = dot.current.getBoundingClientRect();
+      const revealX = (zoomedPoint.left + zoomedPoint.width / 2 - bounds.left) * scaleX;
+      const revealY = (zoomedPoint.top + zoomedPoint.height / 2 - bounds.top) * scaleY;
+      const radius = Math.hypot(Math.max(revealX, element.clientWidth - revealX), Math.max(revealY, element.clientHeight - revealY)) + 20;
+      const initial = 0;
+      element.dataset.phase = "reveal";
       for (const circle of [aperture.current, ring.current]) {
-        circle.setAttribute("cx", String(x));
-        circle.setAttribute("cy", String(y));
+        circle.setAttribute("cx", String(revealX));
+        circle.setAttribute("cy", String(revealY));
       }
       const start = performance.now();
       const reveal = (now: number) => {
         if (disposed || finished) return;
-        const progress = Math.min(1, (now - start) / 1100);
-        const eased = 1 - Math.pow(1 - progress, 3);
+        const movingPoint = dot.current?.getBoundingClientRect();
+        if (movingPoint) {
+          const movingX = (movingPoint.left + movingPoint.width / 2 - bounds.left) * scaleX;
+          const movingY = (movingPoint.top + movingPoint.height / 2 - bounds.top) * scaleY;
+          for (const circle of [aperture.current, ring.current]) {
+            circle?.setAttribute("cx", String(movingX));
+            circle?.setAttribute("cy", String(movingY));
+          }
+        }
+        const progress = Math.min(1, (now - start) / 1250);
+        const eased = progress * progress * (3 - 2 * progress);
         const size = initial + (radius - initial) * eased;
         aperture.current?.setAttribute("r", String(size));
         ring.current?.setAttribute("r", String(size));
-        ring.current?.setAttribute("stroke-width", String(12 * (1 - progress)));
-        ring.current?.setAttribute("opacity", String(1 - progress));
+        // Keep a solid rim until the expanding circle has cleared the viewport.
+        ring.current?.setAttribute("stroke-width", "3");
+        ring.current?.setAttribute("opacity", "1");
         if (progress < 1) frame = requestAnimationFrame(reveal);
         else finish();
       };
       frame = requestAnimationFrame(reveal);
+      };
+      const approachStart = performance.now();
+      const approach = (now: number) => {
+        if (disposed || finished) return;
+        if (now - approachStart >= 600) beginReveal();
+        else frame = requestAnimationFrame(approach);
+      };
+      frame = requestAnimationFrame(approach);
     };
     dismiss.current = () => exit(true);
-    const timer = window.setTimeout(() => exit(), reduced.matches ? 1100 : 4250);
+    const timer = window.setTimeout(() => exit(), reduced.matches ? 1100 : 3900);
     const safety = window.setTimeout(() => finish(), 7500);
     const escape = (event: KeyboardEvent) => {
       if (event.key === "Escape") { event.preventDefault(); exit(true); }
@@ -141,6 +174,7 @@ export function WelcomeScreen({ name }: { name: string }) {
       window.clearTimeout(safety);
       cancelAnimationFrame(frame);
       fade?.cancel();
+      zoom?.cancel();
       removeListeners();
       dismiss.current = () => {};
       restore();
@@ -183,6 +217,7 @@ export function WelcomeScreen({ name }: { name: string }) {
         <svg className={styles.spark} viewBox="0 0 80 80"><path d="M40 0 46 28 68 12 52 34 80 40 52 46 68 68 46 52 40 80 34 52 12 68 28 46 0 40 28 34 12 12 34 28Z" fill="currentColor" /></svg>
       </div>
       <div className={styles.topline}><span>{name}</span><span className={styles.edition}>A little introduction</span></div>
+      <div ref={camera} className={styles.camera}>
       <div className={styles.center}>
         <p className={styles.kicker}><span /> Glad you’re here</p>
         <svg id="welcome-title" className={styles.handwriting} viewBox="0 0 340 245" role="img" aria-label="Hi.">
@@ -197,6 +232,7 @@ export function WelcomeScreen({ name }: { name: string }) {
         </svg>
         <div className={styles.subtitleClip}><p id="welcome-subtitle" className={styles.subtitle}>Welcome to my portfolio</p></div>
         <p className={styles.note}>From a spark to something real.</p>
+      </div>
       </div>
       <div className={styles.bottomline}>
         <div className={styles.sequence} aria-hidden="true"><span className={styles.track}><span /></span><span>Let’s begin</span></div>

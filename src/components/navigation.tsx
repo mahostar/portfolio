@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { HomeLink as Link } from "./home-link";
 import { usePathname } from "next/navigation";
 import { ArrowRight, Folder, Home, Mail, UserRound, Sparkles } from "lucide-react";
@@ -22,7 +22,36 @@ export function Navigation({ monogram, name }: { monogram: string; name: string 
   const pathname = usePathname();
   const onHome = pathname === "/";
   const [section, setSection] = useState("home");
+  const rowRef = useRef<HTMLDivElement>(null);
   const active = onHome ? section : "work";
+  useEffect(() => {
+    const row = rowRef.current;
+    const brand = row?.querySelector<HTMLElement>(".nav-brand");
+    const label = row?.querySelector<HTMLElement>(".nav-brand-name");
+    const logo = brand?.firstElementChild;
+    if (!row || !brand || !label || !logo) return;
+
+    // The label remains measurable while hidden. Always measure the full layout,
+    // so hiding it cannot change the decision and cause a resize feedback loop.
+    const measure = () => {
+      const siblings = [...row.children].filter(
+        (element) => element !== brand && getComputedStyle(element).display !== "none",
+      );
+      const rowStyle = getComputedStyle(row);
+      const required = logo.getBoundingClientRect().width
+        + parseFloat(getComputedStyle(brand).columnGap)
+        + label.getBoundingClientRect().width
+        + siblings.reduce((width, element) => width + element.getBoundingClientRect().width, 0)
+        + siblings.length * parseFloat(rowStyle.columnGap);
+      const available = row.getBoundingClientRect().width
+        - parseFloat(rowStyle.paddingLeft) - parseFloat(rowStyle.paddingRight);
+      row.dataset.nameFits = String(required + 1 <= available);
+    };
+    const observer = new ResizeObserver(measure);
+    [row, logo, label, ...row.children].forEach((element) => observer.observe(element));
+    measure();
+    return () => observer.disconnect();
+  }, [name]);
   useEffect(() => {
     const bar = document.querySelector<HTMLElement>(".bottom-nav");
     const header = document.querySelector<HTMLElement>(".site-header");
@@ -121,7 +150,7 @@ export function Navigation({ monogram, name }: { monogram: string; name: string 
       >
         <NavigationGlass surface={false} />
         <BlueNavigationGlass />
-        <div className="container nav-inner">
+        <div className="container nav-inner" ref={rowRef}>
           <Link
             href={href("home")}
             className="nav-brand"
