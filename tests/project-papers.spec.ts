@@ -53,7 +53,7 @@ for (const width of [390, 1440]) {
         await expect(page.locator("dialog[open]")).toBeVisible();
         if (slug === "algobrain" || slug === "easyshield") {
           await expect(page.locator("dialog[open] img"))
-            .toHaveAttribute("src", slug === "algobrain" ? /algobrain\.webp/ : /easyshield-cover-v3\.webp/);
+            .toHaveAttribute("src", slug === "algobrain" ? /algobrain\.webp/ : /easyshield-cover-v4\.webp/);
           await page.locator("dialog[open] img")
             .evaluate((element: HTMLImageElement) => element.decode());
           await page.screenshot({ path: `artifacts/${slug}-paper-cover-${width}.png` });
