@@ -2,7 +2,10 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   poweredByHeader: false, devIndicators: false, images: { formats: ["image/avif", "image/webp"] },
   async redirects() {
-    return [{ source: "/projects/cleenolve/:path*", destination: "/projects/cleanoov/:path*", permanent: true }];
+    return [
+      { source: "/projects/cleenolve", destination: "/projects/cleanoov", permanent: true },
+      { source: "/projects/cleenolve/opengraph-image", destination: "/projects/cleanoov/opengraph-image", permanent: true },
+    ];
   },
   async headers() {
     return [
