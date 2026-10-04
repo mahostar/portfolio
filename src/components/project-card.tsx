@@ -15,6 +15,10 @@ export function ProjectCard({
   featured?: boolean;
 }) {
   const Heading = featured ? "h3" : "h2";
+  const visibleTech = project.tech.slice(0, project.slug === "cleanoov" ? 5 : 4);
+  for (const id of ["cad", "solidworks", "opencv"]) {
+    if (project.tech.includes(id) && !visibleTech.includes(id)) visibleTech.push(id);
+  }
   return (
     <Link
       href={`/projects/${project.slug}`}
@@ -47,7 +51,7 @@ export function ProjectCard({
         <p className={`project-summary ${styles.summary}`}>{project.summary}</p>
         <div className={`project-bottom ${styles.bottom}`}>
           <div className="tech-row">
-            {project.tech.slice(0, project.slug === "cleanoov" ? 5 : 4).map((id) => (
+            {visibleTech.map((id) => (
               <TechLogo id={id} key={id} />
             ))}
           </div>

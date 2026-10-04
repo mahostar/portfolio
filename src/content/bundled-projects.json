@@ -18,7 +18,8 @@
           "arduino",
           "cplusplus",
           "pcb",
-          "python"
+          "python",
+          "solidworks"
         ],
         "featured": false,
         "links": {},
@@ -39,7 +40,8 @@
           "espressif",
           "cplusplus",
           "pcb",
-          "cad"
+          "cad",
+          "solidworks"
         ],
         "cover": "/images/projects/aquaflow.webp",
         "coverFit": "contain",
@@ -70,7 +72,8 @@
           "yolo",
           "cad",
           "pcb",
-          "pytorch"
+          "pytorch",
+          "solidworks"
         ],
         "cover": "/images/projects/cleanoov.webp",
         "coverFit": "contain",
@@ -205,7 +208,8 @@
         "tech": [
           "react",
           "firebase",
-          "cad"
+          "cad",
+          "solidworks"
         ],
         "cover": "/images/evidence/projects/faza3d/website/store-homepage--005.webp",
         "year": null,
@@ -263,7 +267,10 @@
           "python",
           "raspberrypi",
           "supabase",
-          "pcb"
+          "pcb",
+          "cad",
+          "solidworks",
+          "opencv"
         ],
         "featured": true,
         "featuredOrder": 3,
@@ -293,7 +300,8 @@
           "espressif",
           "cplusplus",
           "pcb",
-          "cad"
+          "cad",
+          "solidworks"
         ],
         "featured": true,
         "featuredOrder": 2,
@@ -324,7 +332,8 @@
           "cplusplus",
           "firebase",
           "nodejs",
-          "flutter"
+          "flutter",
+          "solidworks"
         ],
         "featured": false,
         "links": {},
