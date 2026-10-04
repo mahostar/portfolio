@@ -29,10 +29,12 @@ The public [NiotoShield firmware repository](https://github.com/mahostar/NiotoSh
 The liveness side became [EasyShield](/projects/easyshield), a separate open-source anti-spoofing project. That separation matters: NiotoShield owns the access-control flow, while EasyShield owns the data preparation, model training, evaluation, and live Real/Fake inference workflow.
 
 ## How it works
+<ProjectFigure src="/images/projects/nioto-enrollment-styled.webp" width={1774} height={887} alt="Cloud enrollment update and local identity embedding cache" caption="Figure 1. Product-key profile lookup and update checks control photo downloads; the device generates local embeddings and removes temporary photos afterward. Icons and metadata fields are schematic." />
+
 
 ### A two-gate vision path
 
-The sequence diagram in the project gallery shows the intended runtime path. The camera captures a short set of face images. EasyShield evaluates the frames for spoofing before the recognizer is allowed to compare identity embeddings. A spoofing result ends the flow immediately; a verified face is compared with the locally stored enrollment vectors. A match above the decision threshold authorizes the output that activates vehicle access.
+The runtime in `face_security.py` captures a short set of face images. EasyShield evaluates the frames for spoofing before the recognizer compares identity embeddings. Real predictions must outnumber fake predictions; a failed liveness decision ends the flow. A verified face is compared with the locally stored enrollment vectors, and a match at or above the configured similarity threshold authorizes the access output.
 
 The design is intentionally ordered this way. Running identity matching on an unverified face would make the recognizer the first security boundary, which is the wrong place to detect a printed or replayed attack. Anti-spoofing reduces that risk before the access relay is involved.
 
@@ -40,7 +42,9 @@ The design is intentionally ordered this way. Running identity matching on an un
 
 The firmware uses the device product key to retrieve the associated user profile. It compares the profile's `updated_at` value with its last successful synchronization, so it only rebuilds the local image and embedding data when the enrollment changes. This keeps the recognition path independent from round-trip cloud latency while allowing a profile to be updated remotely.
 
-InsightFace generates the face embeddings, which are stored with metadata for later comparison. The public firmware README documents a default similarity threshold of `0.5`. The supplied system diagram shows a 70% decision point, so a deployment should make the final operating threshold explicit and validate it against false-accept and false-reject rates instead of leaving two different representations of the rule.
+InsightFace generates the face embeddings, which are stored with metadata for later comparison. The runtime `face_security.py` uses `FACE_MATCH_THRESHOLD = 0.6`, while the README describes `0.5` and an older system diagram shows 70%. The new figure follows the executable runtime. A deployment should unify these representations and validate its chosen threshold against false-accept and false-reject rates.
+
+<ProjectFigure src="/images/projects/nioto-gates-styled.webp" width={1774} height={887} alt="Separate liveness and identity security gates before access authorization" caption="Figure 2. Presentation-attack rejection precedes local identity matching. The runtime uses a 0.6 identity threshold; the car-access illustration represents an authorization output, not a deployed barrier or a measured recognition result." />
 
 ### CUDA is part of the deployment contract
 
@@ -48,7 +52,7 @@ The acceleration story is about the whole inference stack, not a CUDA label on a
 
 For an NVIDIA edge target such as Jetson, the deployment path is JetPack, CUDA, cuDNN, and TensorRT. CUDA accelerates the neural-network work; camera capture, decoding, data movement, thresholding, cloud synchronization, and relay actuation still have their own cost. Treating these as separate stages is how I reason about whether a vision pipeline can feel real-time rather than only reporting a fast model benchmark.
 
-The current public repositories document the CUDA/cuDNN PyTorch environment and the Edge/Jetson runtime prerequisites. They do not include a committed TensorRT engine or an INT8 calibration pipeline, so those belong in the next deployment phase rather than being claimed as already shipped.
+The reviewed Raspberry Pi runtime explicitly loads the liveness model on CPU. The CUDA/cuDNN environment describes model training and a possible NVIDIA target, rather than acceleration already active in this Pi code. A committed TensorRT engine or INT8 calibration pipeline was not established by the reviewed source.
 
 ## Result
 

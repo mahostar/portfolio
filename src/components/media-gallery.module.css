@@ -1,6 +1,7 @@
 .gallery { margin: 36px 0; }
+.inline { margin: 0; height: 100%; }
 .heading { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-bottom: 18px; }
-.heading h2 { font-size: clamp(24px, 3vw, 34px); letter-spacing: -.04em; }
+.heading h2, .heading h3 { font-size: clamp(24px, 3vw, 34px); letter-spacing: -.04em; }
 .heading > span { color: #536485; font-size: 12px; }
 .grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
 .tile { display: block; text-align: left; color: #0b1944; border: 1px solid #d6dfef; background: #f6f8fd; padding: 0; border-radius: 8px; overflow: hidden; cursor: pointer; }
@@ -37,6 +38,9 @@
 .viewer button:hover { background: #f1f1ef; border-color: #a1a1aa; }
 .viewer button:disabled { opacity: .3; cursor: default; }
 .stage { position: relative; flex: 1; min-height: 0; overflow: hidden; background: #f5f5f3; }
+.zoomSurface { position: absolute; inset: 0; touch-action: none; user-select: none; overflow: hidden; }
+.zoomTools { position: absolute; top: 10px; right: 10px; display: flex; gap: 4px; z-index: 1; }
+.zoomTools button { background: #ffffffeb; }
 .stage.stage.stage img, .stage.stage.stage video { position: absolute; inset: 0; display: block; width: 100%; height: 100%; max-width: none; max-height: none; margin: 0; object-fit: contain; object-position: center; }
 .viewer footer { display: flex; justify-content: center; align-items: center; gap: 24px; padding: 10px 22px; border-top: 1px solid #e5e5e3; background: #fff; }
 .viewer footer span { min-width: 70px; text-align: center; font-size: 12px; color: #71717a; font-variant-numeric: tabular-nums; }

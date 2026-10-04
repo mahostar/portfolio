@@ -1,0 +1,82 @@
+[
+  {
+    "name": "easyshield-cover-v2",
+    "path": "public/images/projects/easyshield-cover-v2.webp",
+    "width": 1600,
+    "height": 900,
+    "bytes": 153884,
+    "sha256": "84c018f4ad29b3af09ba6fc5f3c38dfd2bfbbe3096a72134b6b92c2af46648e0"
+  },
+  {
+    "name": "algobrain-abstract-v2",
+    "path": "public/images/projects/algobrain-abstract-v2.webp",
+    "width": 1672,
+    "height": 941,
+    "bytes": 102640,
+    "sha256": "3c0b9e7750a59b4155565f313f0ace0c57d051764e6e2daf7112954f16cccd82"
+  },
+  {
+    "name": "windweave-cover-v2",
+    "path": "public/images/projects/windweave-cover-v2.webp",
+    "width": 1600,
+    "height": 900,
+    "bytes": 145372,
+    "sha256": "fb447c957d6eb2f4a9117b8963f7551758f3cc01835f2923987afd6aabb1dd19"
+  },
+  {
+    "name": "fabric-training-styled",
+    "path": "public/images/projects/fabric-training-styled.webp",
+    "width": 1774,
+    "height": 887,
+    "bytes": 245660,
+    "sha256": "c217f1e68798755a50d561d195e1fea802c8c292fcd66acf2ac0d7138fa5f945"
+  },
+  {
+    "name": "fabric-detection-styled",
+    "path": "public/images/projects/fabric-detection-styled.webp",
+    "width": 1774,
+    "height": 887,
+    "bytes": 289826,
+    "sha256": "18653bd0141ed52beb2db0a9cd5357db0d5666a32b27de69ba9a035a822ee940"
+  },
+  {
+    "name": "fabric-viewer-styled",
+    "path": "public/images/projects/fabric-viewer-styled.webp",
+    "width": 1774,
+    "height": 887,
+    "bytes": 204520,
+    "sha256": "acdc362fabe4508ecc57ee5f3cd534ce0c13dbc49e2e643059ca58dfdfe0ad9a"
+  },
+  {
+    "name": "remote-control-styled",
+    "path": "public/images/projects/remote-control-styled.webp",
+    "width": 1768,
+    "height": 889,
+    "bytes": 164314,
+    "sha256": "bd5824b54476cef3eb21ec38b26fab6fe04f108bc85e2ad355266ead828cf78b"
+  },
+  {
+    "name": "remote-pulse-styled",
+    "path": "public/images/projects/remote-pulse-styled.webp",
+    "width": 1774,
+    "height": 887,
+    "bytes": 145124,
+    "sha256": "3dfb029218333e80d9fabe57d0d8a299841b7226a9cdbe0142dfabbe67ffe79a"
+  },
+  {
+    "name": "nioto-enrollment-styled",
+    "path": "public/images/projects/nioto-enrollment-styled.webp",
+    "width": 1774,
+    "height": 887,
+    "bytes": 208118,
+    "sha256": "258094d66bd509af6526cf9a3f57675e7c9b84836e0a3bb07cf99c7ae70bff68"
+  },
+  {
+    "name": "nioto-gates-styled",
+    "path": "public/images/projects/nioto-gates-styled.webp",
+    "width": 1774,
+    "height": 887,
+    "bytes": 149550,
+    "sha256": "89fa7c5c7e87518dc8e340440a89e8983c036e102f65ffa93205b85942062251"
+  }
+]

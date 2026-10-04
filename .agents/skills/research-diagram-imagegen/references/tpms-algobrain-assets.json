@@ -1,0 +1,54 @@
+{
+  "recordedOn": "2026-10-04",
+  "style": "public/images/projects/windweave-cuda.webp",
+  "assets": [
+    {
+      "name": "tpms-software",
+      "path": "public/images/evidence/projects/tpms-generator/research/tpms-software-styled.webp",
+      "width": 1659,
+      "height": 948,
+      "bytes": 285246,
+      "sha256": "91e6e3f4af0c60f1321a39d3d028af61a2a9c3bef99fd98dc488095d46de08f9"
+    },
+    {
+      "name": "tpms-geometry",
+      "path": "public/images/evidence/projects/tpms-generator/research/tpms-geometry-styled.webp",
+      "width": 1660,
+      "height": 948,
+      "bytes": 322438,
+      "sha256": "54ad3f94fbb7d97d07330c6d8c37661a647eb1275be826a699517867df8c927a"
+    },
+    {
+      "name": "algobrain-hardware",
+      "path": "public/images/evidence/projects/algobrain/research/algobrain-hardware-styled.webp",
+      "width": 1659,
+      "height": 948,
+      "bytes": 241230,
+      "sha256": "f6ea0b854ac787662186b3e97df06f2236785860d195958d23b1901afced9b83"
+    },
+    {
+      "name": "algobrain-software",
+      "path": "public/images/evidence/projects/algobrain/research/algobrain-software-styled.webp",
+      "width": 1659,
+      "height": 948,
+      "bytes": 299180,
+      "sha256": "7a772600a31c076c37b161e1bcddc5b98c698c909efc90cb9beaa9cde413b706"
+    },
+    {
+      "name": "algobrain-cover",
+      "path": "public/images/projects/algobrain-paper-cover.webp",
+      "width": 1600,
+      "height": 900,
+      "bytes": 298754,
+      "sha256": "ee1b40805998247235ba0e8885b9d07ff0ef039b9abe67a1728947d7d585fe05"
+    },
+    {
+      "name": "easyshield-cover",
+      "path": "public/images/projects/easyshield-paper-cover.webp",
+      "width": 1600,
+      "height": 900,
+      "bytes": 265690,
+      "sha256": "2d0866aa86311302529586f554b82dc6a0e8a02274c69570ac1035111e92ddf7"
+    }
+  ]
+}

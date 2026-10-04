@@ -2,7 +2,7 @@
 slug: tpms-generator
 title: TPMS Studio
 category: 3D + Design
-summary: 'A desktop geometry engine that turns periodic surface equations into closed, 3D-printable meshes.'
+summary: 'Periodic-field geometry, boundary closure, and topology checks in a desktop mesh-generation tool.'
 tech:
   - python
   - cad
@@ -14,44 +14,154 @@ links: {}
 role: 'Geometry engine and desktop-tool development'
 placeholder: false
 pipeline: []
+format: "paper"
+paperTitle: "A reproducible implicit-field pipeline for closed TPMS meshes"
 ---
-## Problem
-Triply Periodic Minimal Surfaces are attractive for lightweight structures, filters, and lattice-like parts because a small mathematical rule can repeat through a volume. The hard part is turning that rule into a mesh that a printer or CAD workflow can use.
+## Abstract
+TPMS Studio converts parameterized implicit fields into finite, closed triangle meshes through a reproducible desktop workflow. Periodic equations describe the geometry; cell counts and domain dimensions set its spatial frequency; a scalar-field band creates material around the level surface. A negative exterior padding layer closes intersections at the sampled domain boundary before marching-cubes extraction. Vertex cleanup, normal correction, and topology inspection complete the path to preview and STL export. This paper traces that implementation, separates geometric fidelity from mesh closure, and reports a fresh source-copy check of six built-in presets. All six checked meshes were watertight under the stated test configuration.
 
-A surface equation alone does not specify physical wall thickness, part dimensions, how many unit cells fit in the part, mesh resolution, or whether the exported model is closed. TPMS Studio treats those as first-class engineering inputs instead of leaving them as manual fixes after export.
+**Keywords:** implicit geometry; TPMS; marching cubes; shell generation; boundary closure; mesh topology.
 
-## What I built
-TPMS Studio is a Python geometry engine with a desktop interface for generating TPMS shells and exporting meshes. It includes Gyroid, Primitive, Diamond, IWP, Neovius, and BCC templates, plus a custom-equation path. The interface runs generation in a worker thread, updates a 3D view, reports triangle count and watertight status, and exports the current result as STL.
+## System specification
+### 2.1 A geometry engine with an observable desktop interface
+The reviewed implementation is the Python engine in `tpms_generator.py` and its PyQt5/PyVistaQt interface in `GUI_API.py`. The repository also contains a React/Three.js educational viewer; that viewer is a separate presentation path. The mesh-generation architecture below describes the desktop tool.
 
-The configuration captures reproducible geometry: physical dimensions in millimetres, unit-cell counts along each axis, an isovalue that changes the topology and open-space balance, wall thickness, and either a target file size or an explicit grid resolution.
+The API accepts a `TPMSConfig`, returns a `TPMSResult`, and exports its retained mesh. The GUI exposes template and custom-expression controls, requests generation through a worker thread, and presents the result as a colored surface or wireframe. API configuration supports independent dimensions and cell counts on each axis; the reviewed GUI uses one size and one cell count for all three axes.
 
-## How it works
-### Describe the structure as a scalar field
-For every point in a 3D grid, the engine evaluates a periodic mathematical function. For a Gyroid, for example, the field combines sine and cosine terms along all three axes. Unit-cell count and physical dimensions determine the angular frequency, so the same formula can repeat more densely without changing the requested part size.
+| Configuration | Geometric or computational role |
+| --- | --- |
+| Formula | Gyroid, Primitive, Diamond, IWP, Neovius, or BCC; custom expressions are also supported |
+| Physical dimensions $L_x,L_y,L_z$ | Coordinate scale of the sampled domain |
+| Cell counts $n_x,n_y,n_z$ | Repetition density along each axis |
+| Isovalue $C$ | Offset applied to the evaluated field |
+| Field-band parameter $\tau$ | Width of the retained interval in scalar-field values |
+| Grid resolution $r_x,r_y,r_z$ | Sampling density before surface extraction |
+| Target file size | Heuristic input to automatic resolution selection |
 
-The isovalue shifts the field before extracting geometry. This changes the balance of material and void space, which is why it belongs in the saved configuration rather than being treated as a cosmetic slider.
+<ProjectFigure src="/images/evidence/projects/tpms-generator/research/tpms-software-styled.webp" width={1659} height={948} alt="TPMS Studio desktop configuration, worker, geometry API, topology inspection and export" caption="Figure 1. The source-derived desktop workflow. Expensive generation runs in a QThread; the returned mesh and status feed preview and export." />
 
-### Turn a zero-thickness surface into a printable shell
-An implicit TPMS surface has no thickness. The engine converts it into a shell by keeping the region where the absolute field value falls within half the requested wall thickness. In effect, the mathematical surface becomes the centre plane of a solid band.
+## Method
+### 3.1 Spatial frequency makes the model reproducible
+For axis $a\in\{x,y,z\}$, the engine derives angular frequency from the requested number of repetitions and physical domain length:
 
-The engine pads the field with outside values before extracting the isosurface. That forces the mesh to close at the domain boundary instead of leaving open edges where the periodic pattern reaches the box. It then uses marching cubes to convert the sampled 3D field into vertices and triangular faces, rescales the vertices into millimetres, merges coincident points, and fixes normals.
+$$
+\omega_a=\frac{2\pi n_a}{L_a},\qquad \theta_a=\omega_a x_a.
+\tag{1}
+$$
 
-### Choose resolution before mesh extraction
-Mesh resolution controls both surface fidelity and file size. Rather than generate an excessively dense mesh and simplify it afterwards, the engine estimates a grid dimension from a target triangle budget. It also applies a minimum density per unit cell so curved features are not undersampled, and a soft cap to limit memory use.
+This binds the periodic rule to physical coordinates. Increasing cell count while holding domain length fixed produces smaller repeated cells. Increasing domain length while holding cell count fixed increases cell size. The main presets use these axis-specific frequencies.
 
-This is a useful trade-off, not a guarantee. Triangle count depends on the formula, thickness, isovalue, and dimensions, so the file-size result is an estimate. A serious production workflow should record the actual output size and allow a controlled retry if it misses the target.
+For the Gyroid approximation, the sampled field is
 
-### Validate the mesh before export
-After generation, the engine checks whether the mesh is watertight and reports its Euler number alongside triangle count. A watertight mesh is an important prerequisite for reliable solid printing, but it is not the same thing as a successful print. Thin walls, very small features, unsupported overhangs, material behaviour, and a slicer's settings still matter.
+$$
+\begin{aligned}
+F(\mathbf x)&=\sin\theta_x\cos\theta_y\\
+&\quad+\sin\theta_y\cos\theta_z\\
+&\quad+\sin\theta_z\cos\theta_x-C.
+\end{aligned}
+\tag{2}
+$$
 
-The application exposes hooks for curvature and periodicity checks, but the reviewed generation path currently performs the topology check directly. The custom-equation feature evaluates expressions inside a restricted math namespace; it needs stronger parsing if equations are ever accepted from an untrusted source.
+The trigonometric representation is an implicit approximation used to generate TPMS-like geometry. It does not constitute a numerical proof of zero mean curvature. The engine evaluates the base preset with zero offset and then subtracts the configured $C$ once. This makes the isovalue a geometric input rather than a display adjustment.
 
-## Result
-The generated meshes in the project gallery show several TPMS variants produced by the workflow. The source implements the path from parameterised field to shell mesh, validation result, and STL export, with a desktop interface that keeps expensive generation work off the UI thread.
+### 3.2 Material is a band around the level surface
+A zero level set has no solid thickness. The generator transforms the field into a sign convention suitable for a solid shell:
 
-No mechanical performance, porosity, flow-rate, or printed-part benchmark is claimed here. Those properties depend on the specific geometry, material, print orientation, and manufacturing process.
+$$
+\begin{aligned}
+S(\mathbf x)&=\frac{\tau}{2}-|F(\mathbf x)|,\\
+\Omega_{\mathrm{solid}}&=\{\mathbf x:S(\mathbf x)\geq0\}.
+\end{aligned}
+\tag{3}
+$$
 
-## What I would improve
-I would add automatic wall-thickness and minimum-feature checks based on a selected printer and nozzle profile, then run a slicer estimate before presenting a part as ready to print. The export record should include every input parameter, actual triangle count, actual file size, validation result, and a hash of the STL so the same part can be reproduced later.
+The two sides of the shell lie near $F=\pm\tau/2$. The parameter named `wall_thickness` in the source acts directly on field values. Because $F$ is not a signed-distance function, this parameter does not generally produce a constant thickness in millimetres. Where the field has a nonzero gradient and the band is sufficiently narrow, a local first-order estimate is
 
-For custom equations, I would replace direct expression evaluation with an abstract syntax tree that permits only approved operators and functions. I would also add a regression suite of known geometries that checks closure, dimensions, periodic boundary alignment, and mesh stability across resolutions.
+$$
+t_{\mathrm{local}}(\mathbf x)\approx\frac{\tau}{\|\nabla F(\mathbf x)\|}.
+\tag{4}
+$$
+
+This distinction explains why numerical resolution and physical feature inspection both matter. A band can be mathematically well specified while its local wall width varies through the part. A constant-distance offset would require a distance-field construction or another thickness-control method.
+
+### 3.3 Boundary closure is an explicit construction
+The sampled shell may intersect the sides of the finite box. Extracting only the interior can leave boundary loops open. The engine pads every side with one voxel of exterior value $S=-1$, then extracts the zero level. Interpolation between interior solid values and the negative exterior creates closure surfaces at those cuts.
+
+Marching cubes converts local grid-cell crossings into vertices and triangular faces. The resulting padded-grid vertex coordinate $v_a$ is transformed into physical units by
+
+$$
+x_a=(v_a-1)\frac{L_a}{r_a-1}.
+\tag{5}
+$$
+
+Subtracting one removes the padding-index offset; dividing by $r_a-1$ accounts for the inclusive grid endpoints. Closure occurs between the boundary samples and the exterior layer, so the final mesh bounds can extend slightly beyond the nominal sampling box. Exact manufactured extents should be checked on the extracted mesh.
+
+<ProjectFigure src="/images/evidence/projects/tpms-generator/research/tpms-geometry-styled.webp" width={1660} height={948} alt="Implicit TPMS field, solid band, exterior padding, marching cubes and closed mesh checks" caption="Figure 2. Scalar-field banding and negative exterior padding provide a closed-shell construction. Topology is checked on the resulting mesh; the band is not a signed-distance thickness." />
+
+### 3.4 Resolution is selected before extraction
+The automatic controller estimates triangle count from a requested binary-STL payload and approximates the relation between triangles and voxels. With target size $B$ in decimal megabytes, its initial cubic-grid estimate follows
+
+$$
+\begin{aligned}
+\widehat T&=\frac{10^6B}{50},\\
+\widehat V&=\frac{\widehat T}{0.45},\\
+r_0&=\max\!\left(\lfloor\widehat V^{1/3}\rfloor,20n_{\max}\right),\\
+r&=\min(300,r_0).
+\end{aligned}
+\tag{6}
+$$
+
+The estimate uses 50 bytes per binary-STL triangle and 0.45 triangles per voxel. Neither the realized triangle count nor the final file size is fixed by this estimate. The 300-point cap takes precedence when the cell-density floor exceeds it. Explicit resolution bypasses this automatic rule. The ordinary generation path does not automatically decimate the extracted mesh.
+
+## Implementation
+### 4.1 State and execution boundaries
+`TPMSMainWindow.start_generation` gathers controls into a configuration, disables the Generate button, and starts `GenerationWorker`. Its `run` method calls `TPMSGeneratorAPI.generate`. Completion or error signals return control to the GUI, where the button is restored and a successful result becomes the current preview/export object.
+
+Within the engine, `ResolutionController` chooses the grid, `TPMSEngine` selects the scalar-field function, and `MeshGenerator` builds the band and extracts geometry. NumPy evaluates full three-dimensional coordinate arrays. This vectorization avoids a Python loop over individual grid points, but its memory cost still grows with the number of sampled voxels. Raising every axis resolution increases the volume of work cubically.
+
+### 4.2 What the topology report establishes
+After extraction, the API merges vertices and fixes normals through Trimesh. It reports `mesh.is_watertight` and `mesh.euler_number`. Watertight edge connectivity means every mesh edge is incident to two faces. A porous solid can contain many tunnels and remain watertight: the tunnel walls are part of a closed boundary, rather than missing faces.
+
+The Euler characteristic is
+
+$$
+\chi=V-E+T,
+\tag{7}
+$$
+
+where $V$, $E$, and $T$ are mesh vertex, edge, and triangle counts. The source stores this value under a field named `genus`; this paper reports it as Euler characteristic. Converting it into genus requires additional assumptions about connectedness and orientability.
+
+The API can return success even when watertight status is false, and export checks generation success rather than imposing a topology gate. Curvature and periodicity validator modules exist, but the reviewed main path does not execute those advanced checks. The result is an inspectable generation and topology workflow, with closure status available for each mesh.
+
+## Evidence
+### 5.1 Fresh topology check of the six main presets
+For this page, the engine file was copied into an isolated temporary directory and executed using the project's existing Python environment. The original file's SHA-256 remained unchanged. No source code was modified and no training or dependency installation was required.
+
+Each run used a $48\times48\times48$ grid, $2\times2\times2$ cells, a $20\times20\times20$ mm sampling domain, $C=0$, and field-band parameter $\tau=0.5$. All six runs returned successful meshes, reported watertight status, and independently had exactly two incident faces per unique edge.
+
+| Preset | Triangles | Euler characteristic | Watertight |
+| --- | ---: | ---: | --- |
+| Gyroid | 91,884 | −102 | Yes |
+| Primitive | 71,360 | −64 | Yes |
+| Diamond | 113,068 | −230 | Yes |
+| IWP | 91,496 | −196 | Yes |
+| Neovius | 77,776 | −1,064 | Yes |
+| BCC | 47,016 | −300 | Yes |
+
+These are topology checks at one stated configuration, not mechanical, flow, or print benchmarks. The Gyroid's measured coordinate bounds were approximately $-0.0851$ to $20.0851$ mm on each axis, illustrating the small exterior extension introduced by interpolated padding caps.
+
+### 5.2 Original visual evidence
+The existing blue, green, and purple mesh screenshots remain in the project gallery. They document the desktop viewer and generated surface appearance. The two new figures explain the algorithm; their schematic geometry is not additional manufacturing evidence.
+
+## Discussion
+The central engineering decision is to construct a finite solid before extracting its boundary. Periodic evaluation, field banding, negative padding, and explicit coordinate scaling make the path reproducible; post-extraction inspection exposes whether a particular result is closed.
+
+Closure and geometric accuracy answer different questions. Resolution determines how well the grid captures narrow features and curvature. The field gradient influences local wall width. Padding affects final bounds. A watertight flag addresses connectivity, while printing also depends on dimensions, minimum feature size, orientation, support, and material. Self-intersection and minimum-wall checks would strengthen the export contract.
+
+Custom expressions currently use a restricted evaluation namespace. A parser with an explicit operator/function allowlist would make the contract clearer. The procedural expression helper generates symbolic candidates; the model-loading hook is a stub in this source. This paper therefore attributes the geometry to equation evaluation and numerical meshing.
+
+## References
+1. **Primary engine:** `tpms_generator.py` — `TPMSConfig`, `TPMSEngine`, `ResolutionController`, `MeshGenerator`, and `TPMSGeneratorAPI.generate/export` in the supplied TPMS Academy repository.
+2. **Desktop application:** `GUI_API.py` — `GenerationWorker`, `TPMSMainWindow.start_generation`, `on_finished`, `update_view`, and `export_mesh`.
+3. **Auxiliary paths:** `utils/templates.py`, `models/procedural_generator.py`, and the curvature/periodicity validation modules. Their presence is distinguished from execution in the reviewed main path.
+4. **Reproduction record:** isolated source-copy topology runs on 4 October 2026; six presets and the fixed configuration listed in Section 5.1. Existing mesh screenshots are preserved in the gallery.

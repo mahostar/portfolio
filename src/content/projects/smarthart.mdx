@@ -12,45 +12,104 @@ featured: false
 links: {"github":"https://github.com/mahostar/SmartHart"}
 role: "Designer & developer · academic project"
 placeholder: false
+format: "paper"
+paperTitle: "Sequence classification of simulated vital signs with a live inference dashboard"
 ---
-## Problem
-An isolated reading tells only part of a monitoring story. A sequence can reveal how several signals change together, but making that useful requires a consistent path from data generation to preprocessing, inference, and visualization.
+## Abstract
+SmartHart implements an end-to-end experimental pipeline for simulated multivariate vital signs: labeled data generation, seven-feature sequence construction, bidirectional recurrent classification, and online visualization. A ten-observation window is classified using the state attached to its final observation. The runtime reuses the training scaler and label map, maintains a sliding buffer, and displays predictions alongside the simulator's known labels. This paper describes the tensor contract, model architecture, training/runtime window differences, and a preprocessing-order issue relevant to evaluation. The system is a simulation-based academic prototype; the repository's reported accuracy describes synthetic scenarios rather than clinical performance.
 
-SmartHart explores that path with simulated blood pressure, heart rate, oxygen saturation, and respiratory rate. It is an academic prototype for studying sequence classification and monitoring interfaces. Its current data source is a configurable simulator, rather than a deployed patient-sensor network.
+**Keywords:** synthetic time series; sequence classification; bidirectional LSTM; feature consistency; online inference; monitoring interface.
 
-## What I built
-The repository separates three responsibilities: generating labeled readings, training a temporal classifier, and running an interactive Tkinter dashboard. The dashboard plots signals, displays the predicted class, and compares predictions with the simulator's known labels.
+## System specification
+### 2.1 Data generation and labels
+The simulator emits systolic and diastolic blood pressure, heart rate, oxygen saturation, respiratory rate, a timestamp, and a scenario label. The default generation interval is 0.5 seconds. Scenario dynamics couple changes across signals over time; labels include normal, cardiac-arrest, hypertensive-crisis, and septic-shock simulations.
 
-The simulator includes normal conditions and timed anomaly scenarios. A scenario changes several signal distributions over its duration, rather than changing just one number to an outlier. Controls adjust generation frequency and anomaly probability, making it possible to explore transitions and inspect how the classifier reacts.
+These names identify synthetic generator scenarios. They do not constitute diagnoses produced or validated on patient recordings. The dashboard's controls adjust generation interval, plot history, and anomaly probability, allowing the same inference path to be exercised under different simulated transition rates.
 
-The supplied cover is a visual overview. The implementation details below come from the repository's Python files.
+### 2.2 Seven-feature tensor contract
+Five generated measurements are supplemented with two derived features: pulse pressure $P_P$ and a guarded heart-rate-to-systolic-pressure ratio $S_I$:
 
-## How it works
-### Turn five measurements into seven features
-Training starts by validating CSV columns, parsing timestamps, dropping invalid timestamps, and sorting readings chronologically. Five measurements become seven features by adding the difference between systolic and diastolic pressure, and heart rate divided by systolic pressure with a small denominator guard.
+$$
+\begin{aligned}
+P_P&=P_{\mathrm{sys}}-P_{\mathrm{dia}},\\
+S_I&=\frac{H_R}{P_{\mathrm{sys}}+10^{-6}}.
+\end{aligned}
+\tag{1}
+$$
 
-These derived features encode relationships between signals. They are inputs to a classification experiment, not independent evidence that the system can diagnose a medical condition.
+The feature order is fixed: systolic pressure, diastolic pressure, heart rate, oxygen saturation, respiratory rate, pulse pressure, and the ratio above. Training and runtime must use the same order and persisted scaler. Each completed model input has shape $X\in\mathbb R^{B\times10\times7}$, with batch size $B=1$ for an online prediction.
 
-Preprocessing scales the features and encodes class labels. It groups readings into ten-step sequences, each labeled using its last reading. The configured training run uses nonoverlapping windows. A window crossing a scenario boundary can therefore contain mixed conditions while still having one target class.
+## Method
+### 3.1 Chronology, scaling, and window labels
+Training validates required columns, parses timestamps, removes invalid rows, sorts observations chronologically, and derives the two additional features. `StandardScaler` transforms each feature using a saved mean and scale:
 
-### Classify a completed window
-The network stacks bidirectional LSTM layers with 128 and 64 units, dropout, a dense hidden layer, and a softmax output. Early stopping monitors validation loss and restores the selected weights. Evaluation includes a confusion matrix, per-class classification report, and ROC curves, rather than accuracy alone.
+$$
+\widetilde{x}_{t,j}=\frac{x_{t,j}-\mu_j}{\sigma_j}.
+\tag{2}
+$$
 
-Bidirectionality operates inside the completed ten-reading window. The dashboard does not require future readings beyond that window: it waits for enough samples, scales the buffer, reshapes it into one sequence of ten rows and seven features, and predicts the class of the latest reading.
+The default sequence length is ten and the training overlap parameter is zero, yielding stride ten. A sequence receives the label from its final row. An 80/20 chronological training/test split is made without shuffling. Keras reserves 20% of the training portion for validation.
 
-### Ship preprocessing with the model
-Training saves the model, scaler, and label order as separate artifacts. The dashboard loads those same artifacts and reconstructs the same seven features in the same order. This is an essential inference contract: a correctly loaded network can still produce unreliable output if runtime scaling or feature order differs from training.
+The inspected preprocessing fits the scaler before splitting the sequences. Test-period feature distributions therefore influence the scaling parameters. A strict held-out evaluation should fit preprocessing only on training observations and apply those parameters to later periods. This is an evaluation boundary in the original implementation, which remains unchanged.
 
-After the first ten readings, the dashboard advances a sliding window one sample at a time. Its displayed accuracy compares predictions with the simulator's current labels and retains up to 100 recent comparisons. That percentage is a moving simulation result, rather than a fixed held-out test score or confidence estimate for one prediction.
+### 3.2 Bidirectional recurrent classifier
+The first bidirectional LSTM has 128 units per direction and returns the full sequence, giving a $10\times256$ representation per sample. A second bidirectional LSTM has 64 units per direction and returns a 128-element vector. A 64-unit ReLU dense layer precedes the class softmax; dropout of 0.2 follows each recurrent stage and the intermediate dense layer.
 
-## Result
-SmartHart demonstrates a complete simulation-to-inference workflow in the [public repository](https://github.com/mahostar/SmartHart). The same data contract connects offline training and the live dashboard, while the simulator makes labels available for immediate feedback.
+For logits $z_c$ and final-row class $y$, the classifier uses
 
-The documentation reports strong generated-data results, but those figures are not a new benchmark from this review. The more useful outcome is an inspectable experiment: change the simulation, observe a transition, and see which classes the model confuses. Resource-management extensions described in the documentation remain future work.
+$$
+\begin{aligned}
+p_c&=\frac{e^{z_c}}{\sum_{k=1}^{C}e^{z_k}},\\
+\mathcal L&=-\log p_y.
+\end{aligned}
+\tag{3}
+$$
 
-## What I would improve
-The scaler is currently fitted before the chronological train/test split. I would fit preprocessing on the training partition only, then apply it unchanged to validation and test data. I would also isolate simulation runs across partitions so neighboring windows cannot make evaluation look easier than an independent run.
+The inspected training configuration uses Adam with learning rate $10^{-3}$, batch size 32, and a maximum of 30 epochs. Early stopping monitors validation loss with patience five and restores weights from the minimum validation loss. $C$ is determined by the encoded labels; the supplied generator defines four scenario classes.
 
-Next, I would test missing readings, noisy inputs, class imbalance, and windows crossing scenario boundaries. Per-class recall, false alarms, and inference latency would be more useful than a single accuracy figure. External datasets and a separate validation process would be necessary before claiming real-world health-monitoring performance.
+Bidirectional processing operates inside the already observed ten-row window. It does not require observations beyond that completed window at online inference time.
 
-Source references: [data generator](https://github.com/mahostar/SmartHart/blob/main/DataGenerator.py), [training and preprocessing](https://github.com/mahostar/SmartHart/blob/main/modelTraining.py), [live inference dashboard](https://github.com/mahostar/SmartHart/blob/main/RunTheModel.py).
+<ProjectFigure src="/images/evidence/projects/smarthart/research/sequence-classifier-styled.webp" width={1774} height={887} alt="Seven-feature BiLSTM sequence contract" caption="Figure 1. Five simulated measurements become seven features and ten-row model inputs. Shapes follow the inspected recurrent architecture and saved artifact contract." />
+
+## Implementation
+### 4.1 A three-artifact inference contract
+Training saves the Keras model, fitted scaler, and class-label array. Runtime loads all three: the model alone is insufficient because its inputs depend on feature scaling and its numeric outputs depend on the persisted class order.
+
+The online process computes the same seven features, transforms them with the saved scaler, reshapes the buffer to $(1,10,7)$, and maps the softmax argmax through the saved labels. It waits for ten observations before predicting.
+
+### 4.2 Sliding online inference and UI scheduling
+Training uses non-overlapping windows by default. Runtime advances the ten-row buffer by one observation, so neighboring predictions share nine rows. This provides frequent interface updates while introducing strong temporal dependence between adjacent decisions.
+
+A background data loop generates observations and invokes the Tkinter scheduler for interface updates. The dashboard redraws live signal charts and prediction state through the UI event loop. Adjustable history length affects the displayed trace; the classifier's input length remains ten.
+
+The runtime compares each prediction with the simulator's current known label. Its displayed moving accuracy uses the most recent 100 prediction outcomes:
+
+$$
+\begin{aligned}
+A_t&=\frac{1}{m}\sum_{k=t-m+1}^{t}\mathbf{1}[\hat y_k=y_k],\\
+m&=\min(100,n).
+\end{aligned}
+\tag{4}
+$$
+
+Here $n$ is the number of available prediction outcomes. This is an online diagnostic on overlapping synthetic windows, rather than an independent test-set estimate.
+
+<ProjectFigure src="/images/evidence/projects/smarthart/research/streaming-dashboard-styled.webp" width={1774} height={887} alt="Sliding-window inference dashboard" caption="Figure 2. Ten-row online windows advance by one observation and share nine rows. UI state compares predictions with known synthetic labels over recent outcomes." />
+
+## Evidence
+The repository README reports overall accuracy above 98% and approximately 93% for online operation. Those values are source-reported simulation results; no training or patient-data evaluation was rerun for this page. The training script provides confusion-matrix, classification-report, and ROC analysis code, while the live interface exposes scenario labels, predictions, and recent correctness.
+
+The existing application and project media remain available in the gallery. New source-derived figures explain the feature/model contract and online state transition without inventing signal recordings, accuracy curves, or patient measurements.
+
+## Discussion
+The project demonstrates consistency across data generation, feature engineering, artifact persistence, inference, and visualization. Its most useful implementation distinctions are final-row sequence labels, training stride ten versus runtime stride one, and the dependence of every inference on a matched scaler and label map.
+
+Further evaluation should isolate preprocessing to the training period, separate complete simulated episodes across splits, and report transition-level errors in addition to aggregate accuracy. Class imbalance and long normal intervals can hide missed scenario transitions. Results on this generator establish behavior within its synthetic assumptions; real sensor variability, missingness, and clinical generalization remain outside the demonstrated evaluation.
+
+## References
+The analysis uses revision `b958da897c5e1b6a9e06710cfae44f75dfc726e5` of [SmartHart](https://github.com/mahostar/SmartHart).
+
+- [Synthetic data generator](https://github.com/mahostar/SmartHart/blob/b958da897c5e1b6a9e06710cfae44f75dfc726e5/DataGenerator.py).
+- [Preprocessing, recurrent model, and evaluation](https://github.com/mahostar/SmartHart/blob/b958da897c5e1b6a9e06710cfae44f75dfc726e5/modelTraining.py).
+- [Online inference and Tkinter dashboard](https://github.com/mahostar/SmartHart/blob/b958da897c5e1b6a9e06710cfae44f75dfc726e5/RunTheModel.py).
+- [Repository documentation and reported synthetic results](https://github.com/mahostar/SmartHart/blob/b958da897c5e1b6a9e06710cfae44f75dfc726e5/README.md).

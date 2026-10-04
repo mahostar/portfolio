@@ -1,17 +1,24 @@
 "use client";
 
 import Image from "next/image";
-import { useId, useRef, useState } from "react";
+import { useId, useRef, useState, type ReactNode } from "react";
 import { ArrowUpRight, ChevronLeft, ChevronRight, Images, Play, X } from "lucide-react";
 import type { EvidenceItem } from "@/lib/evidence";
 import styles from "./media-gallery.module.css";
 import viewer from "./certificate-viewer.module.css";
+import { ZoomableGalleryImage } from "./zoomable-gallery-image";
 
-export function MediaGallery({ items: sourceItems, title, compact = false, story }: {
+export function MediaGallery({ items: sourceItems, title, compact = false, story, children, initialSrc, triggerClassName, triggerLabel, headingLevel = 2, moreLabel }: {
   items: EvidenceItem[];
   title: string;
   compact?: boolean;
   story?: string;
+  children?: ReactNode;
+  initialSrc?: string;
+  triggerClassName?: string;
+  triggerLabel?: string;
+  headingLevel?: 2 | 3;
+  moreLabel?: string;
 }) {
   const items = [...sourceItems].sort((a, b) => Number(a.type === "video") - Number(b.type === "video"));
   if (items.length && items.every((item) => item.type === "video")) {
@@ -25,6 +32,7 @@ export function MediaGallery({ items: sourceItems, title, compact = false, story
   const [isClosing, setIsClosing] = useState(false);
   const labelId = useId();
   const selected = index === null ? null : items[index];
+  const Heading = headingLevel === 3 ? "h3" : "h2";
   if (!items.length) return null;
   const open = (position: number, trigger: HTMLElement) => {
     setIsClosing(false);
@@ -42,14 +50,19 @@ export function MediaGallery({ items: sourceItems, title, compact = false, story
   const move = (direction: number) => setIndex((current) =>
     current === null ? null : (current + direction + items.length) % items.length);
   return (
-    <div className={compact ? styles.compact : styles.gallery}>
-      {compact ? (
+    <div className={children ? styles.inline : compact ? styles.compact : styles.gallery}>
+      {children ? (
+        <button type="button" className={triggerClassName} aria-label={triggerLabel}
+          onClick={(event) => open(Math.max(0, items.findIndex((item) => item.src === initialSrc)), event.currentTarget)}>
+          {children}
+        </button>
+      ) : compact ? (
         <button className={story ? styles.storyLauncher : styles.launcher} onClick={(event) => open(0, event.currentTarget)}>
           {story ? <>Read the story <ArrowUpRight size={16} /></> : <><Images size={16} /> View gallery <span>{items.length}</span></>}
         </button>
       ) : (
         <>
-          <div className={styles.heading}><h2>{title}</h2><span>{items.length} photos &amp; videos</span></div>
+          <div className={styles.heading}><Heading>{title}</Heading><span>{items.length} photos &amp; videos</span></div>
           <div className={styles.grid}>
             {(expanded ? items : items.slice(0, 6)).map((item, position) => (
               <button className={styles.tile} key={item.id} onClick={(event) => open(position, event.currentTarget)} aria-label={`Open ${item.caption}`}>
@@ -62,7 +75,7 @@ export function MediaGallery({ items: sourceItems, title, compact = false, story
               </button>
             ))}
           </div>
-          {items.length > 6 && <button className={styles.more} onClick={() => setExpanded(!expanded)}>{expanded ? "Show fewer" : `Show all ${items.length} photos & videos`}</button>}
+          {items.length > 6 && <button className={styles.more} aria-expanded={expanded} onClick={() => setExpanded(!expanded)}>{expanded ? "Show fewer" : moreLabel ?? `Show all ${items.length} photos & videos`}</button>}
         </>
       )}
       <dialog ref={dialog} className={`${styles.dialog} ${viewer.motion}`} aria-labelledby={labelId}
@@ -84,7 +97,7 @@ export function MediaGallery({ items: sourceItems, title, compact = false, story
           <div className={styles.body}>
           {story && <p className={styles.storyText}>{story}</p>}
           {selected && <div className={styles.stage}>
-            {selected.type === "video" ? <video key={selected.src} src={selected.src} poster={selected.preview} controls playsInline preload="none" aria-label={selected.caption} /> : <Image src={selected.src} alt={selected.alt} width={selected.width} height={selected.height} sizes="95vw" unoptimized />}
+            {selected.type === "video" ? <video key={selected.src} src={selected.src} poster={selected.preview} controls playsInline preload="none" aria-label={selected.caption} /> : <ZoomableGalleryImage key={selected.src} item={selected} />}
           </div>}
           </div>
           <footer><button aria-label="Previous media" title="Previous photo (left arrow)" disabled={items.length < 2} onClick={() => move(-1)}><ChevronLeft size={20} aria-hidden="true" /></button><span aria-live="polite">{index === null ? 0 : index + 1} / {items.length}{selected?.concept ? " · Concept visual" : ""}</span><button aria-label="Next media" title="Next photo (right arrow)" disabled={items.length < 2} onClick={() => move(1)}><ChevronRight size={20} aria-hidden="true" /></button></footer>

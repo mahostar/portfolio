@@ -1,0 +1,158 @@
+{
+  "recordedOn": "2026-10-04",
+  "scope": "Snapshot of the accepted WindWeave visuals; verify current assets before modifying them.",
+  "styleReference": "public/images/projects/windweave-cuda.webp",
+  "styleBoundary": "Article figures transfer scientific panel richness only; no NVIDIA/CUDA branding, giant title, cover header or frame.",
+  "assets": [
+    {
+      "path": "public/images/projects/windweave.webp",
+      "role": "Preserved original blue concept",
+      "width": 1600,
+      "height": 900,
+      "bytes": 262984,
+      "sha256": "63600f213717a483dbc033490a029c5f4194f0df1323381cfb6f8239966965ac"
+    },
+    {
+      "path": "public/images/projects/windweave-streaming.webp",
+      "role": "Preserved real-time subtitle concept in Abstract/shared gallery",
+      "width": 1600,
+      "height": 900,
+      "bytes": 256504,
+      "sha256": "10ed7b928d6333c2f3a2524480d7d105716de301aa9094d19f010326befa03d2"
+    },
+    {
+      "path": "public/images/projects/windweave-cuda.webp",
+      "role": "Approved cover; style-only reference for unbranded article figures",
+      "width": 1600,
+      "height": 900,
+      "bytes": 219778,
+      "sha256": "a1eb6c4b5b12077d8c7a5f01e75d067d131309ba32aa88e342a98e2f8a810581"
+    },
+    {
+      "name": "architecture",
+      "path": "public/images/evidence/projects/windweave/architecture-styled.webp",
+      "role": "Accepted imagegen-styled article figure; no logos or branding",
+      "width": 1774,
+      "height": 887,
+      "bytes": 224294,
+      "sha256": "abf23c81c0d2d398a22beb75ec465ebe263fa7702961f77fb89e28ed10bcba8b"
+    },
+    {
+      "name": "index",
+      "path": "public/images/evidence/projects/windweave/index-styled.webp",
+      "role": "Accepted imagegen-styled article figure; no logos or branding",
+      "width": 1848,
+      "height": 851,
+      "bytes": 169880,
+      "sha256": "ad3dbce867342b9e398e83d12a234a265e2a6fc17f7dc0466eadca34538cb418"
+    },
+    {
+      "name": "normalization",
+      "path": "public/images/evidence/projects/windweave/normalization-styled.webp",
+      "role": "Accepted imagegen-styled article figure; no logos or branding",
+      "width": 1850,
+      "height": 850,
+      "bytes": 156546,
+      "sha256": "a3adb31184c1c46f0de3c222f6ecceaaacaf072af9e59056b0c6a65f6d53179a"
+    },
+    {
+      "name": "tensors",
+      "path": "public/images/evidence/projects/windweave/tensors-styled.webp",
+      "role": "Accepted imagegen-styled article figure; no logos or branding",
+      "width": 1721,
+      "height": 914,
+      "bytes": 161036,
+      "sha256": "f24054779f3bffb669050ca020a441b93c56fc7f9453ee6f614bf18203212dd9"
+    },
+    {
+      "name": "locality",
+      "path": "public/images/evidence/projects/windweave/locality-styled.webp",
+      "role": "Accepted imagegen-styled article figure; no logos or branding",
+      "width": 1808,
+      "height": 870,
+      "bytes": 173360,
+      "sha256": "c5244f5773246036af6a0a98a2ded011307bb0dfd29aa8f26a5c9f177dd43649"
+    },
+    {
+      "name": "sequence",
+      "path": "public/images/evidence/projects/windweave/sequence-styled.webp",
+      "role": "Accepted imagegen-styled article figure; no logos or branding",
+      "width": 1691,
+      "height": 930,
+      "bytes": 191424,
+      "sha256": "4fac3805c5dd5a4f60cfd3b7ea492720fb3cf00f5573af2bb2680915fc530071"
+    },
+    {
+      "name": "feedback",
+      "path": "public/images/evidence/projects/windweave/feedback-styled.webp",
+      "role": "Accepted imagegen-styled article figure; no logos or branding",
+      "width": 1870,
+      "height": 841,
+      "bytes": 244770,
+      "sha256": "3c9ab4b5125c04f3d9c10736098010095a244a5b1e1f1660e177c860a4b4706b"
+    },
+    {
+      "name": "architecture",
+      "path": "public/images/evidence/projects/windweave/architecture-paper.svg",
+      "role": "Exact scientific vector base preserved before styling",
+      "width": 720,
+      "height": 360,
+      "bytes": 111706,
+      "sha256": "fc7e0fb96093f2c498f023fdb4941e38cdf89dbe02905ea24f8456d2855724ac"
+    },
+    {
+      "name": "index",
+      "path": "public/images/evidence/projects/windweave/index-paper.svg",
+      "role": "Exact scientific vector base preserved before styling",
+      "width": 720,
+      "height": 331,
+      "bytes": 74419,
+      "sha256": "3047b7aac44d43856b354428a9ef25d035eab3681c6adb43f67c39973c81bae5"
+    },
+    {
+      "name": "normalization",
+      "path": "public/images/evidence/projects/windweave/normalization-paper.svg",
+      "role": "Exact scientific vector base preserved before styling",
+      "width": 720,
+      "height": 331,
+      "bytes": 70000,
+      "sha256": "034b951a05373993dcad0988ebdd3e1fdae1292c0b9fde58d72be80ce2fc9b5b"
+    },
+    {
+      "name": "tensors",
+      "path": "public/images/evidence/projects/windweave/tensors-paper.svg",
+      "role": "Exact scientific vector base preserved before styling",
+      "width": 720,
+      "height": 382,
+      "bytes": 82647,
+      "sha256": "3ca35de9e0edbab133c62d84ab512512700b2ddfef5ead3cdb96a0b109315d97"
+    },
+    {
+      "name": "locality",
+      "path": "public/images/evidence/projects/windweave/locality-paper.svg",
+      "role": "Exact scientific vector base preserved before styling",
+      "width": 720,
+      "height": 346,
+      "bytes": 79954,
+      "sha256": "12eb1db15724966ebca1318e4929faf045f5ef246a202b702169f978c4c92b99"
+    },
+    {
+      "name": "sequence",
+      "path": "public/images/evidence/projects/windweave/sequence-paper.svg",
+      "role": "Exact scientific vector base preserved before styling",
+      "width": 720,
+      "height": 396,
+      "bytes": 64778,
+      "sha256": "59d2cc9ca812879005f9a842075d68ed4bb10686e0f404721ed215f89cebb884"
+    },
+    {
+      "name": "feedback",
+      "path": "public/images/evidence/projects/windweave/feedback-paper.svg",
+      "role": "Exact scientific vector base preserved before styling",
+      "width": 720,
+      "height": 324,
+      "bytes": 73226,
+      "sha256": "8e32427130a3e570a951405877cfc99b69a7c62d906791a2ec7e3569b6b773ea"
+    }
+  ]
+}

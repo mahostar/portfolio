@@ -1,0 +1,423 @@
+{
+  "date": "2026-10-04",
+  "purpose": "Historical prompt provenance. Read multi-project-figures.md for corrected current specifications; do not reproduce draft errors.",
+  "shared": "Use case: style-transfer, scientific research diagram. Image 1 is an accurate Matplotlib content base; Image 2 is ONLY a style reference. Additional images are source geometry references or real interface evidence, NOT style. Produce a rich, polished research-paper figure with white background, softly tinted blue/grey/ochre/rose/green panels, thin colored borders, nested subpanels, small flat technical illustrations, precise arrows, readable clean mathematics and scientific sans-serif type. Match the panel richness and depth of the style reference. Make the content much more illustrative and visually informative than plain boxes, while preserving its meaning. No NVIDIA, CUDA, company logos, giant project title, green cover frame, certificate marks, futuristic processors, marketing slogans, invented data, benchmark plots or performance metrics. Keep landscape proportions and generous safe margins; all labels in English. You may reorganize to improve clarity but retain panel titles/letters, causal directions, equations, units and all source-derived constraints. Fix any base labels close to drawings so nothing overlaps.\nOnly enrich existing mechanisms; do not add new measured numbers, fake display values, formulas, sensor promises, mechanical capabilities, systems or hardware. Hardware arrows are functional schematics, not detailed build drawings. Use original app references only as evidence of displayed controls, without copying private IDs. Any plotted sample trace must be marked schematic; preferably use exact matrices and symbolic examples instead. Preserve thin correct directed arrows; causal flow reads left to right.",
+  "figures": [
+    {
+      "slug": "plantini",
+      "key": "tower-assembly",
+      "description": "Three panels: planted assembled tower, exploded modular hierarchy, and mechanical/hydraulic/light interfaces. Preserve the source tower silhouette and angled removable growing cups. The exploded view is functional, not a build drawing.",
+      "invariants": "",
+      "sourceReferences": [
+        "public/images/evidence/projects/plantini/manufacturing/tower-module-cad--081.webp",
+        "public/images/evidence/projects/plantini/prototypes/tower-with-plants-front--089.webp"
+      ],
+      "initial": {
+        "prompt": "Use case: style-transfer, scientific research diagram. Image 1 is an accurate Matplotlib content base; Image 2 is ONLY a style reference. Additional images are source geometry references or real interface evidence, NOT style. Produce a rich, polished research-paper figure with white background, softly tinted blue/grey/ochre/rose/green panels, thin colored borders, nested subpanels, small flat technical illustrations, precise arrows, readable clean mathematics and scientific sans-serif type. Match the panel richness and depth of the style reference. Make the content much more illustrative and visually informative than plain boxes, while preserving its meaning. No NVIDIA, CUDA, company logos, giant project title, green cover frame, certificate marks, futuristic processors, marketing slogans, invented data, benchmark plots or performance metrics. Keep landscape proportions and generous safe margins; all labels in English. You may reorganize to improve clarity but retain panel titles/letters, causal directions, equations, units and all source-derived constraints. Fix any base labels close to drawings so nothing overlaps.\n\nFIGURE SPECIFICATION:\nThree panels: planted assembled tower, exploded modular hierarchy, and mechanical/hydraulic/light interfaces. Preserve the source tower silhouette and angled removable growing cups. The exploded view is functional, not a build drawing.\nInvariants: \nStyle guidance: add accurate line-cutaway, exploded-view, root/tower/water flat schematic drawings where appropriate instead of bare text boxes. Avoid extra numerical claims.",
+        "referenceRoles": [
+          "Accurate Matplotlib content base",
+          "Approved WindWeave cover as STYLE ONLY",
+          "Inspected source geometry/interface reference",
+          "Inspected source geometry/interface reference"
+        ]
+      },
+      "correction": {
+        "prompt": "Use case: precise-object-edit / scientific diagram correction. Image1 is the styled current figure to repair. Image2 is the accurate Matplotlib scientific base for meaning. Keep rich pastel panels, thin outlines, legible math, white background and every correct feature. Make only the following correction, without invented extra claims, labels, dimensions, numeric results or logos:\nRemove unsupported mechanical claims in panel c: replace 'pressurized water from central manifold' with 'Functional water-routing schematic'; replace 'cup inserts and removes without tools' with 'Removable growing cup'; replace 'angled cup promotes stable plant growth' with 'Angled plant-site interface'. Replace 'adjustable' and 'articulated/flexible positioning' claims with 'External curved lighting arms'; show the simple curved arms from the photo without swivel mechanisms. Keep the accurate photo-derived tower and exploded conceptual hierarchy. Add a small 'Functional section; internal routing schematic' note where transparent water routes are shown. Do not invent hardware functions.",
+        "referenceRoles": [
+          "<current generated draft>",
+          "<Matplotlib base for this figure>"
+        ],
+        "additionalCorrection": null
+      }
+    },
+    {
+      "slug": "plantini",
+      "key": "root-pocket",
+      "description": "Show a scientifically clear cutaway of the angled growing-cup/socket from reference image 3; show a small blue retained pocket under roots and refill/uptake arrows. Panel b explains retained water while the pump is off. 10–24 hours is author-described operating reserve depending on uptake/loss, not a measured guarantee.",
+      "invariants": "Do not treat cyan CAD selections as actual water. Do not print CAD dimensions, wall thickness, ports or fabrication recipe. Preserve water below roots, not submerged foliage.",
+      "sourceReferences": [
+        "temp/research-upgrade/cad-frames/module-04.png",
+        "temp/research-upgrade/cad-frames/module-06.png"
+      ],
+      "initial": {
+        "prompt": "Use case: style-transfer, scientific research diagram. Image 1 is an accurate Matplotlib content base; Image 2 is ONLY a style reference. Additional images are source geometry references or real interface evidence, NOT style. Produce a rich, polished research-paper figure with white background, softly tinted blue/grey/ochre/rose/green panels, thin colored borders, nested subpanels, small flat technical illustrations, precise arrows, readable clean mathematics and scientific sans-serif type. Match the panel richness and depth of the style reference. Make the content much more illustrative and visually informative than plain boxes, while preserving its meaning. No NVIDIA, CUDA, company logos, giant project title, green cover frame, certificate marks, futuristic processors, marketing slogans, invented data, benchmark plots or performance metrics. Keep landscape proportions and generous safe margins; all labels in English. You may reorganize to improve clarity but retain panel titles/letters, causal directions, equations, units and all source-derived constraints. Fix any base labels close to drawings so nothing overlaps.\n\nFIGURE SPECIFICATION:\nShow a scientifically clear cutaway of the angled growing-cup/socket from reference image 3; show a small blue retained pocket under roots and refill/uptake arrows. Panel b explains retained water while the pump is off. 10–24 hours is author-described operating reserve depending on uptake/loss, not a measured guarantee.\nInvariants: Do not treat cyan CAD selections as actual water. Do not print CAD dimensions, wall thickness, ports or fabrication recipe. Preserve water below roots, not submerged foliage.\nStyle guidance: add accurate line-cutaway, exploded-view, root/tower/water flat schematic drawings where appropriate instead of bare text boxes. Avoid extra numerical claims.",
+        "referenceRoles": [
+          "Accurate Matplotlib content base",
+          "Approved WindWeave cover as STYLE ONLY",
+          "Inspected source geometry/interface reference",
+          "Inspected source geometry/interface reference"
+        ]
+      },
+      "correction": {
+        "prompt": "Use case: precise-object-edit / scientific diagram correction. Image1 is the styled current figure to repair. Image2 is the accurate Matplotlib scientific base for meaning. Keep rich pastel panels, thin outlines, legible math, white background and every correct feature. Make only the following correction, without invented extra claims, labels, dimensions, numeric results or logos:\nFix the water-balance formula in the right middle panel. It currently repeats /dt. Render exactly one derivative: dV_p/dt = q_in - q_uptake - q_loss. There must be no extra /dt denominator after the fraction. Preserve all other panels, CAD-derived cup silhouette, water pocket below roots, and 10–24 h author-described reserve.",
+        "referenceRoles": [
+          "<current generated draft>",
+          "<Matplotlib base for this figure>"
+        ],
+        "additionalCorrection": null
+      }
+    },
+    {
+      "slug": "plantini",
+      "key": "water-circuit",
+      "description": "Tower water flow schematic: main reservoir, pump supply up to the tower, water distribution across plant sites, gravity return to reservoir. Separate inset shows the local root-water pocket buffering refill intervals. Do not add UV/filter/dosing plumbing absent from the physical reference.",
+      "invariants": "",
+      "sourceReferences": [
+        "public/images/evidence/projects/plantini/manufacturing/assembled-tower-and-light--082.webp"
+      ],
+      "initial": {
+        "prompt": "Use case: style-transfer, scientific research diagram. Image 1 is an accurate Matplotlib content base; Image 2 is ONLY a style reference. Additional images are source geometry references or real interface evidence, NOT style. Produce a rich, polished research-paper figure with white background, softly tinted blue/grey/ochre/rose/green panels, thin colored borders, nested subpanels, small flat technical illustrations, precise arrows, readable clean mathematics and scientific sans-serif type. Match the panel richness and depth of the style reference. Make the content much more illustrative and visually informative than plain boxes, while preserving its meaning. No NVIDIA, CUDA, company logos, giant project title, green cover frame, certificate marks, futuristic processors, marketing slogans, invented data, benchmark plots or performance metrics. Keep landscape proportions and generous safe margins; all labels in English. You may reorganize to improve clarity but retain panel titles/letters, causal directions, equations, units and all source-derived constraints. Fix any base labels close to drawings so nothing overlaps.\n\nFIGURE SPECIFICATION:\nTower water flow schematic: main reservoir, pump supply up to the tower, water distribution across plant sites, gravity return to reservoir. Separate inset shows the local root-water pocket buffering refill intervals. Do not add UV/filter/dosing plumbing absent from the physical reference.\nInvariants: \nStyle guidance: add accurate line-cutaway, exploded-view, root/tower/water flat schematic drawings where appropriate instead of bare text boxes. Avoid extra numerical claims.",
+        "referenceRoles": [
+          "Accurate Matplotlib content base",
+          "Approved WindWeave cover as STYLE ONLY",
+          "Inspected source geometry/interface reference"
+        ]
+      },
+      "correction": null
+    },
+    {
+      "slug": "plantini",
+      "key": "pump-duty",
+      "description": "Exact analytical step plot: pump ON from 0 to 1 minute; OFF from 1 to 60 minutes. Duty D=1/60=1.67%; 24 minutes ON per day. Ideal pump-only energy ratio 1/60; not total device energy savings or validated power measurement. No invented energy curve.",
+      "invariants": "Preserve 1 min ON / 59 min OFF and the pump-only scope.",
+      "sourceReferences": [],
+      "initial": {
+        "prompt": "Use case: style-transfer, scientific research diagram. Image 1 is an accurate Matplotlib content base; Image 2 is ONLY a style reference. Additional images are source geometry references or real interface evidence, NOT style. Produce a rich, polished research-paper figure with white background, softly tinted blue/grey/ochre/rose/green panels, thin colored borders, nested subpanels, small flat technical illustrations, precise arrows, readable clean mathematics and scientific sans-serif type. Match the panel richness and depth of the style reference. Make the content much more illustrative and visually informative than plain boxes, while preserving its meaning. No NVIDIA, CUDA, company logos, giant project title, green cover frame, certificate marks, futuristic processors, marketing slogans, invented data, benchmark plots or performance metrics. Keep landscape proportions and generous safe margins; all labels in English. You may reorganize to improve clarity but retain panel titles/letters, causal directions, equations, units and all source-derived constraints. Fix any base labels close to drawings so nothing overlaps.\n\nFIGURE SPECIFICATION:\nExact analytical step plot: pump ON from 0 to 1 minute; OFF from 1 to 60 minutes. Duty D=1/60=1.67%; 24 minutes ON per day. Ideal pump-only energy ratio 1/60; not total device energy savings or validated power measurement. No invented energy curve.\nInvariants: Preserve 1 min ON / 59 min OFF and the pump-only scope.\nStyle guidance: add accurate line-cutaway, exploded-view, root/tower/water flat schematic drawings where appropriate instead of bare text boxes. Avoid extra numerical claims.",
+        "referenceRoles": [
+          "Accurate Matplotlib content base",
+          "Approved WindWeave cover as STYLE ONLY"
+        ]
+      },
+      "correction": {
+        "prompt": "Use case: precise-object-edit / scientific diagram correction. Image1 is the styled current figure to repair. Image2 is the accurate Matplotlib scientific base for meaning. Keep rich pastel panels, thin outlines, legible math, white background and every correct feature. Make only the following correction, without invented extra claims, labels, dimensions, numeric results or logos:\nReplace the lower-left pumping-cycle illustration of a well and elevated storage tank with a small hydroponic tower, its base reservoir, pump and retained root-water pocket. This project has no well. Replace the lower-right solar panel/streetlight illustration with the tower's curved LED arms and a small controller icon. Preserve exactly ON 0–1 min, OFF1–60min, D1/60=1.67%,24min/day,pump-only energy1/60, excluded lights/controls/startup. Keep existing plot/math/layout.",
+        "referenceRoles": [
+          "<current generated draft>",
+          "<Matplotlib base for this figure>",
+          "public/images/evidence/projects/plantini/manufacturing/assembled-tower-and-light--082.webp"
+        ],
+        "additionalCorrection": null
+      }
+    },
+    {
+      "slug": "plantini",
+      "key": "growth-lighting",
+      "description": "Flat technical illustration of the real planted white stacked tower with black angled cups, curved external lighting arms and base. Pair with functional root/canopy conditions panel. Avoid light efficiency claims or invented dimensions.",
+      "invariants": "",
+      "sourceReferences": [
+        "public/images/evidence/projects/plantini/manufacturing/assembled-tower-and-light--082.webp",
+        "public/images/evidence/projects/plantini/prototypes/tower-with-plants-front--089.webp"
+      ],
+      "initial": {
+        "prompt": "Use case: style-transfer, scientific research diagram. Image 1 is an accurate Matplotlib content base; Image 2 is ONLY a style reference. Additional images are source geometry references or real interface evidence, NOT style. Produce a rich, polished research-paper figure with white background, softly tinted blue/grey/ochre/rose/green panels, thin colored borders, nested subpanels, small flat technical illustrations, precise arrows, readable clean mathematics and scientific sans-serif type. Match the panel richness and depth of the style reference. Make the content much more illustrative and visually informative than plain boxes, while preserving its meaning. No NVIDIA, CUDA, company logos, giant project title, green cover frame, certificate marks, futuristic processors, marketing slogans, invented data, benchmark plots or performance metrics. Keep landscape proportions and generous safe margins; all labels in English. You may reorganize to improve clarity but retain panel titles/letters, causal directions, equations, units and all source-derived constraints. Fix any base labels close to drawings so nothing overlaps.\n\nFIGURE SPECIFICATION:\nFlat technical illustration of the real planted white stacked tower with black angled cups, curved external lighting arms and base. Pair with functional root/canopy conditions panel. Avoid light efficiency claims or invented dimensions.\nInvariants: \nStyle guidance: add accurate line-cutaway, exploded-view, root/tower/water flat schematic drawings where appropriate instead of bare text boxes. Avoid extra numerical claims.",
+        "referenceRoles": [
+          "Accurate Matplotlib content base",
+          "Approved WindWeave cover as STYLE ONLY",
+          "Inspected source geometry/interface reference",
+          "Inspected source geometry/interface reference"
+        ]
+      },
+      "correction": {
+        "prompt": "Use case: precise-object-edit / scientific diagram correction. Image1 is the styled current figure to repair. Image2 is the accurate Matplotlib scientific base for meaning. Keep rich pastel panels, thin outlines, legible math, white background and every correct feature. Make only the following correction, without invented extra claims, labels, dimensions, numeric results or logos:\nIn bottom-right coupled vertical environment, replace 'Upper level (more light)' with 'Upper plant sites' and 'Lower level (less light)' with 'Lower plant sites'. Do not claim measured lighting distribution. Remove horizontal causal arrows from root reserve to canopy light in panel b; show those as independent coupled growing requirements. Preserve tower/photo silhouette, roots/cups/exploded view and palette.",
+        "referenceRoles": [
+          "<current generated draft>",
+          "<Matplotlib base for this figure>"
+        ],
+        "additionalCorrection": null
+      }
+    },
+    {
+      "slug": "plantini",
+      "key": "conductivity",
+      "description": "Three panels: alternating sensor excitation against water, generic public conductivity/temperature/TDS relationships, and validity-aware interpretation. Preserve symbolic cell factor, temperature coefficient and solution conversion only. No circuit values, pins, excitation waveform timing, electrode geometry, calibration constants or build instructions.",
+      "invariants": "These are general public physical relationships, not the private firmware calibration formula. TDS is not ammonia or dissolved oxygen.",
+      "sourceReferences": [],
+      "initial": {
+        "prompt": "Use case: style-transfer, scientific research diagram. Image 1 is an accurate Matplotlib content base; Image 2 is ONLY a style reference. Additional images are source geometry references or real interface evidence, NOT style. Produce a rich, polished research-paper figure with white background, softly tinted blue/grey/ochre/rose/green panels, thin colored borders, nested subpanels, small flat technical illustrations, precise arrows, readable clean mathematics and scientific sans-serif type. Match the panel richness and depth of the style reference. Make the content much more illustrative and visually informative than plain boxes, while preserving its meaning. No NVIDIA, CUDA, company logos, giant project title, green cover frame, certificate marks, futuristic processors, marketing slogans, invented data, benchmark plots or performance metrics. Keep landscape proportions and generous safe margins; all labels in English. You may reorganize to improve clarity but retain panel titles/letters, causal directions, equations, units and all source-derived constraints. Fix any base labels close to drawings so nothing overlaps.\n\nFIGURE SPECIFICATION:\nThree panels: alternating sensor excitation against water, generic public conductivity/temperature/TDS relationships, and validity-aware interpretation. Preserve symbolic cell factor, temperature coefficient and solution conversion only. No circuit values, pins, excitation waveform timing, electrode geometry, calibration constants or build instructions.\nInvariants: These are general public physical relationships, not the private firmware calibration formula. TDS is not ammonia or dissolved oxygen.\nStyle guidance: add accurate line-cutaway, exploded-view, root/tower/water flat schematic drawings where appropriate instead of bare text boxes. Avoid extra numerical claims.",
+        "referenceRoles": [
+          "Accurate Matplotlib content base",
+          "Approved WindWeave cover as STYLE ONLY"
+        ]
+      },
+      "correction": {
+        "prompt": "Use case: precise-object-edit / scientific diagram correction. Image1 is the styled current figure to repair. Image2 is the accurate Matplotlib scientific base for meaning. Keep rich pastel panels, thin outlines, legible math, white background and every correct feature. Make only the following correction, without invented extra claims, labels, dimensions, numeric results or logos:\nRemove invented numeric readings '1.23 S m−1' and '23.4 °C' from panel c. Replace with symbolic 'Conductivity κ_T' and 'Temperature T'. Label waveform/charge schematics 'Public principle; not the proprietary sensor waveform'. Replace absolute 'AC keeps response stable' or 'prevent polarization' language with 'Alternating excitation reduces persistent DC bias'. Preserve κ=KcellG, κ25=κT/[1+α(T−25)],CTDS≈fsolutionκ25, solution-dependence, and not ammonia/DO/nutrient limits. Do not add any measured numbers.",
+        "referenceRoles": [
+          "<current generated draft>",
+          "<Matplotlib base for this figure>"
+        ],
+        "additionalCorrection": null
+      }
+    },
+    {
+      "slug": "aquaflow",
+      "key": "conductivity",
+      "description": "Three panels: alternating sensor excitation against water, generic public conductivity/temperature/TDS relationships, and validity-aware interpretation. Preserve symbolic cell factor, temperature coefficient and solution conversion only. No circuit values, pins, excitation waveform timing, electrode geometry, calibration constants or build instructions.",
+      "invariants": "These are general public physical relationships, not the private firmware calibration formula. TDS is not ammonia or dissolved oxygen.",
+      "sourceReferences": [],
+      "initial": {
+        "prompt": "Use case: style-transfer, scientific research diagram. Image 1 is an accurate Matplotlib content base; Image 2 is ONLY a style reference. Additional images are source geometry references or real interface evidence, NOT style. Produce a rich, polished research-paper figure with white background, softly tinted blue/grey/ochre/rose/green panels, thin colored borders, nested subpanels, small flat technical illustrations, precise arrows, readable clean mathematics and scientific sans-serif type. Match the panel richness and depth of the style reference. Make the content much more illustrative and visually informative than plain boxes, while preserving its meaning. No NVIDIA, CUDA, company logos, giant project title, green cover frame, certificate marks, futuristic processors, marketing slogans, invented data, benchmark plots or performance metrics. Keep landscape proportions and generous safe margins; all labels in English. You may reorganize to improve clarity but retain panel titles/letters, causal directions, equations, units and all source-derived constraints. Fix any base labels close to drawings so nothing overlaps.\nOnly enrich existing mechanisms; do not add new measured numbers, fake display values, formulas, sensor promises, mechanical capabilities, systems or hardware. Hardware arrows are functional schematics, not detailed build drawings. Use original app references only as evidence of displayed controls, without copying private IDs. Any plotted sample trace must be marked schematic; preferably use exact matrices and symbolic examples instead. Preserve thin correct directed arrows; causal flow reads left to right.\n\nFIGURE SPECIFICATION:\nThree panels: alternating sensor excitation against water, generic public conductivity/temperature/TDS relationships, and validity-aware interpretation. Preserve symbolic cell factor, temperature coefficient and solution conversion only. No circuit values, pins, excitation waveform timing, electrode geometry, calibration constants or build instructions.\nInvariants: These are general public physical relationships, not the private firmware calibration formula. TDS is not ammonia or dissolved oxygen.",
+        "referenceRoles": [
+          "Accurate Matplotlib content base",
+          "Approved WindWeave cover as STYLE ONLY"
+        ]
+      },
+      "correction": {
+        "prompt": "Perform a targeted scientific correction of Image 1 (the polished figure). Image 2 is the accurate Matplotlib content base, not a style to revert to. Retain Image 1's white canvas, rich nested pastel scientific panels, thin outlines, flat technical illustrations, clean math and legibility. No CUDA/NVIDIA logos or thumbnail branding. Correct ALL the following while leaving accurate content intact:\nKeep the polished layout, colors and scientific mechanisms. Replace all fabricated numeric meter/display readings with symbolic labels 'TDS estimate C_TDS' and 'Temperature context T'. Do not show 120 ppm or 25.0 C or any invented measured value. Alternating excitation reduces DC bias; do not promise zero polarization. Keep generic conductivity/temperature conversion equations, schematic signal labeling, and prominent 'TDS does not identify ammonia or dissolved oxygen'.\nAudit all labels and arrows against these instructions. Do not introduce new claims or numeric observations.",
+        "referenceRoles": [
+          "<current generated draft>",
+          "<Matplotlib base for this figure>"
+        ],
+        "additionalCorrection": null
+      }
+    },
+    {
+      "slug": "plantini",
+      "key": "operator-loop",
+      "description": "Architecture with sensor processor to ESP32; Firebase state synchronization between controller and mobile app is author-described. Reverse arrow represents app configuration/control. Separate panel summarizes existing real screenshots: TDS/temp/pH, LED/pump, crop selection/calibration, Always/Normal/Eco modes. Do not invent app source code, Firebase paths, timestamps, dosing or control algorithm.",
+      "invariants": "Distinguish firmware example serial handoff from author-described app/cloud integration. Do not claim the three pump modes have verified firmware schedules.",
+      "sourceReferences": [
+        "public/images/evidence/projects/plantini/app/app-dashboard--070.webp",
+        "public/images/evidence/projects/plantini/app/crop-and-pump-configuration--071.webp"
+      ],
+      "initial": {
+        "prompt": "Use case: style-transfer, scientific research diagram. Image 1 is an accurate Matplotlib content base; Image 2 is ONLY a style reference. Additional images are source geometry references or real interface evidence, NOT style. Produce a rich, polished research-paper figure with white background, softly tinted blue/grey/ochre/rose/green panels, thin colored borders, nested subpanels, small flat technical illustrations, precise arrows, readable clean mathematics and scientific sans-serif type. Match the panel richness and depth of the style reference. Make the content much more illustrative and visually informative than plain boxes, while preserving its meaning. No NVIDIA, CUDA, company logos, giant project title, green cover frame, certificate marks, futuristic processors, marketing slogans, invented data, benchmark plots or performance metrics. Keep landscape proportions and generous safe margins; all labels in English. You may reorganize to improve clarity but retain panel titles/letters, causal directions, equations, units and all source-derived constraints. Fix any base labels close to drawings so nothing overlaps.\nOnly enrich existing mechanisms; do not add new measured numbers, fake display values, formulas, sensor promises, mechanical capabilities, systems or hardware. Hardware arrows are functional schematics, not detailed build drawings. Use original app references only as evidence of displayed controls, without copying private IDs. Any plotted sample trace must be marked schematic; preferably use exact matrices and symbolic examples instead. Preserve thin correct directed arrows; causal flow reads left to right.\n\nFIGURE SPECIFICATION:\nArchitecture with sensor processor to ESP32; Firebase state synchronization between controller and mobile app is author-described. Reverse arrow represents app configuration/control. Separate panel summarizes existing real screenshots: TDS/temp/pH, LED/pump, crop selection/calibration, Always/Normal/Eco modes. Do not invent app source code, Firebase paths, timestamps, dosing or control algorithm.\nInvariants: Distinguish firmware example serial handoff from author-described app/cloud integration. Do not claim the three pump modes have verified firmware schedules.",
+        "referenceRoles": [
+          "Accurate Matplotlib content base",
+          "Approved WindWeave cover as STYLE ONLY",
+          "Inspected source geometry/interface reference",
+          "Inspected source geometry/interface reference"
+        ]
+      },
+      "correction": {
+        "prompt": "Perform a targeted scientific correction of Image 1 (the polished figure). Image 2 is the accurate Matplotlib content base, not a style to revert to. Retain Image 1's white canvas, rich nested pastel scientific panels, thin outlines, flat technical illustrations, clean math and legibility. No CUDA/NVIDIA logos or thumbnail branding. Correct ALL the following while leaving accurate content intact:\nKeep the existing app reference panels, Firebase architecture and tasteful technical style. Correct the sensor processor: draw ONLY the TDS measurement path and temperature context; remove any physical pH probe. App pH cards may remain as existing interface evidence, not evidence of a pH firmware path. REMOVE all raw protocol commands (TDS?, TEMP?, PH?, DIAG?) and all invented response packets. Replace that bottom panel with abstract semantic boxes: 'Request reading / diagnostics' -> 'Estimate + status + validity + quality' -> 'Controller interpretation'. Label this boundary 'Supplied firmware example; production app schema unspecified'. Clearly route requested app controls through Firebase shared state to ESP32; do not bypass Firebase. No new numeric readings, private protocol, or sensor claims.\nAudit all labels and arrows against these instructions. Do not introduce new claims or numeric observations.",
+        "referenceRoles": [
+          "<current generated draft>",
+          "<Matplotlib base for this figure>"
+        ],
+        "additionalCorrection": {
+          "prompt": "Targeted scientific diagram correction. Image 1 is the current styled figure. Preserve its accepted scientific white/pastel panel styling and all accurate structure. Make ONLY this diagram-routing correction in panel a. DELETE both long lower arrows that directly connect ESP32 and Mobile app (blue Sensor data and green Configuration/control). They bypass Firebase and are wrong. Keep the existing top short ESP32 -> Firebase -> Mobile app arrows. Add two separate short reverse arrows under these adjacent boxes: Mobile app -> Firebase labeled 'Requested configuration'; Firebase -> ESP32 labeled 'Shared desired state'. Each arrow must terminate at Firebase or start at Firebase. No ESP32-to-app bypass line remains. Preserve all sensor/firmware panels, app UI, colors and other content.",
+          "referenceRoles": [
+            "Current styled draft"
+          ]
+        }
+      }
+    },
+    {
+      "slug": "aquaflow",
+      "key": "recirculation",
+      "description": "Scientific tank/pump/filter/aeration return loop, sensed temperature/TDS/level and controller/relay equipment boundary. Draw physical fish tank and mineral media schematically from actual reference, no decorative environment. UV output exists in supplied firmware but does not prove microbial removal efficacy.",
+      "invariants": "",
+      "sourceReferences": [
+        "public/images/evidence/projects/aquaflow/architecture/water-system-concept-diagram--028.webp",
+        "public/images/evidence/projects/aquaflow/prototype/water-tank-and-controller--030.webp",
+        "temp/research-upgrade/cad-frames/filter-shape.png"
+      ],
+      "initial": {
+        "prompt": "Use case: style-transfer, scientific research diagram. Image 1 is an accurate Matplotlib content base; Image 2 is ONLY a style reference. Additional images are source geometry references or real interface evidence, NOT style. Produce a rich, polished research-paper figure with white background, softly tinted blue/grey/ochre/rose/green panels, thin colored borders, nested subpanels, small flat technical illustrations, precise arrows, readable clean mathematics and scientific sans-serif type. Match the panel richness and depth of the style reference. Make the content much more illustrative and visually informative than plain boxes, while preserving its meaning. No NVIDIA, CUDA, company logos, giant project title, green cover frame, certificate marks, futuristic processors, marketing slogans, invented data, benchmark plots or performance metrics. Keep landscape proportions and generous safe margins; all labels in English. You may reorganize to improve clarity but retain panel titles/letters, causal directions, equations, units and all source-derived constraints. Fix any base labels close to drawings so nothing overlaps.\nOnly enrich existing mechanisms; do not add new measured numbers, fake display values, formulas, sensor promises, mechanical capabilities, systems or hardware. Hardware arrows are functional schematics, not detailed build drawings. Use original app references only as evidence of displayed controls, without copying private IDs. Any plotted sample trace must be marked schematic; preferably use exact matrices and symbolic examples instead. Preserve thin correct directed arrows; causal flow reads left to right.\n\nFIGURE SPECIFICATION:\nScientific tank/pump/filter/aeration return loop, sensed temperature/TDS/level and controller/relay equipment boundary. Draw physical fish tank and mineral media schematically from actual reference, no decorative environment. UV output exists in supplied firmware but does not prove microbial removal efficacy.\nInvariants: ",
+        "referenceRoles": [
+          "Accurate Matplotlib content base",
+          "Approved WindWeave cover as STYLE ONLY",
+          "Inspected source geometry/interface reference",
+          "Inspected source geometry/interface reference",
+          "Inspected source geometry/interface reference"
+        ]
+      },
+      "correction": {
+        "prompt": "Perform a targeted scientific correction of Image 1 (the polished figure). Image 2 is the accurate Matplotlib content base, not a style to revert to. Retain Image 1's white canvas, rich nested pastel scientific panels, thin outlines, flat technical illustrations, clean math and legibility. No CUDA/NVIDIA logos or thumbnail branding. Correct ALL the following while leaving accurate content intact:\nKeep the rich fish tank, cylindrical filter shape and recirculation mechanism. Replace the lower-right autonomous sensor feedback/control-rule panel with 'Cloud-requested control': 'Operator requests desired relay state' -> 'ESP32 applies requested state' -> 'Pump / compressor / UV'. Sensing is a separate monitoring path, not an invented automatic threshold policy. Remove assertions of physical actuator feedback/confirmation. The water-level context sensor must be a non-contact ultrasonic distance sensor ABOVE the tank with rays toward the surface, labeled 'Distance-based level context'; not an immersed level probe or measured water-height equation. Keep all physical routing explicitly functional/schematic, with no treatment efficacy or numerical water values.\nAudit all labels and arrows against these instructions. Do not introduce new claims or numeric observations.",
+        "referenceRoles": [
+          "<current generated draft>",
+          "<Matplotlib base for this figure>"
+        ],
+        "additionalCorrection": null
+      }
+    },
+    {
+      "slug": "aquaflow",
+      "key": "feeding-filtration",
+      "description": "Explain measured feed portions, fish metabolism/uneaten feed, particulates and dissolved nitrogen. Show distinct mechanical capture, ammonium-binding mineral adsorption (media/chemistry dependent), and biological nitrification (ammonia to nitrite to nitrate). Do not imply these are the same process or claim measured removal. Small exploded feeder component inset based on supplied STL outline base.",
+      "invariants": "No ppm-to-ammonia conversion; no universal fish threshold; no autonomous feeding decision verified from firmware.",
+      "sourceReferences": [
+        "temp/research-upgrade/cad-frames/feeder-components.png",
+        "temp/research-upgrade/cad-frames/filter-shape.png"
+      ],
+      "initial": {
+        "prompt": "Use case: style-transfer, scientific research diagram. Image 1 is an accurate Matplotlib content base; Image 2 is ONLY a style reference. Additional images are source geometry references or real interface evidence, NOT style. Produce a rich, polished research-paper figure with white background, softly tinted blue/grey/ochre/rose/green panels, thin colored borders, nested subpanels, small flat technical illustrations, precise arrows, readable clean mathematics and scientific sans-serif type. Match the panel richness and depth of the style reference. Make the content much more illustrative and visually informative than plain boxes, while preserving its meaning. No NVIDIA, CUDA, company logos, giant project title, green cover frame, certificate marks, futuristic processors, marketing slogans, invented data, benchmark plots or performance metrics. Keep landscape proportions and generous safe margins; all labels in English. You may reorganize to improve clarity but retain panel titles/letters, causal directions, equations, units and all source-derived constraints. Fix any base labels close to drawings so nothing overlaps.\nOnly enrich existing mechanisms; do not add new measured numbers, fake display values, formulas, sensor promises, mechanical capabilities, systems or hardware. Hardware arrows are functional schematics, not detailed build drawings. Use original app references only as evidence of displayed controls, without copying private IDs. Any plotted sample trace must be marked schematic; preferably use exact matrices and symbolic examples instead. Preserve thin correct directed arrows; causal flow reads left to right.\n\nFIGURE SPECIFICATION:\nExplain measured feed portions, fish metabolism/uneaten feed, particulates and dissolved nitrogen. Show distinct mechanical capture, ammonium-binding mineral adsorption (media/chemistry dependent), and biological nitrification (ammonia to nitrite to nitrate). Do not imply these are the same process or claim measured removal. Small exploded feeder component inset based on supplied STL outline base.\nInvariants: No ppm-to-ammonia conversion; no universal fish threshold; no autonomous feeding decision verified from firmware.",
+        "referenceRoles": [
+          "Accurate Matplotlib content base",
+          "Approved WindWeave cover as STYLE ONLY",
+          "Inspected source geometry/interface reference",
+          "Inspected source geometry/interface reference"
+        ]
+      },
+      "correction": {
+        "prompt": "Perform a targeted scientific correction of Image 1 (the polished figure). Image 2 is the accurate Matplotlib content base, not a style to revert to. Retain Image 1's white canvas, rich nested pastel scientific panels, thin outlines, flat technical illustrations, clean math and legibility. No CUDA/NVIDIA logos or thumbnail branding. Correct ALL the following while leaving accurate content intact:\nKeep the faithful STL-informed feeder exploded inset, cylindrical filter outline, scientific colors and separate mechanical/mineral/biological treatment mechanisms. Replace 'Measured feed portion' with 'Portioning concept' and any portion readout with 'Conceptual feed portion'. No measured feed mass or implemented automatic feeding schedule is evidenced. Keep CAD hardware explicitly source-informed, without fabrication dimensions. Biological ammonia -> nitrite -> nitrate and oxygen context remain conceptual background, not a measured result. No other style change.\nAudit all labels and arrows against these instructions. Do not introduce new claims or numeric observations.",
+        "referenceRoles": [
+          "<current generated draft>",
+          "<Matplotlib base for this figure>"
+        ],
+        "additionalCorrection": null
+      }
+    },
+    {
+      "slug": "aquaflow",
+      "key": "controller-link",
+      "description": "Exact supplied low-level architecture: Arduino Nano transmits framed one-wire pulse widths, ESP32 checks start marker and fields, decodes TDS and temperature then updates shared readings. Order Start/TDS/separator/temperature/end. No valid received packet for more than five seconds marks Nano offline. Show timing strip without numeric pulse durations or pin assignments.",
+      "invariants": "No UART, I2C, checksum or ACK invented. Receiver has timeout/start checks; end marker is not a demonstrated checksum. Keep 5 s freshness timeout.",
+      "sourceReferences": [],
+      "initial": {
+        "prompt": "Use case: style-transfer, scientific research diagram. Image 1 is an accurate Matplotlib content base; Image 2 is ONLY a style reference. Additional images are source geometry references or real interface evidence, NOT style. Produce a rich, polished research-paper figure with white background, softly tinted blue/grey/ochre/rose/green panels, thin colored borders, nested subpanels, small flat technical illustrations, precise arrows, readable clean mathematics and scientific sans-serif type. Match the panel richness and depth of the style reference. Make the content much more illustrative and visually informative than plain boxes, while preserving its meaning. No NVIDIA, CUDA, company logos, giant project title, green cover frame, certificate marks, futuristic processors, marketing slogans, invented data, benchmark plots or performance metrics. Keep landscape proportions and generous safe margins; all labels in English. You may reorganize to improve clarity but retain panel titles/letters, causal directions, equations, units and all source-derived constraints. Fix any base labels close to drawings so nothing overlaps.\nOnly enrich existing mechanisms; do not add new measured numbers, fake display values, formulas, sensor promises, mechanical capabilities, systems or hardware. Hardware arrows are functional schematics, not detailed build drawings. Use original app references only as evidence of displayed controls, without copying private IDs. Any plotted sample trace must be marked schematic; preferably use exact matrices and symbolic examples instead. Preserve thin correct directed arrows; causal flow reads left to right.\n\nFIGURE SPECIFICATION:\nExact supplied low-level architecture: Arduino Nano transmits framed one-wire pulse widths, ESP32 checks start marker and fields, decodes TDS and temperature then updates shared readings. Order Start/TDS/separator/temperature/end. No valid received packet for more than five seconds marks Nano offline. Show timing strip without numeric pulse durations or pin assignments.\nInvariants: No UART, I2C, checksum or ACK invented. Receiver has timeout/start checks; end marker is not a demonstrated checksum. Keep 5 s freshness timeout.",
+        "referenceRoles": [
+          "Accurate Matplotlib content base",
+          "Approved WindWeave cover as STYLE ONLY"
+        ]
+      },
+      "correction": {
+        "prompt": "Perform a targeted scientific correction of Image 1 (the polished figure). Image 2 is the accurate Matplotlib content base, not a style to revert to. Retain Image 1's white canvas, rich nested pastel scientific panels, thin outlines, flat technical illustrations, clean math and legibility. No CUDA/NVIDIA logos or thumbnail branding. Correct ALL the following while leaving accurate content intact:\nPreserve the rich source-derived controller architecture and 5 s freshness boundary. REPLACE the entire timing waveform with exactly this qualitative level sequence: idle HIGH -> start LOW -> one continuous TDS HIGH plateau -> separator LOW -> one continuous temperature HIGH plateau -> end LOW -> idle HIGH. TDS and temperature are each one variable-width HIGH interval, NOT a multi-bit pulse train. Make the level changes vertically correct, with labels over corresponding intervals, no numeric widths or pin/voltage constants. In receiver sequence replace 'Check separator' with 'Wait for next field' and 'Detect end marker' with 'Finish receive attempt': the source does not validate an end marker. Keep start-duration validation, timeout handling, decoding and link-age monitoring. No ACK/CRC, no invented end-marker validation.\nAudit all labels and arrows against these instructions. Do not introduce new claims or numeric observations.",
+        "referenceRoles": [
+          "<current generated draft>",
+          "<Matplotlib base for this figure>"
+        ],
+        "additionalCorrection": null
+      }
+    },
+    {
+      "slug": "aquaflow",
+      "key": "live-telemetry",
+      "description": "Three responsibilities: sensing/core1 packet+distance, cloud/core0 REST PATCH sensors and GET desired relays, dashboard plus local relay application. Supplied esp.ino uses Firestore REST, not a Firebase Realtime Database listener or MQTT subscription. Target cloud sensor push and relay poll intervals ~1 s, not measured latency. Separate measurements from desired controls to avoid overwritten app commands.",
+      "invariants": "Do not call the inspected cloud path WebSocket push/MQTT or guarantee subsecond real time. No private endpoint IDs or credentials. Freshness flag travels with retained TDS value.",
+      "sourceReferences": [
+        "public/images/evidence/projects/aquaflow/app/mobile-control-dashboard--032.webp"
+      ],
+      "initial": {
+        "prompt": "Use case: style-transfer, scientific research diagram. Image 1 is an accurate Matplotlib content base; Image 2 is ONLY a style reference. Additional images are source geometry references or real interface evidence, NOT style. Produce a rich, polished research-paper figure with white background, softly tinted blue/grey/ochre/rose/green panels, thin colored borders, nested subpanels, small flat technical illustrations, precise arrows, readable clean mathematics and scientific sans-serif type. Match the panel richness and depth of the style reference. Make the content much more illustrative and visually informative than plain boxes, while preserving its meaning. No NVIDIA, CUDA, company logos, giant project title, green cover frame, certificate marks, futuristic processors, marketing slogans, invented data, benchmark plots or performance metrics. Keep landscape proportions and generous safe margins; all labels in English. You may reorganize to improve clarity but retain panel titles/letters, causal directions, equations, units and all source-derived constraints. Fix any base labels close to drawings so nothing overlaps.\nOnly enrich existing mechanisms; do not add new measured numbers, fake display values, formulas, sensor promises, mechanical capabilities, systems or hardware. Hardware arrows are functional schematics, not detailed build drawings. Use original app references only as evidence of displayed controls, without copying private IDs. Any plotted sample trace must be marked schematic; preferably use exact matrices and symbolic examples instead. Preserve thin correct directed arrows; causal flow reads left to right.\n\nFIGURE SPECIFICATION:\nThree responsibilities: sensing/core1 packet+distance, cloud/core0 REST PATCH sensors and GET desired relays, dashboard plus local relay application. Supplied esp.ino uses Firestore REST, not a Firebase Realtime Database listener or MQTT subscription. Target cloud sensor push and relay poll intervals ~1 s, not measured latency. Separate measurements from desired controls to avoid overwritten app commands.\nInvariants: Do not call the inspected cloud path WebSocket push/MQTT or guarantee subsecond real time. No private endpoint IDs or credentials. Freshness flag travels with retained TDS value.",
+        "referenceRoles": [
+          "Accurate Matplotlib content base",
+          "Approved WindWeave cover as STYLE ONLY",
+          "Inspected source geometry/interface reference"
+        ]
+      },
+      "correction": {
+        "prompt": "Perform a targeted scientific correction of Image 1 (the polished figure). Image 2 is the accurate Matplotlib content base, not a style to revert to. Retain Image 1's white canvas, rich nested pastel scientific panels, thin outlines, flat technical illustrations, clean math and legibility. No CUDA/NVIDIA logos or thumbnail branding. Correct ALL the following while leaving accurate content intact:\nKeep the white research panel style and state-ownership story, but rebuild the three panels accurately from the content base. Panel a Core 1 local sensing: Nano supplies TDS + temperature to ESP32 via the single-wire link; ultrasonic distance is sensed locally by ESP32. DO NOT draw TDS/temperature probes wired directly to ESP32. Panel b Core 0 cloud I/O: measurement snapshot -> PATCH sensor document; GET desired relay document -> apply changed requested states locally. Wi-Fi/network traffic belongs to Core 0, not Core 1. REMOVE the duplicate 'Publish to cloud' panel under Core 1. Panel c operator app: existing dashboard appearance as interface reference, request desired controls via cloud. Use symbolic TDS/temperature/distance labels, no actual 235 cm alert or fabricated water readings. Remove all exact endpoint paths and raw JSON; replace with semantic boxes 'Measurements + sensor-link freshness' and 'Requested pump / compressor / UV states'. Source interval is target ~1 s, not latency guarantee. Retained sensor readings may be stale; show freshness separately. Firestore REST is this supplied firmware revision; no RTDB listener/MQTT claim, no physical relay feedback claim.\nAudit all labels and arrows against these instructions. Do not introduce new claims or numeric observations.",
+        "referenceRoles": [
+          "<current generated draft>",
+          "<Matplotlib base for this figure>"
+        ],
+        "additionalCorrection": null
+      }
+    },
+    {
+      "slug": "easyshield",
+      "key": "liveness-gate",
+      "description": "Continuous live capture pipeline with Haar cascade face localization, clipped contextual crop padded floor(1.5*face width), resized640x640; YOLOv12 nano returns boxes.cls/conf; semantics map to Real/Fake. Identity gate downstream belongs to NiotoShield and not standalone tester.",
+      "invariants": "MTCNN is offline only, not live. No class IDs 0/1 because scripts differ. No invented calibrated probabilities or accuracy.",
+      "sourceReferences": [],
+      "initial": {
+        "prompt": "Use case: style-transfer, scientific research diagram. Image 1 is an accurate Matplotlib content base; Image 2 is ONLY a style reference. Additional images are source geometry references or real interface evidence, NOT style. Produce a rich, polished research-paper figure with white background, softly tinted blue/grey/ochre/rose/green panels, thin colored borders, nested subpanels, small flat technical illustrations, precise arrows, readable clean mathematics and scientific sans-serif type. Match the panel richness and depth of the style reference. Make the content much more illustrative and visually informative than plain boxes, while preserving its meaning. No NVIDIA, CUDA, company logos, giant project title, green cover frame, certificate marks, futuristic processors, marketing slogans, invented data, benchmark plots or performance metrics. Keep landscape proportions and generous safe margins; all labels in English. You may reorganize to improve clarity but retain panel titles/letters, causal directions, equations, units and all source-derived constraints. Fix any base labels close to drawings so nothing overlaps.\nOnly enrich existing mechanisms; do not add new measured numbers, fake display values, formulas, sensor promises, mechanical capabilities, systems or hardware. Hardware arrows are functional schematics, not detailed build drawings. Use original app references only as evidence of displayed controls, without copying private IDs. Any plotted sample trace must be marked schematic; preferably use exact matrices and symbolic examples instead. Preserve thin correct directed arrows; causal flow reads left to right.\n\nFIGURE SPECIFICATION:\nContinuous live capture pipeline with Haar cascade face localization, clipped contextual crop padded floor(1.5*face width), resized640x640; YOLOv12 nano returns boxes.cls/conf; semantics map to Real/Fake. Identity gate downstream belongs to NiotoShield and not standalone tester.\nInvariants: MTCNN is offline only, not live. No class IDs 0/1 because scripts differ. No invented calibrated probabilities or accuracy.",
+        "referenceRoles": [
+          "Accurate Matplotlib content base",
+          "Approved WindWeave cover as STYLE ONLY"
+        ]
+      },
+      "correction": {
+        "prompt": "Perform a targeted scientific correction of Image 1 (the polished figure). Image 2 is the accurate Matplotlib content base, not a style to revert to. Retain Image 1's white canvas, rich nested pastel scientific panels, thin outlines, flat technical illustrations, clean math and legibility. No CUDA/NVIDIA logos or thumbnail branding. Correct ALL the following while leaving accurate content intact:\nKeep the contextual crop equation, clean scientific multi-panel layout and downstream identity boundary. Correct YOLO outputs to ONLY liveness semantics: boxes with class_id c_i and confidence q_i, mapped using checkpoint metadata to real/fake. REMOVE invented 'face' and 'phone' classes and all fabricated numeric confidences (0.78/0.12). Replace output table with symbolic b_i, c_i, q_i. If a detection label is needed use 'Liveness detection (schematic)'. Draw contextual crop extent accurately as a much larger region clipped to the frame; padding p=floor(1.5w), not just a tiny border. Do not assert live code already reads metadata: label that mapping 'Deployment contract: verify checkpoint class map' with required-verification dashed boundary. Identity recognition is downstream and not part of this repo. All portraits are schematic, not test evidence.\nAudit all labels and arrows against these instructions. Do not introduce new claims or numeric observations.",
+        "referenceRoles": [
+          "<current generated draft>",
+          "<Matplotlib base for this figure>"
+        ],
+        "additionalCorrection": null
+      }
+    },
+    {
+      "slug": "easyshield",
+      "key": "dataset-workflow",
+      "description": "Source workflow photos/video→MTCNNextract→augmentation+curation→OpenCV DNN boxlabel generation→YOLOtraining. Preserve80/10/10 image random split. Show inspectable artifacts but no invented training loss curves.",
+      "invariants": "MTCNN and DNN are separate offline steps; no claim identity-disjoint split.",
+      "sourceReferences": [],
+      "initial": {
+        "prompt": "Use case: style-transfer, scientific research diagram. Image 1 is an accurate Matplotlib content base; Image 2 is ONLY a style reference. Additional images are source geometry references or real interface evidence, NOT style. Produce a rich, polished research-paper figure with white background, softly tinted blue/grey/ochre/rose/green panels, thin colored borders, nested subpanels, small flat technical illustrations, precise arrows, readable clean mathematics and scientific sans-serif type. Match the panel richness and depth of the style reference. Make the content much more illustrative and visually informative than plain boxes, while preserving its meaning. No NVIDIA, CUDA, company logos, giant project title, green cover frame, certificate marks, futuristic processors, marketing slogans, invented data, benchmark plots or performance metrics. Keep landscape proportions and generous safe margins; all labels in English. You may reorganize to improve clarity but retain panel titles/letters, causal directions, equations, units and all source-derived constraints. Fix any base labels close to drawings so nothing overlaps.\nOnly enrich existing mechanisms; do not add new measured numbers, fake display values, formulas, sensor promises, mechanical capabilities, systems or hardware. Hardware arrows are functional schematics, not detailed build drawings. Use original app references only as evidence of displayed controls, without copying private IDs. Any plotted sample trace must be marked schematic; preferably use exact matrices and symbolic examples instead. Preserve thin correct directed arrows; causal flow reads left to right.\n\nFIGURE SPECIFICATION:\nSource workflow photos/video→MTCNNextract→augmentation+curation→OpenCV DNN boxlabel generation→YOLOtraining. Preserve80/10/10 image random split. Show inspectable artifacts but no invented training loss curves.\nInvariants: MTCNN and DNN are separate offline steps; no claim identity-disjoint split.",
+        "referenceRoles": [
+          "Accurate Matplotlib content base",
+          "Approved WindWeave cover as STYLE ONLY"
+        ]
+      },
+      "correction": {
+        "prompt": "Perform a targeted scientific correction of Image 1 (the polished figure). Image 2 is the accurate Matplotlib content base, not a style to revert to. Retain Image 1's white canvas, rich nested pastel scientific panels, thin outlines, flat technical illustrations, clean math and legibility. No CUDA/NVIDIA logos or thumbnail branding. Correct ALL the following while leaving accurate content intact:\nKeep the elegant five-stage offline workflow and exact 80/10/10 split. REMOVE claims of alignment, standardized crop size, manual curation and deduplication unless present in the accurate base. Use 'MTCNN face extraction' for offline localization, 'Augment + quality filter' for curation. DNN box labels must say 'Normalized YOLO box labels' with symbolic class_id, x_center, y_center, width, height; remove fabricated pixel label rows. No claim x,y,w,h pixel labels are normalized. Distinguish OpenCV DNN offline box annotation from Haar live detector. Keep source-derived trainer artifact inspection and identity/session-disjoint splits as future evaluation work. Images are schematic examples, not benchmark samples.\nAudit all labels and arrows against these instructions. Do not introduce new claims or numeric observations.",
+        "referenceRoles": [
+          "<current generated draft>",
+          "<Matplotlib base for this figure>"
+        ],
+        "additionalCorrection": null
+      }
+    },
+    {
+      "slug": "easyshield",
+      "key": "decision-contract",
+      "description": "Linuxscanup to5frames confidencefilter thennR/nFvotes. REALonlynR>nF;ATTACKties/noaccepted. Separateexplicitclass-map mismatchdatasetbenchmark0fake1real vs livetester0real1fake requiring checkpointmetadata. No numericexamplevote outcomes.",
+      "invariants": "Capture/face failures may be separate UI errors; do not assert every capture failure always reaches aggregation.",
+      "sourceReferences": [],
+      "initial": {
+        "prompt": "Use case: style-transfer, scientific research diagram. Image 1 is an accurate Matplotlib content base; Image 2 is ONLY a style reference. Additional images are source geometry references or real interface evidence, NOT style. Produce a rich, polished research-paper figure with white background, softly tinted blue/grey/ochre/rose/green panels, thin colored borders, nested subpanels, small flat technical illustrations, precise arrows, readable clean mathematics and scientific sans-serif type. Match the panel richness and depth of the style reference. Make the content much more illustrative and visually informative than plain boxes, while preserving its meaning. No NVIDIA, CUDA, company logos, giant project title, green cover frame, certificate marks, futuristic processors, marketing slogans, invented data, benchmark plots or performance metrics. Keep landscape proportions and generous safe margins; all labels in English. You may reorganize to improve clarity but retain panel titles/letters, causal directions, equations, units and all source-derived constraints. Fix any base labels close to drawings so nothing overlaps.\nOnly enrich existing mechanisms; do not add new measured numbers, fake display values, formulas, sensor promises, mechanical capabilities, systems or hardware. Hardware arrows are functional schematics, not detailed build drawings. Use original app references only as evidence of displayed controls, without copying private IDs. Any plotted sample trace must be marked schematic; preferably use exact matrices and symbolic examples instead. Preserve thin correct directed arrows; causal flow reads left to right.\n\nFIGURE SPECIFICATION:\nLinuxscanup to5frames confidencefilter thennR/nFvotes. REALonlynR>nF;ATTACKties/noaccepted. Separateexplicitclass-map mismatchdatasetbenchmark0fake1real vs livetester0real1fake requiring checkpointmetadata. No numericexamplevote outcomes.\nInvariants: Capture/face failures may be separate UI errors; do not assert every capture failure always reaches aggregation.",
+        "referenceRoles": [
+          "Accurate Matplotlib content base",
+          "Approved WindWeave cover as STYLE ONLY"
+        ]
+      },
+      "correction": {
+        "prompt": "Perform a targeted scientific correction of Image 1 (the polished figure). Image 2 is the accurate Matplotlib content base, not a style to revert to. Retain Image 1's white canvas, rich nested pastel scientific panels, thin outlines, flat technical illustrations, clean math and legibility. No CUDA/NVIDIA logos or thumbnail branding. Correct ALL the following while leaving accurate content intact:\nKeep the five-frame vote equation and the two different source class-ID assumptions. Correct the bottom 'Checkpoint class-map verification' panel: it must NOT show one fixed fake=0/real=1 checkpoint being used unchanged by a live tester assuming real=0/fake=1. Instead draw 'Inspect saved checkpoint metadata' -> 'Verify semantic class mapping' -> 'Configure or reconcile live interpretation'. Label 'Required deployment check; current script assumptions differ'. Retain the upper dataset/benchmark 0=fake,1=real and live-script 0=real,1=fake as inspected source facts. Confidence filtering and counting do not involve a second classifier: replace semantic-vote classifier icon with 'Map accepted box class -> vote'. No fabricated accuracy or probabilities.\nAudit all labels and arrows against these instructions. Do not introduce new claims or numeric observations.",
+        "referenceRoles": [
+          "<current generated draft>",
+          "<Matplotlib base for this figure>"
+        ],
+        "additionalCorrection": null
+      }
+    },
+    {
+      "slug": "smarthart",
+      "key": "sequence-classifier",
+      "description": "Featurecontract5measurements plusPP/SI7;tenrow window10x7;BiLSTM128perdirection sequence10x256, second64perdirectionfinal128,Dense64,Csoftmax(currentgenerator4). Dropout.2 can be discreet annotation, not mistaken as added dimension. Threeartifacts model/scaler/labels.",
+      "invariants": "Do not imply clinical diagnostic validation or future observations beyond the completed window.",
+      "sourceReferences": [],
+      "initial": {
+        "prompt": "Use case: style-transfer, scientific research diagram. Image 1 is an accurate Matplotlib content base; Image 2 is ONLY a style reference. Additional images are source geometry references or real interface evidence, NOT style. Produce a rich, polished research-paper figure with white background, softly tinted blue/grey/ochre/rose/green panels, thin colored borders, nested subpanels, small flat technical illustrations, precise arrows, readable clean mathematics and scientific sans-serif type. Match the panel richness and depth of the style reference. Make the content much more illustrative and visually informative than plain boxes, while preserving its meaning. No NVIDIA, CUDA, company logos, giant project title, green cover frame, certificate marks, futuristic processors, marketing slogans, invented data, benchmark plots or performance metrics. Keep landscape proportions and generous safe margins; all labels in English. You may reorganize to improve clarity but retain panel titles/letters, causal directions, equations, units and all source-derived constraints. Fix any base labels close to drawings so nothing overlaps.\nOnly enrich existing mechanisms; do not add new measured numbers, fake display values, formulas, sensor promises, mechanical capabilities, systems or hardware. Hardware arrows are functional schematics, not detailed build drawings. Use original app references only as evidence of displayed controls, without copying private IDs. Any plotted sample trace must be marked schematic; preferably use exact matrices and symbolic examples instead. Preserve thin correct directed arrows; causal flow reads left to right.\n\nFIGURE SPECIFICATION:\nFeaturecontract5measurements plusPP/SI7;tenrow window10x7;BiLSTM128perdirection sequence10x256, second64perdirectionfinal128,Dense64,Csoftmax(currentgenerator4). Dropout.2 can be discreet annotation, not mistaken as added dimension. Threeartifacts model/scaler/labels.\nInvariants: Do not imply clinical diagnostic validation or future observations beyond the completed window.",
+        "referenceRoles": [
+          "Accurate Matplotlib content base",
+          "Approved WindWeave cover as STYLE ONLY"
+        ]
+      },
+      "correction": {
+        "prompt": "Perform a targeted scientific correction of Image 1 (the polished figure). Image 2 is the accurate Matplotlib content base, not a style to revert to. Retain Image 1's white canvas, rich nested pastel scientific panels, thin outlines, flat technical illustrations, clean math and legibility. No CUDA/NVIDIA logos or thumbnail branding. Correct ALL the following while leaving accurate content intact:\nPreserve the beautiful seven-feature architecture, exact 10x7 -> 10x256 ->128 ->64 -> C shapes, source formulas PP and SI and saved artifacts. IMPORTANT: replace 'Scaler (fit on training data)' with 'Current source: scaler fit before split'. Add a small clearly labeled 'Evaluation boundary: fit scaler on training partition for a leakage-free test' note, not a claim it already does. All five measurement signals remain schematic and synthetic. Keep separate Dropout 0.2 stages; no fictitious patient data/results or validated diagnosis.\nAudit all labels and arrows against these instructions. Do not introduce new claims or numeric observations.",
+        "referenceRoles": [
+          "<current generated draft>",
+          "<Matplotlib base for this figure>"
+        ],
+        "additionalCorrection": null
+      }
+    },
+    {
+      "slug": "smarthart",
+      "key": "streaming-dashboard",
+      "description": "Runtime10row windows shift1share9rows, trainingstride10distinct. Simulatoremit7features transformpersistedscalerpred thenTkintereventloopcharts. Comparewithlastrowknownscenarioandrollinglast100correctness. Defaultinterval.5seconds notmeasuredpredictionlatency.",
+      "invariants": "No synthetic patient trace, fabricated accuracy curve or real wearable network. Windowlabel belongs to last row.",
+      "sourceReferences": [],
+      "initial": {
+        "prompt": "Use case: style-transfer, scientific research diagram. Image 1 is an accurate Matplotlib content base; Image 2 is ONLY a style reference. Additional images are source geometry references or real interface evidence, NOT style. Produce a rich, polished research-paper figure with white background, softly tinted blue/grey/ochre/rose/green panels, thin colored borders, nested subpanels, small flat technical illustrations, precise arrows, readable clean mathematics and scientific sans-serif type. Match the panel richness and depth of the style reference. Make the content much more illustrative and visually informative than plain boxes, while preserving its meaning. No NVIDIA, CUDA, company logos, giant project title, green cover frame, certificate marks, futuristic processors, marketing slogans, invented data, benchmark plots or performance metrics. Keep landscape proportions and generous safe margins; all labels in English. You may reorganize to improve clarity but retain panel titles/letters, causal directions, equations, units and all source-derived constraints. Fix any base labels close to drawings so nothing overlaps.\nOnly enrich existing mechanisms; do not add new measured numbers, fake display values, formulas, sensor promises, mechanical capabilities, systems or hardware. Hardware arrows are functional schematics, not detailed build drawings. Use original app references only as evidence of displayed controls, without copying private IDs. Any plotted sample trace must be marked schematic; preferably use exact matrices and symbolic examples instead. Preserve thin correct directed arrows; causal flow reads left to right.\n\nFIGURE SPECIFICATION:\nRuntime10row windows shift1share9rows, trainingstride10distinct. Simulatoremit7features transformpersistedscalerpred thenTkintereventloopcharts. Comparewithlastrowknownscenarioandrollinglast100correctness. Defaultinterval.5seconds notmeasuredpredictionlatency.\nInvariants: No synthetic patient trace, fabricated accuracy curve or real wearable network. Windowlabel belongs to last row.",
+        "referenceRoles": [
+          "Accurate Matplotlib content base",
+          "Approved WindWeave cover as STYLE ONLY"
+        ]
+      },
+      "correction": {
+        "prompt": "Perform a targeted scientific correction of Image 1 (the polished figure). Image 2 is the accurate Matplotlib content base, not a style to revert to. Retain Image 1's white canvas, rich nested pastel scientific panels, thin outlines, flat technical illustrations, clean math and legibility. No CUDA/NVIDIA logos or thumbnail branding. Correct ALL the following while leaving accurate content intact:\nPreserve the polished research style and training/runtime stride contrast. Rebuild upper-left runtime window diagram with exactly TWO aligned rows of 12 cells labelled x0..x11. Row t: highlight x0..x9 (10 rows), x10/x11 pale. Row t+1: highlight x1..x10 (10 rows), x0/x11 pale. Mark overlap x1..x9 (nine rows) and the last-row label at x9 or x10 for each respective window. Remove the erroneous third partial row. Runtime inference model receives an entire (1,10,7) scaled window, not a single (1,7) observation: show simulator observation -> ten-row rolling buffer -> persisted scaler -> model -> label. REMOVE duplicated f1 entries. UI scheduler uses after() callbacks; 0.5 s is default synthetic generation interval, not guaranteed UI update period or prediction latency. Keep rolling correctness of last 100 known synthetic-label outcomes. No invented measured trace or accuracy; any tiny dashboard trace labeled schematic.\nAudit all labels and arrows against these instructions. Do not introduce new claims or numeric observations.",
+        "referenceRoles": [
+          "<current generated draft>",
+          "<Matplotlib base for this figure>"
+        ],
+        "additionalCorrection": {
+          "prompt": "Targeted scientific diagram correction. Image 1 is the current styled figure. Preserve its accepted scientific white/pastel panel styling and all accurate structure. Make ONLY these local label corrections and preserve the correct two runtime rows and rest of composition. UI scheduler must read 'Schedule UI update callbacks' with source example 'root.after(0, callback)'; delete 'fixed interval', 'root.after(500, update)' and '(default: 0.5 s)' from that UI panel. The existing bottom note that 0.5 s is the default synthetic generation interval remains. In the two tiny feature rows of the middle rolling-buffer matrix, label the seven columns exactly f1, f2, f3, f4, f5, f6, f7 once each (currently f4 is repeated and f5 absent). Keep window shape (10,7), model input (1,10,7), all overlap/window panels, no new numeric plots. Add 'schematic interface' beside the tiny dashboard drawing.",
+          "referenceRoles": [
+            "Current styled draft"
+          ]
+        }
+      }
+    }
+  ]
+}

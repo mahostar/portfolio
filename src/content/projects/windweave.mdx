@@ -1,0 +1,287 @@
+---
+title: "WindWeave"
+slug: "windweave"
+format: "paper"
+paperTitle: "A CPU–GPU streaming pipeline for weather forecasting"
+pipeline: ["INDEX", "ASSEMBLE", "PREFETCH", "TRAIN"]
+category: "AI + Data Systems"
+summary: "Real-time CPU–GPU data streaming with implicit window indexing and parallel normalization."
+cover: "/images/projects/windweave-cover-v2.webp"
+coverFit: "contain"
+year: null
+tech: ["python", "pytorch"]
+featured: false
+links: {}
+role: "Streaming dataset algorithms and training-system design"
+placeholder: false
+---
+## Abstract
+The motivating constraint is training-data expansion: materializing every overlapping history–forecast window from an approximately 40 GB weather archive can produce terabytes of duplicated observations. This work implements a CPU–GPU streaming method that retains the archive and constructs training examples as the model consumes them. Each example presents a historical sequence, withholds the following observations, and compares the forecast with the recorded future. A compact cumulative index addresses windows without storing them; parallel statistics, worker-local caching, and DataLoader prefetch prepare aligned tensors for GPU execution. The repository provides a supervised forecasting baseline and a separate reinforcement-learning path that samples forecasts and rewards agreement with the observed future. A reported 20-epoch experiment achieved approximately 24% under the project's relative-error-based forecast score. The central contribution is the streaming representation and training interface; the storage analysis distinguishes all possible window starts from the configured stride.
+
+**Keywords:** training-data expansion; streaming windows; implicit indexing; CPU–GPU pipeline; reinforcement learning; ERA5.
+
+<ProjectFigure src="/images/projects/windweave-streaming.webp" width={1600} height={900} alt="WindWeave original streaming concept artwork" caption="Concept artwork. Archived weather observations pass through CPU preparation before GPU consumption; the illustration provides a visual overview of the streaming pipeline." />
+
+## System specification
+### 2.1 Data and forecasting contract
+Each location file contains a chronological observation sequence. The numeric feature vector at observation $t$ is
+
+$$
+\mathbf{x}_t = \bigl[u_{10,t},\; v_{10,t},\; p_{s,t},\; T_{2\mathrm{m},t}\bigr]^{\mathsf T} \in \mathbb{R}^{4}.
+\tag{1}
+$$
+
+Here $u_{10}$ and $v_{10}$ are the two 10 m wind components, $p_s$ is surface pressure, and $T_{2\mathrm{m}}$ is 2 m temperature in degrees Celsius. The source columns are respectively `u10`, `v10`, `sp`, and `t2m_celsius`. Forecast targets contain the two wind components. Time encoding supplies four integer marks: hour, day of week, day of month, and month.
+
+| Parameter | Symbol | Default | Interpretation |
+| --- | --- | --- | --- |
+| Encoder length | $L$ | 45 | Observed input rows |
+| Forecast length | $H$ | 27 | Future target rows |
+| Decoder context | $K$ | 24 | Final observed rows retained |
+| Window stride | $s$ | 9 | Start-index increment |
+| Input / target channels | $d_x, d_y$ | 4 / 2 | Numeric feature dimensions |
+
+Lengths denote observations. Interface labels use a nine-observations-per-day convention, while the dataset slices by row index; elapsed time therefore depends on the file's timestamp cadence.
+
+### 2.2 Execution architecture
+The storage layer retains location CSVs. The CPU dataset resolves sample addresses, loads the active file, normalizes a requested slice, and constructs tensors. DataLoader collates samples and prepares subsequent batches through its worker processes. The training loop transfers batches to the selected device and executes the model, loss, backward pass, and optimizer step.
+
+<ProjectFigure src="/images/evidence/projects/windweave/architecture-styled.webp" width={1774} height={887} alt="CPU–GPU streaming architecture" caption="Figure 1. Storage, CPU sample construction, loader prefetch, and GPU computation. The prefetch queue is supplied by PyTorch DataLoader." />
+
+Real-time streaming here refers to training examples assembled and supplied during model execution. The input is an archive of recorded observations; this implementation does not ingest a live meteorological feed.
+
+## Method
+### 3.1 Implicit indexing of overlapping windows
+Let file $j$ contain $R_j$ observation rows. With positive stride $s$, its valid window count is
+
+$$
+N_j = \begin{cases}
+\left\lfloor \dfrac{R_j-L-H}{s} \right\rfloor + 1, & R_j \ge L+H,\\[4pt]
+0, & R_j < L+H.
+\end{cases}
+\tag{2}
+$$
+
+Files with zero windows are omitted from the sample index. For the retained files, define cumulative counts $C_j$ with $C_{-1}=0$. A zero-based global sample index $i$ identifies a file, a local window number $\ell$, and its starting row $a$:
+
+$$
+\begin{aligned}
+C_j &= \sum_{k=0}^{j} N_k,\\
+j(i) &= \min\{j : C_j > i\},\\
+\ell(i) &= i-C_{j(i)-1},\\
+a(i) &= s\,\ell(i).
+\end{aligned}
+\tag{3}
+$$
+
+`bisect_right` implements the file lookup. The selected row interval is $[a,a+L+H)$; the first $L$ rows form the history, and the final $H$ rows form the forecast target. For $F$ eligible files, sample-address metadata occupies $O(F)$ space and file lookup takes $O(\log F)$ time. File reading, feature engineering, and tensor construction are additional costs. Initialization still scans source files to count rows.
+
+<ProjectFigure src="/images/evidence/projects/windweave/index-styled.webp" width={1848} height={851} alt="Cumulative-offset sample lookup" caption="Figure 2. Worked example with 99-row and 117-row files: counts [4,6], cumulative offsets [4,10], and global index 6 resolving to the second file at row 18." />
+
+A materialized collection copies overlapping observations into separate arrays. This representation stores an address and a slicing rule instead. Window lengths and stride can consequently change without exporting a new collection of window files.
+
+### 3.2 Storage amplification and motivation
+For a long file, materializing windows duplicates each interior observation approximately $(L+H)/s$ times. If archive rows and exported window rows use comparable encodings, the approximate storage ratio is
+
+$$
+\begin{aligned}
+\frac{B_{\mathrm{windows}}}{B_{\mathrm{archive}}}
+&\approx \frac{L+H}{s},\\
+L+H&=45+27=72.
+\end{aligned}
+\tag{4}
+$$
+
+Enumerating every possible start ($s=1$) gives roughly 72-fold duplication: a 40 GB archive corresponds to approximately 2.88 TB of materialized history–target rows under this model. At the configured stride $s=9$, the same estimate is eight-fold, or about 320 GB. Decoder context and temporal marks add further payload if exported separately. CSV and tensor encodings differ, so these are storage estimates rather than measurements of an exported dataset.
+
+The approximately 40 GB archive is the original design motivation supplied by the project author. Streaming retains observations once and computes a requested window through indexing and slicing. It avoids an archive-sized collection of duplicate training examples while allowing window parameters to change independently of source storage.
+
+### 3.3 Parallel normalization by sufficient statistics
+For each numeric feature, a statistics worker returns a file summary $(n,\mu,M_2)$: count, mean, and sum of squared deviations. Two summaries $A$ and $B$ are merged by
+
+$$
+\begin{aligned}
+\delta &= \mu_B-\mu_A,\\
+n &= n_A+n_B,\\
+\mu &= \mu_A+\delta\frac{n_B}{n},\\
+M_2 &= M_{2,A}+M_{2,B}+\delta^2\frac{n_A n_B}{n}.
+\end{aligned}
+\tag{5}
+$$
+
+The correction term retains variation between file means. Averaging per-file standard deviations would omit this contribution. The population scale and normalization transform are
+
+$$
+\begin{aligned}
+\sigma &= \sqrt{M_2/n},\\
+\sigma^{\ast} &= \begin{cases}1,&\sigma=0,\\\sigma,&\sigma>0,\end{cases}\\
+\widetilde{x}_{t,c} &= \frac{x_{t,c}-\mu_c}{\sigma_c^{\ast}}.
+\end{aligned}
+\tag{6}
+$$
+
+The source also uses unit scales when the aggregate count is at most one. The multiprocessing pool computes summaries in parallel, and the parent collects and merges them. Each worker reads a full file into a DataFrame; compact summaries reduce the retained aggregate state, but do not make individual file reads constant-memory.
+
+<ProjectFigure src="/images/evidence/projects/windweave/normalization-styled.webp" width={1850} height={850} alt="Parallel normalization reduction" caption="Figure 3. Independent file summaries are reduced to feature-wise means and population scales. Panel b uses an exact four-value example to illustrate the between-file correction." />
+
+### 3.4 Aligned encoder, decoder, and target construction
+For the normalized sample beginning at row $a$, the encoder and target are
+
+$$
+\begin{aligned}
+X_{\mathrm{enc}} &= \widetilde{X}[a:a+L,:],\\
+Y &= \widetilde{X}[a+L:a+L+H,\{u_{10},v_{10}\}].
+\end{aligned}
+\tag{7}
+$$
+
+The decoder input concatenates the last $K$ observed rows with $H$ zero rows:
+
+$$
+X_{\mathrm{dec}} = \begin{bmatrix}
+\widetilde{X}[a+L-K:a+L,:]\\
+\mathbf{0}_{H\times 4}
+\end{bmatrix}.
+\tag{8}
+$$
+
+Temporal marks span the same encoder and decoder intervals. Future timestamps are available as conditioning information; future observed feature values remain outside the decoder input. `__getitem__` returns the following five tensors.
+
+| Tensor | Per-sample shape | Data type |
+| --- | --- | --- |
+| Encoder values | $L\times4$ | Float32 |
+| Encoder time marks | $L\times4$ | Int64 |
+| Decoder values | $(K+H)\times4$ | Float32 |
+| Decoder time marks | $(K+H)\times4$ | Int64 |
+| Wind targets | $H\times2$ | Float32 |
+
+<ProjectFigure src="/images/evidence/projects/windweave/tensors-styled.webp" width={1721} height={914} alt="Encoder–decoder tensor alignment" caption="Figure 4. Default shapes [45,4], [45,4], [51,4], [51,4], and [27,2]. Collation adds a leading batch dimension. Matrix cells are schematic; labels specify the actual dimensions." />
+
+## Implementation
+### 4.1 Worker-local caching and access locality
+Each dataset instance retains one active DataFrame, identified by its file path. Requests to the same file reuse the DataFrame. A request to a different file replaces it. Nearby windows can therefore share parsing and feature-engineering work; globally shuffled requests may repeatedly evict the active file. With multiprocessing, caches belong to individual worker dataset instances.
+
+<ProjectFigure src="/images/evidence/projects/windweave/locality-styled.webp" width={1808} height={870} alt="File-cache locality and prefetch tradeoff" caption="Figure 5. Local and interleaved requests produce different cache behavior. Panel c plots the analytical queued tensor payload from equation (9) for batch size 32; it excludes DataFrames and is not a memory benchmark." />
+
+### 4.2 CPU preparation and GPU consumption
+The GUI training path enables pinned host memory. Positive worker counts additionally enable persistent workers and a configurable prefetch factor. Training uses shuffled sampling, while validation uses sequential sampling. An example configuration sets eight workers and prefetch factor two.
+
+For $W$ workers, prefetch factor $P$, and batch size $B$, the approximate queued-batch envelope and raw tensor payload per sample are
+
+$$
+\begin{aligned}
+Q_{\mathrm{batches}} &\approx WP,\\
+S_{\mathrm{sample}} &= 48(L+K+H)+8H\;\text{bytes},\\
+M_{\mathrm{queued}} &\approx WPB\,S_{\mathrm{sample}}.
+\end{aligned}
+\tag{9}
+$$
+
+The payload expression counts four Float32 values and four Int64 marks in both encoder and decoder, plus two Float32 target values per forecast row. Under the default lengths it is 4,824 bytes per sample. This estimate excludes DataFrames, process overhead, tensor metadata, currently consumed batches, pinned copies, and model memory; it is an analytical payload estimate rather than measured resident memory.
+
+<ProjectFigure src="/images/evidence/projects/windweave/sequence-styled.webp" width={1691} height={930} alt="Batch-production sequence" caption="Figure 6. The training loop requests a batch; CPU workers resolve indices, reuse or read a CSV, construct tensors, and return them for collation. The lower timeline shows ordering; segment widths are not measured durations." />
+
+The loop transfers all five tensors with ordinary `.to(device)` calls. It then executes Informer or DLinear, evaluates mean squared error on the normalized wind targets, backpropagates, and updates parameters with Adam. Pinned memory supports host-to-device transfer, while this implementation does not explicitly schedule nonblocking copies or custom CUDA streams. The source establishes CPU preparation ahead of demand; copy/compute overlap and GPU utilization need runtime measurement.
+
+### 4.3 Forecast–reward learning loop
+The learning task is to provide several days of observations, predict the following period, and use the recorded future as feedback. Under the interface's nine-observations-per-day convention, 45 history rows and 27 target rows correspond to five observed days and three forecast days. Comparing a prediction with a target is shared by both training modes: the supervised path differentiates MSE, while `rl_train.py` and `rl_train_gui.py` implement a stochastic policy and a REINFORCE-style update [5].
+
+The RL policy extends Informer with a two-component mean head and learned log standard deviations. Its sampled wind forecast acts as the action; the streamed window and temporal marks provide conditioning information:
+
+$$
+\begin{aligned}
+S&=(X_{\mathrm{enc}},T_{\mathrm{enc}},X_{\mathrm{dec}},T_{\mathrm{dec}}),\\
+\widehat{\mathbf y}_t&\sim\pi_\theta(\,\cdot\mid S,t),\\
+\pi_\theta&=\mathcal N(\boldsymbol\mu_\theta,\operatorname{diag}(\boldsymbol\sigma_\theta^2)).
+\end{aligned}
+\tag{10}
+$$
+
+After sampling a forecast sequence, the reward function compares it with the observed target. It combines negative component-wise mean absolute error, a temporal-alignment penalty, high-wind event agreement, and a penalty for mismatched wind-speed variability:
+
+$$
+\begin{aligned}
+R&=-w_a\operatorname{MAE}(\widehat Y,Y)\\
+&\quad-w_d\frac{D_{\mathrm{DTW}}(\widehat V,V)}{H}\\
+&\quad+w_h\,r_{\mathrm{event}}\\
+&\quad-w_v\left|\operatorname{std}(\widehat V)-\operatorname{std}(V)\right|,\\
+V_t&=\sqrt{u_{10,t}^2+v_{10,t}^2}.
+\end{aligned}
+\tag{11}
+$$
+
+The event term is $+1$ when both sequences exceed the threshold, $-1$ when only one does, and zero when neither does. Default reward weights are one. The optional DTW calculation falls back to zero on failure. The training function receives normalized targets, so the magnitude and threshold operate in transformed coordinates unless predictions and targets are explicitly denormalized.
+
+The intended policy-gradient objective increases the probability of forecasts receiving larger rewards, using normalized episode rewards $\widetilde R$:
+
+$$
+\begin{aligned}
+J(\theta)&=\mathbb E_{\pi_\theta}[R],\\
+\nabla_\theta J&=\mathbb E_{\pi_\theta}[\widetilde R\,G_\theta],\\
+G_\theta&=\sum_{t=1}^{H}\nabla_\theta\log\pi_\theta(\widehat{\mathbf y}_t\mid S,t).
+\end{aligned}
+\tag{12}
+$$
+
+This is an offline, reward-based forecasting formulation: historical future observations supply feedback rather than a live environment transition. The streaming method supplies the same aligned samples to either optimization route.
+
+<ProjectFigure src="/images/evidence/projects/windweave/feedback-styled.webp" width={1870} height={841} alt="Forecast–reward learning loop" caption="Figure 7. Historical context and withheld future feed two learning routes. The RL route samples a forecast, compares it with observations, and uses a composite reward for the intended policy update." />
+
+### 4.4 Experiment interfaces
+The training interface exposes sequence lengths, stride, batch size, worker count, prefetch depth, model selection, learning rate, and device. The prediction interface places history beside predicted and observed wind components, with controls for browsing windows and evaluating a set of windows.
+
+<ProjectFigure src="/images/evidence/projects/windweave/training-preview.webp" width={1392} height={647} alt="Training configuration interface" caption="Figure 8. Source-informed interface reconstruction. Settings mirror the saved configuration; the event log is illustrative rather than a recorded execution." />
+
+<ProjectFigure src="/images/evidence/projects/windweave/prediction-preview.webp" width={1392} height={970} alt="Forecast inspection interface" caption="Figure 9. Reconstructed input and forecast tables with synthetic display data. No forecasting model was executed to produce this preview." />
+
+## Evidence
+The implementation evidence consists of the dataset's indexing, summary reduction, active-file cache, and five-tensor return contract, together with the loader, device-transfer configuration, and separate reward-based training source [1–2,5]. Figures 1–7 explain those operations. Figures 8–9 document the interface structure using a lightweight reconstruction [3–4]. The cover is concept artwork.
+
+### 5.1 Reported 20-epoch evaluation
+The reported experiment achieved an approximately **24% forecast score after 20 epochs** [6]. This result describes performance at that training budget. It is an author-supplied evaluation result; the accompanying source inspection establishes the streaming and scoring algorithms rather than independently reproducing the experiment.
+
+The prediction interface calls its metric an accuracy percentage. For a nonzero actual component $y$, it clips a relative-error score to the interval $[0,100]$:
+
+$$
+\begin{aligned}
+A(\widehat y,y)&=100\max(0,1-r),\\
+r&=\frac{|\widehat y-y|}{|y|},\quad y\ne0.
+\end{aligned}
+\tag{13}
+$$
+
+When $y=0$, the score is 100 only if the prediction is also zero, and otherwise zero. Evaluation averages scores over forecast rows, the two wind components, and windows [4]. This percentage is a regression agreement score, with strong sensitivity near zero wind components. It should not be interpreted as classification accuracy or as the fraction of forecasts that are correct. The exact metric used for the reported experiment has not been independently reproduced.
+
+| Evidence item | Result | Provenance |
+| --- | --- | --- |
+| Training duration | 20 epochs | Author-supplied experiment report |
+| Forecast score | Approximately 24% | Author-supplied experiment report |
+| Streaming representation | Windows constructed during consumption | Dataset source inspection |
+| Storage amplification | About 72× at stride 1; 8× at stride 9 | Analytical estimate, equation (4) |
+
+### 5.2 Analytical and measured claims
+The $O(F)$ metadata bound, $O(\log F)$ lookup, and equations (4) and (9) are analytical properties of the representation. Avoided window materialization follows directly from constructing each sample during `__getitem__`. A comparative forecasting study would evaluate held-out predictions and measured baselines under the same dataset, split, normalization, and training budget.
+
+## Discussion
+### 6.1 Evaluation boundaries
+The inspected dataset computes normalization before the training/validation partition is chosen. A rigorous forecasting evaluation should fit statistics exclusively on training observations and persist them for validation and inference. A split over global sample indices also requires careful interpretation: file ordering and overlapping windows can differ from a common chronological cutoff across locations. Timestamp-aware partitioning should prevent target periods from crossing evaluation boundaries.
+
+### 6.2 Throughput and memory measurements
+A reproducible RL evaluation additionally needs to validate forecast-position selection, sample-to-reward alignment, and policy-loss aggregation in the update loop. The reward-based route is documented from source separately from the saved supervised configuration; the available checkpoint files alone do not establish measured RL performance.
+
+A reproducible pipeline experiment should record CSV reads, cache-hit rate, batch-wait latency, host memory, transfer time, and model-step time. Worker count and prefetch factor can then be varied against both throughput and memory. A file-aware block sampler could preserve local reuse while shuffling blocks; a bounded multi-file cache or columnar storage could reduce repeated parsing. These remain proposed extensions.
+
+Input validation should establish monotonic timestamps, cadence, required columns, missing-value handling, and duplicate-row policy before window counts are computed. Checkpoints should include normalization parameters, feature order, sequence settings, partition metadata, and model configuration. These additions would make the existing streaming contract reproducible across training and prediction.
+
+The system's principal engineering result is a separation between observation storage, sample addressing, CPU tensor construction, and GPU model execution. Its suitability for another sequence domain depends on the same alignment, locality, and evaluation constraints.
+
+## References
+1. **Dataset implementation:** `faster_faster_streamer.py` — `WeatherDataset`, `_compute_stats_for_file`, `_engineer_features`, and the normalization reducer.
+2. **Training orchestration:** `train_gui.py` — loader configuration, model construction, device transfer, MSE loss, Adam updates, and validation; `train.py` — sample-index splitting helper.
+3. **Training controls:** `training_gui.py` and the saved training configuration — interface fields and experiment parameters.
+4. **Prediction inspection:** `prediction_gui.py` — history/forecast table layout and window navigation.
+5. **Reward-based training:** `rl_train.py` and `rl_train_gui.py` — `RLPolicy`, Normal sampling, episode rewards, and policy-gradient update; `train.py` — `compute_reward`.
+6. **Experiment report:** project author — approximately 40 GB motivating archive and approximately 24% after 20 epochs. These values are supplied experiment context, separate from the inspected saved configurations and checkpoints.
+
+References identify the inspected project files. Architecture diagrams are source-derived; interface reconstructions and analytical estimates are labeled at their point of use.
+

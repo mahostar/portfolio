@@ -1,0 +1,55 @@
+{
+  "provenance": "Exact targeted correction text used in the 2026-10-04 built-in imagegen workflow; reference paths are replaced by portable roles.",
+  "corrections": [
+    {
+      "name": "architecture",
+      "referenceRoles": [
+        "current styled draft",
+        "accurate original Matplotlib base",
+        "approved cover as style only"
+      ],
+      "prompt": "Image 1 is the newly styled architecture figure; image 2 is the accurate original diagram for scientific reference; image 3 is only a color/rendering style reference. Make ONE targeted correction in image 1 while preserving all panels, text, math and colors: in panel a, CPU worker, remove the 'space' axis label and replace the slice illustration with a two-dimensional time×feature sequence matrix. This project uses per-location tabular time sequences, not a spatial image dataset. Keep axis labels 'features' and 'time' only. Do not introduce any spatial dimension or new numbers. Keep other labels and equations exactly as they are; no logos or branding. Keep white scientific canvas and the rich pastel panel style."
+    },
+    {
+      "name": "index",
+      "referenceRoles": [
+        "current styled draft",
+        "accurate original Matplotlib base",
+        "approved cover as style only"
+      ],
+      "prompt": "Image 1 is the newly styled indexing figure; image 2 is the accurate original diagram for scientific reference; image 3 is only a color/rendering style reference. Make ONE targeted text correction in image 1: change the upper-left heading 'File A (encoder)' to 'File A', and change the adjacent heading 'File B (target)' to 'File B'. Both source files contain full sequences, and a selected window in file B provides BOTH encoder and target. Preserve every other number, equation, colored window tile, table, arrow, half-open interval and layout exactly. In particular retain file A 99 rows/4 windows; file B117 rows/6 windows; i=6; C=[4,10]; j=1; ell=2;a=18; selected [18,90); encoder[18,63),target[63,90). No brand marks or new text."
+    },
+    {
+      "name": "tensors",
+      "referenceRoles": [
+        "current styled draft",
+        "accurate original Matplotlib base"
+      ],
+      "prompt": "Make a targeted visual correction in image 1, preserving its exact colored scientific-panel style, all text, tensor shapes and alignment. Image 2 is the accurate original diagram. In the fourth tensor card T_dec, fill ALL timestamp cells, including rows 24..50 representing 27 FUTURE timestamps, with the same pale grey filled style as its historical timestamp rows. These are known integer time marks, not zero placeholders. White empty outlined cells must appear ONLY in the X_dec card's 27 future feature rows. Keep T_dec's 51×4 shape, Int64, 24 known +27 future timestamps; preserve all five arrays and every other label. No logos or new text."
+    },
+    {
+      "name": "locality",
+      "referenceRoles": [
+        "current styled draft",
+        "accurate original Matplotlib base"
+      ],
+      "prompt": "Make a single targeted text correction in image 1, keeping EVERY chart line, scale, cache sequence, table, formula, color and layout unchanged. Image 2 is the accurate original diagram. In panel c's introductory strip, replace 'Raw tensor payload per worker as a function of worker count W, for different prefetch depths P. Payload is computed as M=WPBS and reported in MiB.' with 'Total queued tensor payload across W workers, for prefetch depth P. M=WPBS is reported in MiB.' M is the total queued raw tensor payload across workers, not a per-worker amount. Preserve P=1,2,4; B=32;S=4824 bytes; line endpoints approx2.36,4.71,9.42MiB at W16, axis ticks1,4,8,12,16 and y0..10, and the analytical estimate label. Do not add logos or brand names."
+    },
+    {
+      "name": "sequence",
+      "referenceRoles": [
+        "current styled draft",
+        "accurate original Matplotlib base"
+      ],
+      "prompt": "Make two targeted label corrections in image 1, preserving its exact pastel research-diagram style, all six lifeline messages, arrows, colors and the CPU/GPU batch timing schematic. Image 2 is the accurate original. First replace the inaccurate code snippet in the upper-left Model training step box with these FOUR plain-language steps, not code: 'Request batch', 'Transfer tensors to device', 'Forward, loss, backward', 'Optimizer update'. Do not include pseudocode, data=next(batch), or loss=model(data). Second, in the Worker-local cache card, change 'key: index' to 'key: file path'; keep 'value: DataFrame'. The cache is keyed by source file path. No new operations, measured timings, logos, branding or unrelated changes."
+    },
+    {
+      "name": "feedback",
+      "referenceRoles": [
+        "current styled draft",
+        "accurate original Matplotlib base"
+      ],
+      "prompt": "Make targeted shape-label corrections in image 1, preserving the exact rich scientific-panel composition and all learning routes, rewards, panels, connectors and colors. Image 2 is the original scientific diagram. The feature history has FOUR channels, and wind predictions/targets have TWO channels. Replace all history input shape labels (B,45,d) with (B,45,4); label these X_enc rather than giving S a tensor shape, since S is the full conditioning tuple. Replace ALL prediction and target shape labels (B,27,d) with (B,27,2), in both the supervised and RL rows. Replace any duplicated single d notation accordingly. Keep blue/rose Yhat/Y matrices, sampled forecast notation, MSE/REINFORCE distinction and stochastic sampling graphic. Future time marks condition the model, while recorded future wind values are only targets/reward feedback. No added performance curves, metrics, logos, CUDA/NVIDIA wording or decorative title."
+    }
+  ]
+}

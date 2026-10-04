@@ -27,6 +27,8 @@ const catalogueOrder = [
   "remote-pc-power",
   "movinight",
   "shrinkify",
+  "fabric-inspection",
+  "windweave",
   "tpms-generator",
   "algobrain",
   "cleanoov",

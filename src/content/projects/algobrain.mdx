@@ -12,51 +12,140 @@ featured: false
 links: {}
 role: "Project designer & R&D developer"
 placeholder: false
+format: "paper"
+paperTitle: "A custom bio-signal interface: analog conditioning, causal processing, and event control"
 ---
-## Problem
+## Abstract
+AlgoBrain investigates an end-to-end bio-signal interface: a custom TL074 analog front end, Arduino acquisition, stateful digital filtering, desktop signal inspection, and an envelope-triggered infrared control path. Its contribution is the integration of an observable sensing and processing chain, from electrode input to waveform, spectrum, recording, and relay state. The supplied archive contains distinct firmware variants for serial acquisition and physical control. This paper specifies their interfaces, derives the filtering and decision operations, and distinguishes intended sampling settings from the scheduling implemented in each sketch. Forehead acquisition can contain EEG, EMG, motion, and electrode artifacts; the demonstrated threshold detects signal amplitude events rather than classifying thoughts.
 
-AlgoBrain began with a simple but demanding goal: turn a weak biological signal into a reliable physical action. The prototype explored using forehead electrodes to control a light or relay, but it also exposed the hard part of a brain-computer interface: signals from people are small, noisy, inconsistent across users, and easy to confuse with motion, muscle activity, and electrical interference.
+**Keywords:** bio-amplifier; EEG/EMG; embedded acquisition; causal filtering; spectral inspection; envelope control.
 
-This was a research prototype, not a clinical device and not a claim of dependable thought control. Its value was the full engineering chain: an analog front end, embedded acquisition, digital signal processing, visualization, and a hardware output that made the quality of the decision visible.
+<ProjectFigure src="/images/projects/algobrain-abstract-v2.webp" width={1672} height={941} alt="Conceptual sensing, filtering, observation and control workbench" caption="Concept illustration of the sensing-to-control workflow. The hardware, electrode arrangement, and waveforms are illustrative; the source-derived scientific figures below specify the actual implementation." />
 
-## What I built
+## System specification
+### 2.1 Analog acquisition and digital observability
+The project combines a custom PCB and enclosure with an Arduino-based acquisition board. The project notes describe a forehead channel with ear-mounted references and a four-stage TL074 signal path: differential acquisition, high-pass filtering, gain, and low-pass filtering. The original enclosure photograph in the gallery shows the amplifier board, passive components, wiring, and Arduino module together.
 
-I designed a custom TL074 bio-amplifier and PCB, built the enclosure and prototype hardware, and developed Arduino firmware for acquisition and control. The project files include circuit and PCB work, SPICE exploration, breadboard and recorded tests, 3D-print files, Arduino sketches, a Processing visual client, and a later Python visualizer for recording and analysis.
+The analog front end conditions a small differential input before digitization. High-pass behavior reduces slow baseline drift; gain brings a changing signal into a useful acquisition range; low-pass behavior limits faster components. These are functional roles from the project documentation. Calibrated gain, bandwidth, input-referred noise, and common-mode rejection were not established by the supplied recordings and code alone.
 
-The analog path uses a four-stage operational-amplifier arrangement: differential acquisition, high-pass filtering, gain, and low-pass filtering. The electrode setup in the project notes uses a forehead channel with ear-mounted references. Its job is to move a microvolt-scale biological signal into the Arduino's ADC range while rejecting as much common noise and drift as practical.
+| Subsystem | Reviewed artifact | Observable output |
+| --- | --- | --- |
+| Analog front end | Circuit/PCB archive and original prototype | Conditioned voltage at Arduino A0 |
+| Serial acquisition | `simple_data_sender.ino` | Raw ADC value, filtered value, cycle counter |
+| Desktop inspection | `algobrain_visualizer.py` | Raw/filtered plots, spectrum, statistics, CSV |
+| Event controller | IR LED firmware variant | Envelope threshold, LED state, NEC transmissions |
+| Physical receiver | `final_reciver_AlgoBrain.ino` | Relay state and red/green indicators |
 
-The project was deliberately end to end. It did not stop at displaying a waveform: the sender can transmit processed samples over serial, and a separate receiver sketch can interpret an IR command and drive a relay with red/green status indicators.
+<ProjectFigure src="/images/evidence/projects/algobrain/research/algobrain-hardware-styled.webp" width={1659} height={948} alt="AlgoBrain forehead electrodes, four-stage TL074 front end, custom PCB and Arduino acquisition" caption="Figure 1. Functional hardware architecture, grounded in the project notes and original prototype photograph. Waveform illustrations are schematic; no calibrated circuit gain or cutoff values are implied." />
 
-## How it works
+### 2.2 Two firmware contracts
+The serial sender targets $f_s=500$ Hz at 115200 baud. It reads A0, applies four second-order filter sections, and writes three comma-separated fields: raw integer, filtered value to four decimal places, and cycle counter. The counter wraps after 1000 samples and emits a `CYCLE_RESET` marker. The desktop reader accepts three-field numeric lines; the marker does not become a sample.
 
-### Analog signal before software
+The archived IR controller instead writes signal/envelope pairs and adds amplitude-based actuation. These are separate protocols. The three-field desktop reader should not be described as directly consuming the controller's two-field stream without an adapter.
 
-Biological signals are unforgiving of poor front-end design. The amplifier has to preserve a useful signal while the electrodes, mains interference, body movement, and the ADC reference all introduce unwanted variation. The TL074 circuit and its filter stages were the first attempt to create a signal that firmware could work with at all.
+## Method
+### 3.1 Differential input and mixed biological sources
+Let the electrode input difference be
 
-That also explains why the project is more accurately described as EEG/EMG experimentation. The hardware and code were used to investigate a forehead-based signal path, but a visible response can come from muscle activity or motion as well as any intended EEG pattern. Treating those sources as separable is a key requirement for a stronger second version.
+$$
+v_d(t)=v_{\mathrm{in}}(t)-v_{\mathrm{ref}}(t).
+\tag{1}
+$$
 
-### Sampling, filtering, and envelope detection
+The measured signal includes the intended physiological component together with muscle activity, movement, electrode contact effects, and electrical interference. Differential conditioning and filtering improve inspectability, but a large filtered amplitude does not identify the source of that amplitude. Forehead demonstrations must therefore be interpreted as bio-signal experiments with possible EEG/EMG mixtures.
 
-The active data-sender sketch targets 500 samples per second from analog pin A0 and emits raw value, filtered value, and a cycle counter at 115200 baud. The firmware implements four cascaded second-order filter sections using persistent state variables, then produces a serial stream that can be inspected outside the microcontroller.
+### 3.2 Four causal second-order sections
+The firmware processes every input sample through four cascaded sections. Each section keeps two persistent state values. Its recurrence can be expressed as
 
-The controller sketch follows the same signal path but adds a 128-sample circular-buffer envelope. It rectifies the filtered signal, averages the recent history, applies a sensitivity factor, and compares the result with a threshold to drive an LED. At the intended 500 Hz cadence, a 128-sample window represents roughly 256 ms of history: enough to smooth a transient, but still short enough to make control feel responsive.
+$$
+\begin{aligned}
+w[n]&=x[n]-a_1w[n-1]-a_2w[n-2],\\
+y[n]&=b_0w[n]+b_1w[n-1]+b_2w[n-2].
+\end{aligned}
+\tag{2}
+$$
 
-There is an important archival detail: the data-sender uses a `1,000,000 / SAMPLE_RATE` microsecond timer interval, while the older controller sketch uses `10,000,000 / SAMPLE_RATE`. The latter schedules ten times more slowly than its 500 Hz label suggests. The files document the prototype honestly: the timing needs to be verified on the exact sketch and hardware being demonstrated.
+For each section, the current output becomes the next section's input. Eight stored delays therefore carry the filter state across calls. The numerical coefficients are fixed in both inspected sender and IR-controller implementations. This is a causal IIR cascade, which introduces a frequency-dependent phase response. It does not implement forward/backward zero-phase filtering.
 
-### From signal to an external action
+The sample rate matters to the physical frequency response. Reusing the same coefficients at a different cadence shifts the relationship between digital frequency and hertz. For that reason, the sampling discrepancy below belongs to the signal-processing interpretation, not just to the user interface.
 
-The serial path made the prototype observable. The later Python visualizer keeps five seconds of raw and filtered data, plots a 0–50 Hz spectrum, reports basic signal statistics, and supports recording sessions for future analysis. This is the bridge between an embedded experiment and a dataset: it makes it possible to compare a user action with the signal that preceded it instead of tuning a threshold by feel alone.
+### 3.3 Circular-buffer envelope and event threshold
+The IR variant casts the filtered output to an integer, rectifies it, and maintains a 128-sample circular buffer with a running sum. Its integer envelope operation is
 
-The output side was kept separate. An IR receiver sketch listens for a received command, changes relay state, illuminates a red or green status indicator, and blocks repeated triggers for five seconds. This split makes the design easier to debug: signal acquisition, visual feedback, and the physical output can each be tested independently.
+$$
+\begin{aligned}
+q[n]&=|\operatorname{int}(y[n])|,\\
+e[n]&=4\left\lfloor\frac{1}{128}\sum_{k=0}^{127}q[n-k]\right\rfloor.
+\end{aligned}
+\tag{3}
+$$
 
-## Result
+Replacing the oldest sample makes each update constant work rather than recomputing the whole sum. Integer division occurs before multiplying by four. The controller tests $e[n]>13$, turns its LED on, and transmits on the first above-threshold event while the LED was previously off. It re-arms the transmitter after the envelope returns below the threshold. This implements an amplitude event detector with edge suppression, rather than a learned intent classifier.
 
-AlgoBrain placed fourth among more than 150 teams at the national innovation competition in Rades. More importantly, it produced a working record of the decisions behind a bio-signal prototype: analog amplification, custom PCB work, fixed-rate embedded acquisition, digital filtering, envelope-based control, serial visualization, and a relay output.
+### 3.4 Scheduling changes the effective history
+The serial sender adds $10^6/500=2000$ microseconds to its timer. The archived IR controller adds $10^7/500=20000$ microseconds. Their nominal intervals are therefore 2 ms and 20 ms respectively, despite sharing a `SAMPLE_RATE` label of 500.
 
-The prototype also revealed its limits clearly. A fixed threshold can work for a controlled demonstration but cannot account for electrode placement, user differences, fatigue, movement, or an unstable baseline. That evidence is valuable because it turns AlgoBrain v2 into a specific engineering problem rather than an abstract AI idea.
+For a 128-sample history,
 
-## What I would improve
+$$
+T_{\mathrm{history}}=\frac{128}{f_s}.
+\tag{4}
+$$
 
-AlgoBrain v2 should start with synchronized data collection: record the raw signal, filtered signal, event label, user, electrode placement, and session conditions together. Calibration should establish a per-user baseline before any control threshold is chosen. Artifact checks should explicitly flag blinks, movement, and obvious EMG contamination instead of treating every high envelope as intent.
+The intended 500 Hz cadence corresponds to 0.256 seconds; a 50 Hz nominal cadence corresponds to 2.56 seconds. On a rising event, the IR code performs two transmissions with two blocking 200 ms delays, further disturbing sampling. A target interval is not a measured sampling-rate guarantee: ADC work, serial traffic, and blocking control operations must be included in timing measurements.
 
-On the hardware side, I would validate the analog front end with known inputs, document ADC scaling and the actual sampling rate, and add a clear safety boundary between the sensing electronics and any power output. On the software side, I would compare the current envelope baseline with simple spectral features and a small personalized classifier only after the recorded data shows a repeatable signal. The goal is not to make a bigger claim; it is to make each decision in the control chain measurable.
+<ProjectFigure src="/images/evidence/projects/algobrain/research/algobrain-software-styled.webp" width={1659} height={948} alt="Separate AlgoBrain serial analysis and archived envelope-triggered infrared control paths" caption="Figure 2. The upper branch targets 500 Hz serial acquisition. The archived control branch has a 20 ms timer and blocking transmission delays; the receiver re-arms after five seconds without a decoded IR frame." />
+
+## Implementation
+### 4.1 Serial ingestion and bounded plot buffers
+The Python visualizer reads serial data on a background thread, parses the three-field packet, and puts tuples into a queue. A processing thread appends samples to 2500-element deques for raw signal, filtered signal, cycle, and display indices. At the assumed 500 Hz cadence, those bounded buffers retain approximately five seconds of history. The queue and session recording list are not bounded by the deque limit.
+
+Waveform plots use the current buffer's sample indices. The CSV recorder adds a host timestamp and a manually selected event label. These labels support later comparison between an instructed action and its surrounding samples; the code does not train a model from them. Host reception timestamps also do not establish precise device acquisition times.
+
+### 4.2 Windowed spectral inspection
+Once 256 filtered samples are available, the visualizer takes the last 256, multiplies them by a Hann window, and computes an FFT. For $N=256$,
+
+$$
+\begin{aligned}
+h[n]&=\tfrac12\!\left(1-\cos\frac{2\pi n}{N-1}\right),\\
+X[k]&=\sum_{n=0}^{N-1}h[n]y[n]e^{-j2\pi kn/N}.
+\end{aligned}
+\tag{5}
+$$
+
+The interface displays positive-frequency magnitudes on a 0–50 Hz axis and marks conventional EEG frequency regions. Frequency bins assume 500 Hz, giving bin spacing $500/256\approx1.953$ Hz and a 0.512-second analysis window. These axes are valid only when the actual acquired cadence matches that assumption. The plot is an inspection tool, not evidence that each labeled band is neural activity.
+
+The statistics panel's quantity named SNR uses filtered mean-square divided by filtered variance. It does not compare a separately identified clean signal with measured noise. This paper treats it as a software diagnostic rather than a calibrated signal-to-noise measurement.
+
+### 4.3 IR receiver state and quiet-time suppression
+The final receiver decodes IR frames, toggles its relay only when unblocked, and changes the red/green indicators. Every decoded frame updates `lastSignalTime`, including frames received while blocked. It releases the block only when the elapsed interval exceeds 5000 ms:
+
+$$
+t-t_{\mathrm{last\ decoded}}>5000\ \mathrm{ms}.
+\tag{6}
+$$
+
+Repeated traffic can therefore extend the block: the receiver waits for a quiet interval rather than enforcing a fixed timeout from the first event. The specific-code comparison is commented out in the inspected file. The implemented path accepts decoded frames without that command check and provides no acknowledgement to the transmitter. The separation between transmitter and receiver makes each state machine inspectable, while delivery and command validation remain distinct engineering responsibilities.
+
+## Evidence
+### 5.1 Original hardware and project record
+The gallery retains the original bio-amplifier/enclosure photograph, exhibition display, and competition documents. The project record reports fourth place among more than 150 teams at the national innovation competition in Rades. That recognition is separate from quantitative signal-classification performance.
+
+The source archive establishes the implemented chain: custom analog hardware, acquisition and filtering firmware, a serial inspection client, event recording, and an IR/relay prototype. The new diagrams are source-derived explanations; their signals and spectral insets are illustrative. They do not add measured EEG recordings, clinical validation, classifier accuracy, or control latency.
+
+### 5.2 Reproducible observations from the code
+The inspected sender exposes its raw and filtered samples together, allowing a recorded input to be compared with the filter output. The fixed coefficients and persistent state make the digital operation reproducible. The timer constants, buffer lengths, threshold, repeated transmissions, and receiver block logic can each be inspected independently. This visibility is the useful foundation for synchronized hardware measurements and per-session evaluation.
+
+## Discussion
+AlgoBrain's technical value lies in connecting weak-signal hardware to observable embedded processing and a physical output. Keeping raw samples alongside filtered values and recording event labels makes failures investigable: drift, saturation, timing mismatch, artifacts, and threshold behavior can be examined rather than hidden behind a single control result.
+
+A stronger evaluation would characterize the analog transfer response with known inputs, verify acquisition timestamps and jitter, and measure amplitude distributions across electrode placements and sessions. Artifact labeling should separate muscle, blink, movement, and contact events from the intended signal. Per-user calibration and explicit command validation would improve the control contract. Nonblocking transmission would make acquisition timing easier to maintain.
+
+The current archive supports deterministic filtering and amplitude-triggered control. It does not support a claim that a waveform peak identifies a thought, that a spectral label proves an EEG source, or that this is a machine-learning project. The cover and figures therefore emphasize circuitry, signal processing, spectral analysis, and control state.
+
+## References
+1. **Primary acquisition firmware:** `Project Mind Controller/AlgoBrain/simple_data_sender.ino` — `loop`, `EEGFilter`, three-field serial output, and cycle markers in the supplied AlgoBrain archive.
+2. **Desktop analysis:** `Project Mind Controller/AlgoBrain/algobrain_visualizer.py` — serial reader, queue processing, plot deques, Hann-window FFT, statistics, and CSV recording.
+3. **IR controller:** `Project Mind Controller/codes/AlgoBrain_Code_v2__IR_led_Option_/AlgoBrain_Code_v2__IR_led_Option_.ino` — timer, `EMGFilter`, `getEnvelop`, rising-event logic, and repeated NEC transmissions.
+4. **Receiver:** `Project Mind Controller/codes/final_reciver_AlgoBrain/final_reciver_AlgoBrain.ino` — relay toggle, status indicators, refreshed quiet timer, and commented command comparison.
+5. **Hardware record:** project README, circuit/PCB archive, and original prototype/exhibition images. Documentation descriptions are distinguished from calibrated electrical measurements.

@@ -1,0 +1,106 @@
+---
+title: "FabricLens"
+slug: "fabric-inspection"
+format: "paper"
+paperTitle: "Textile defect localization with staged detector adaptation"
+pipeline: ["LABEL", "ADAPT", "DETECT", "INSPECT"]
+category: "AI + Computer Vision"
+summary: "Staged YOLO adaptation, annotated textile detections, and a threaded CPU inspection interface."
+cover: "/images/projects/fabric-inspection.webp"
+coverFit: "contain"
+year: null
+tech: ["python", "yolo", "pytorch", "opencv"]
+featured: false
+links: {}
+role: "Detection pipeline and inspection-tool implementation"
+placeholder: false
+---
+## Abstract
+This paper documents a single-class textile defect localization pipeline built around YOLO11s. The implementation connects image/label preparation, frozen-backbone adaptation, full-model fine-tuning, checkpoint selection, batch inference, and a desktop inspection interface. Saved annotated images, learning curves, and a confusion matrix provide experiment artifacts for visual review. The viewer separates its event loop from CPU inference through a background thread and per-image result caching. The engineering contribution is an inspectable path from dataset contract to localized predictions; the available artifacts do not establish deployment performance across textile conditions.
+
+**Keywords:** textile inspection; object detection; transfer learning; normalized annotations; CPU inference; visual review.
+
+## System specification
+### 2.1 Detection task and annotation contract
+Given a textile image $I$, the detector returns candidate regions $\{(b_i,q_i)\}$, where $b_i$ is a bounding box and $q_i$ is its confidence score. The dataset uses a single defect class. Labels encode the class identifier and normalized box geometry:
+
+$$
+\mathbf{b} = \left(\frac{x_c}{W},\;\frac{y_c}{H},\;\frac{w}{W},\;\frac{h}{H}\right).
+\tag{1}
+$$
+
+Here $W$ and $H$ are image dimensions, $(x_c,y_c)$ is the box center, and $w,h$ are its width and height in pixels. Clean examples have empty label files. Image/label pairing, class consistency, and the inclusion of clean frames define the supervision boundary [1].
+
+### 2.2 Pipeline components
+| Component | Responsibility | Output |
+| --- | --- | --- |
+| Dataset preparation | Acquire and organize image/label pairs | Training directory structure |
+| Staged training | Adapt the head, then fine-tune the model | Selected checkpoints |
+| Batch inference | Apply thresholds and draw predicted boxes | Annotated JPEG files |
+| Inspection viewer | Browse images and cached CPU predictions | Reviewable image display |
+
+Small defects compete with weave, seams, folds, and lighting variations. The interface therefore retains spatial annotations rather than reducing an image to a single quality verdict.
+
+## Method
+### 3.1 Staged detector adaptation
+Training starts from YOLO11s. The first stage freezes backbone layers 0–9 while adapting the remaining trainable layers. The second stage loads the selected first-stage checkpoint and unfreezes the model with a lower initial learning rate [2]. Both stages use 640-pixel input resolution, batch size 16, and four data-loading workers. These are configured parameters, rather than claims that one setting is optimal for all fabrics.
+
+Mosaic augmentation is enabled in both stages. Mixup is disabled during initial adaptation and set to 0.05 during full fine-tuning. Early stopping and periodic checkpoint saving support recoverable experiments. The selected weights, image resolution, augmentation configuration, and dataset partition together determine the meaning of an evaluation.
+
+<ProjectFigure src="/images/projects/fabric-training-styled.webp" width={1774} height={887} alt="Textile labels and two-stage detector adaptation" caption="Figure 1. Image/label supervision, frozen-backbone adaptation, full-model fine-tuning and selected weights. Fabric scenes are schematic; the settings follow train.py." />
+
+### 3.2 Confidence filtering and overlap suppression
+Batch inference uses confidence threshold $\tau_q=0.25$ and non-maximum-suppression IoU threshold $\tau_{\mathrm{IoU}}=0.45$ [3]. The overlap measure between candidate boxes $A$ and $B$ is
+
+$$
+\operatorname{IoU}(A,B)=\frac{|A\cap B|}{|A\cup B|}.
+\tag{2}
+$$
+
+The inference library applies the configured thresholds, after which the runner records detection counts and the highest score per image, plots retained predictions, and saves annotated outputs. A confidence score is a model score; calibration would be required to interpret it as a probability of physical defect.
+
+<ProjectFigure src="/images/projects/fabric-detection-styled.webp" width={1774} height={887} alt="Confidence filtering and overlap suppression for textile defect boxes" caption="Figure 2. Candidate boxes become inspectable defect locations through confidence filtering and NMS. The pictured fabric and scores are schematic examples, not measured predictions." />
+
+### 3.3 Checkpoint and input resolution
+The runner searches full-training selected weights, full-training final weights, frozen-stage selected weights, and frozen-stage final weights in that order. It searches test images before validation images. This fallback behavior enables inspection when some expected artifacts are absent, but the actual checkpoint and source partition must be recorded before using a result in a benchmark.
+
+## Implementation
+### 4.1 Batch inspection artifacts
+The batch runner writes images under the saved inference-results directory. Each output preserves the original scene and overlays the detector's predicted regions. The gallery contains existing examples with narrow anomalies, elongated regions, and multiple boxes. No new model inference was performed to produce these portfolio images.
+
+### 4.2 Threaded desktop inspection
+<ProjectFigure src="/images/projects/fabric-viewer-styled.webp" width={1774} height={887} alt="Textile viewer cache and background CPU inference flow" caption="Figure 3. Cache hits reuse predictions; misses launch a CPU worker, retain computed boxes and update the display while the main event loop continues. Interface images are schematic." />
+
+The inspected Tkinter viewer loads its model on the CPU and runs inference in a background thread. Results are cached by image path so redraws can reuse existing predictions. Image navigation, fullscreen display, and keyboard exit operate through the interface event loop [4]. This separation avoids repeating inference on every display frame; responsiveness under sustained use requires runtime measurement.
+
+<ProjectFigure src="/images/evidence/projects/fabric-inspection/viewer-preview.webp" width={1392} height={829} alt="Textile inspection interface reconstruction" caption="Figure 4. Lightweight reconstruction of the inspection interface showing an existing annotated output. The preview does not execute YOLO or load the ML environment." />
+
+The screenshot companion uses a standard-library Python web server to display a browser reconstruction from optimized saved media. It does not import the viewer's automatic dependency installer or execute the inference runner. Original project files remain untouched.
+
+## Evidence
+The following gallery contains saved project detections, training curves, and a confusion matrix. The viewer preview is explicitly marked as a reconstruction; the cover is concept artwork.
+
+<ProjectMedia />
+
+Annotated outputs provide qualitative evidence of localization behavior. Learning curves and the confusion matrix document a saved experiment. A controlled evaluation would additionally require the dataset manifest, held-out labels, checkpoint identity, inference thresholds, and metric calculation procedure. No factory deployment result or cross-fabric accuracy claim is inferred from these images.
+
+## Discussion
+### 6.1 Evaluation design
+Evaluation should be stratified by fabric type, lighting, defect size, and difficult negative examples such as seams or folds. Separate review of false positives and missed defects is needed across confidence thresholds. Resizing deserves explicit analysis: a narrow defect visible at native resolution can occupy very few pixels after model preprocessing.
+
+Image-level splits should also account for near-duplicate frames and shared source material. A documented held-out set makes later changes in augmentation, adaptation strategy, and suppression thresholds comparable.
+
+### 6.2 Viewer state and reproducibility
+The interface should distinguish pending inference from a completed result containing zero detections. Background results must update only the image they belong to. Bounded prefetch and cache eviction would support longer inspection sessions while keeping memory predictable.
+
+An exported inspection result should retain checkpoint identity, input resolution, thresholds, source-image identity, and prediction metadata. These additions would make a visual artifact reproducible and allow later comparison against revised model weights.
+
+The implemented pipeline separates preparation, adaptation, inference, and review. Its value lies in making localized predictions accessible for inspection while preserving the conditions under which they were generated.
+
+## References
+1. **Dataset preparation:** the project's acquisition and organization scripts — image/label pairing, normalized single-class annotations, and clean samples.
+2. **Detector training:** `train.py` — YOLO11s initialization, backbone freezing, checkpoint handoff, full-model fine-tuning, and augmentation configuration.
+3. **Batch inference:** `inference.py` — ordered checkpoint lookup, input-directory fallback, confidence/IoU settings, and annotated exports.
+4. **Desktop inspection:** `final/infrencer.py` — Tkinter event loop, CPU model execution, background thread, and per-image cache.
+5. **Experiment artifacts:** saved inference results and the full-training run's learning curves and confusion matrix.
+

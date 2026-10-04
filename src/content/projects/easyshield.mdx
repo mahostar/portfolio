@@ -4,9 +4,8 @@ slug: "easyshield"
 pipeline: ["CAMERA","YOLOv12","REAL / FAKE"]
 category: "AI + Edge"
 summary: "A complete face anti-spoofing pipeline, from dataset preparation to live testing."
-cover: "/images/evidence/projects/easyshield/easyshield-thumbnail.webp"
+cover: "/images/projects/easyshield-cover-v2.webp"
 coverFit: "contain"
-coverVideo: "/videos/evidence/projects/easyshield/demonstrations/anti-spoofing-demo-montage--053.mp4"
 year: 2025
 tech: ["python","pytorch","opencv"]
 featured: true
@@ -14,47 +13,126 @@ featuredOrder: 1
 links: {"github":"https://github.com/mahostar/EasyShield_v2.5"}
 role: "Model training & AI tool-suite developer"
 placeholder: false
+format: "paper"
+paperTitle: "A visual liveness gate: dataset engineering, inference, and decision semantics"
 ---
-## Problem
+## Abstract
+EasyShield is a face presentation-attack detection pipeline developed as a liveness gate for identity recognition. Its contribution includes the data-production tools and inspection interfaces surrounding a YOLOv12-nano model: face extraction, augmentation, curation, detection-label generation, training, and live evaluation. The source implements two execution paths: continuous Windows inference and a five-frame Linux scan with confidence filtering and majority aggregation. This paper specifies the crop-to-decision contract, distinguishes offline and live face localization, and examines the class-mapping assumptions that connect training labels to deployment. The repository reports 92.30% accuracy on an 8,000-image comparison; these are published project results, rather than a new benchmark run for this page.
 
-Face recognition answers who a person resembles; it does not, by itself, answer whether a camera is seeing a present person. A printed portrait or replayed screen can be accepted as an identity match unless a separate liveness step stops it first.
+**Keywords:** presentation-attack detection; liveness; dataset curation; edge inference; decision thresholds; YOLO.
 
-EasyShield began as that protective step for [NiotoShield](/projects/niotoshield). I turned the anti-spoofing work into a standalone, open-source model and tool suite for distinguishing a live face from common presentation attacks before identity recognition proceeds.
+<ProjectFigure src="/images/evidence/projects/easyshield/easyshield-thumbnail.webp" width={1600} height={900} alt="Preserved original EasyShield face anti-spoofing project artwork" caption="Original project overview artwork. Its displayed statistics refer to the repository report discussed in Evidence." />
 
-## What I built
+### Development documented in practice
+The album below records the development workstation, training output, dataset inspection, and live presentation-attack tests. These original photographs, screenshots, and demonstration videos show the project being built and tested. Select a thumbnail to inspect it; View more reveals the complete album.
 
-I built EasyShield around a YOLOv12-nano classifier and the surrounding workflow needed to train and inspect it: face extraction, data augmentation, image filtering, dataset preparation, model training, and live GUI testing. The release includes trained weights, example data, Windows and Linux testing paths, and the scripts that connect those stages.
+<ProjectAlbum />
 
-The goal was not only to train one model. It was to make the dataset and iteration process repeatable: move from source photos or video to aligned face crops, curate the samples, make a YOLO-ready split, train a run, then inspect real-time predictions with their confidence scores.
+## System specification
+### 2.1 Liveness before identity
+A face detector locates a candidate region. The liveness model then evaluates evidence of a real face or a presentation attack in that region and its surrounding context. Identity recognition is a separate downstream responsibility in [NiotoShield](/projects/niotoshield). A liveness score alone does not establish a person's identity.
 
-## How it works
+The implementation uses detection-style YOLO outputs: bounding-box classes and confidence values from `result.boxes`, rather than a classification-head probability vector. A cropped region is therefore converted into a binary liveness decision by interpreting the detector's returned class and score.
 
-### A liveness gate before identity matching
+| Layer | Input | Responsibility |
+| --- | --- | --- |
+| Offline preparation | Images and videos | Extract and curate face-centered samples |
+| Dataset packaging | Curated real / fake images | Generate normalized boxes and a train / validation / test split |
+| Live localization | Camera frames | Locate faces with an OpenCV Haar cascade |
+| Liveness model | Resized contextual crop | Return detection classes and confidence |
+| Decision interface | Accepted predictions | Display real / attack evidence and scan aggregation |
 
-EasyShield treats liveness as an independent decision. A camera frame is first reduced to a face region, then the classifier labels that crop as **Real** or **Fake**. In the NiotoShield flow, a fake result stops the request before the face-recognition component compares identity embeddings. A real result can continue to the identity stage.
+### 2.2 Contextual cropping
+The live model receives more than a tightly cut face. The code expands a detected face box by padding proportional to its width, clips the crop to the camera frame, and resizes it to $640\times640$. Context can retain useful evidence of a screen, printed sheet, or presentation boundary. The displayed rectangle uses a different, smaller padding; it should not be confused with the actual model input.
 
-This separation keeps the question being answered clear. The anti-spoofing model is responsible for detecting presentation attacks; an identity recognizer is responsible for matching an enrolled person. Combining those claims into one score would make failures harder to diagnose.
+For face box $(x,y,w,h)$ in a frame of width $W$ and height $H$, the model crop is defined by
 
-### Building the dataset deliberately
+$$
+\begin{aligned}
+p&=\lfloor1.5w\rfloor,\\
+x_1&=\max(0,x-p),\quad x_2=\min(W,x+w+p),\\
+y_1&=\max(0,y-p),\quad y_2=\min(H,y+h+p).
+\end{aligned}
+\tag{1}
+$$
 
-The preparation tools use MTCNN to extract faces from images and video, adding a margin around the detected face and resizing crops to 640 × 640. A filtering step helps remove low-quality or badly aligned samples before they become training data. The augmentation tool then varies rotation, blur, brightness, contrast, and horizontal orientation to broaden the visual conditions represented in the dataset.
+Clipping handles faces near the frame edge. Resizing standardizes the tensor dimensions; it does not guarantee that each original crop has the same aspect ratio or amount of background.
 
-The dataset-preparation script organizes the curated images into YOLO train, validation, and test partitions and generates the dataset configuration used by the trainer. That workflow matters because liveness performance is shaped as much by the coverage and labelling of real and fake examples as by the model architecture.
+<ProjectFigure src="/images/evidence/projects/easyshield/research/liveness-gate-styled.webp" width={1774} height={887} alt="Live contextual liveness pipeline" caption="Figure 1. Camera localization, contextual crop, detection outputs and semantic liveness decision. Identity recognition remains a downstream responsibility." />
 
-### Training, testing, and reviewing predictions
+## Method
+### 3.1 Constructing a usable training set
+The face-extraction tool uses MTCNN to obtain samples from photographs and video. Augmentation changes rotation, blur, brightness, contrast, and orientation. The filtering interface supports automatic face checks together with manual review, backup, and undo operations. These are separate stages: augmentation expands appearance variation, while curation determines whether a sample remains useful and correctly labeled.
 
-The training tool produces the model weights and run metrics from a prepared dataset. The testing application loads a trained model and accepts a live camera feed or file input, displaying a Real/Fake label with a confidence score. This closes the loop between offline training results and the conditions a user sees through a camera.
+The dataset preparation script uses an OpenCV DNN face detector to produce YOLO-format box labels. It shuffles the image collection and allocates 80% to training, 10% to validation, and 10% to testing. Each label contains a class and normalized box center, width, and height. This is an image-level split; evaluation of unseen identities, cameras, or recording sessions requires explicit grouping beyond the current random split.
 
-The repository also documents a CUDA 11.8 and cuDNN 8.9.6 environment with a CUDA-enabled PyTorch build for GPU-backed experiments. The same project includes Linux-oriented setup notes for edge devices, where available acceleration and camera hardware determine the actual runtime behavior.
+<ProjectFigure src="/images/evidence/projects/easyshield/research/dataset-workflow-styled.webp" width={1774} height={887} alt="Offline liveness dataset workflow" caption="Figure 2. Source-derived extraction, augmentation, curation, box-label generation and training, with the current 80/10/10 image split." />
 
-## Result
+### 3.2 Offline and live localization
+MTCNN belongs to the extraction and filtering tools. The live Windows and Linux testers use a Haar cascade. The Windows path localizes faces at reduced frame resolution and maps coordinates back to the original frame. Face detections can be reused between localization steps, while the liveness model evaluates the contextual crops.
 
-The published evaluation reports 92.30% accuracy, 88.32% precision, 97.50% recall, a 98.61% AUC, and a 6.25% equal error rate on an 8,000-image test dataset. Average inference time in that evaluation was 75.47 ms. Those are project benchmark results, not a universal deployment guarantee: camera quality, attack media, lighting, compute hardware, and the population represented in the data can all change the outcome.
+This separation keeps dataset production and interactive inference independently inspectable. It also creates a distribution boundary: the regions produced by offline tools and live localization may differ in framing, scale, and background. Crop consistency should therefore be evaluated alongside model accuracy.
 
-EasyShield grew out of [NiotoShield](/projects/niotoshield), the complete university hardware and software project. Its open-source tools are available in the [EasyShield v2.5 repository](https://github.com/mahostar/EasyShield_v2.5).
+### 3.3 Five-frame decision aggregation
+The Linux tester collects up to five face crops, discards predictions below its selected confidence threshold, and counts the remaining real and fake outcomes. A scan reports real only when the real count strictly exceeds the fake count:
 
-## What I would improve
+$$
+\begin{aligned}
+n_R&=\sum_{k\in\mathcal A}\mathbf{1}[\hat c_k=R],\\
+n_F&=\sum_{k\in\mathcal A}\mathbf{1}[\hat c_k=F],\\
+\hat d&=\begin{cases}R,&n_R>n_F,\\F,&n_R\le n_F.\end{cases}
+\end{aligned}
+\tag{2}
+$$
 
-The next evaluation should publish the exact hardware configuration, dataset splits, attack-media definitions, and per-condition metrics. I would test on cameras, screens, printers, lighting conditions, and subjects that were held out from training, then report false-accept and false-reject behavior by condition.
+Here $\mathcal A$ is the set of accepted crop predictions after confidence filtering. Ties and a scan with no accepted model outcomes follow the attack branch. A missing face or failed capture can also produce a separate interface error before aggregation. Average confidence is a displayed diagnostic, not a calibrated probability that authentication is safe.
 
-For a deployed access system, I would also add explicit handling for uncertain predictions and camera-quality failures. A liveness score near the decision boundary should request another capture or deny access safely; it should not silently be treated as a reliable identity decision.
+<ProjectFigure src="/images/evidence/projects/easyshield/research/decision-contract-styled.webp" width={1774} height={887} alt="Five-frame scan and class mapping" caption="Figure 3. Linux confidence-filtered aggregation and the differing class-ID assumptions across dataset and live scripts. Checkpoint metadata establishes the deployment meaning." />
+
+## Implementation
+### 4.1 Training and inspection tools
+The trainer exposes epochs, batch size, optimizer, learning rate, worker count, caching, and device selection in a GUI. It invokes Ultralytics training and provides access to saved run artifacts. The surrounding tools make intermediate products visible: extracted faces, edited datasets, labels, training output, and live predictions can each be reviewed separately.
+
+The Windows tester supports continuous camera/file evaluation with overlays. The Linux tester adds an explicit scan action and aggregation result, making the decision boundary visible to the operator rather than hiding it inside a frame loop.
+
+### 4.2 The class-map contract
+The inspected revision contains a material integration detail: dataset preparation and the benchmark use the ordering `0 = fake, 1 = real`, while the live testers interpret `0 = real, 1 = fake`. A deployed checkpoint must be paired with its actual saved class metadata. Numeric IDs cannot be treated as universal semantics across these scripts.
+
+This paper and its diagrams use semantic labels **real** and **fake**. Verifying the checkpoint's class mapping is necessary before connecting liveness output to an identity gate. The original repository has been inspected without changing its training or inference code.
+
+## Evidence
+### 5.1 Repository-reported evaluation
+The README reports the following results for its 8,000-image comparison. The table preserves that provenance; it does not imply an independently repeated experiment or a verified edge-device latency measurement.
+
+| Metric | Repository-reported value |
+| --- | --- |
+| Accuracy | 92.30% |
+| F1 | 92.68% |
+| Attack presentation classification error | 6.25% |
+| Bona fide presentation classification error | 2.50% |
+| Average classification error | 4.38% |
+
+The error-rate relationship is
+
+$$
+\mathrm{ACER}=\frac{\mathrm{APCER}+\mathrm{BPCER}}{2}.
+\tag{3}
+$$
+
+These quantities distinguish attacks accepted as bona fide from bona fide presentations rejected as attacks. Their interpretation depends on the positive-class convention, threshold, and evaluation protocol. The benchmark script computes several metrics, but its score construction and class mapping require review before treating ROC/AUC outputs as fully validated.
+
+### 5.2 Interface and artifact record
+The existing demonstration montage, face-extraction screens, trainer interfaces, dataset/prediction views, and live test screenshots are retained in the project gallery. They document the workflow and its inspectable outputs. Architecture figures describe the source implementation; they do not add measured accuracy or substitute for a held-out evaluation.
+
+## Discussion
+The engineering strength is the complete route from raw footage to an inspectable liveness decision. Dataset tools expose quality issues early, contextual crops retain presentation evidence, and scan aggregation makes repeated observations explicit. The highest-value evaluation extensions are identity/session-disjoint splits, threshold sweeps with consistent class semantics, and device-specific latency measured across capture, localization, preprocessing, and inference.
+
+A strong comparison also needs attack coverage beyond the training collection, including previously unseen presentation media and camera conditions. The reported result establishes a project evaluation record; it does not establish universal attack resistance or state-of-the-art status across protocols.
+
+## References
+The implementation analysis uses revision `3afb0fe760e3d57b3a7d3e78d0977ebb9abce1de` of [EasyShield v2.5](https://github.com/mahostar/EasyShield_v2.5).
+
+- [Dataset preparation and label generation](https://github.com/mahostar/EasyShield_v2.5/blob/3afb0fe760e3d57b3a7d3e78d0977ebb9abce1de/dataset%20preparing%20tools/prepare_data.py).
+- [Windows live tester](https://github.com/mahostar/EasyShield_v2.5/blob/3afb0fe760e3d57b3a7d3e78d0977ebb9abce1de/Testing%20Code%20%28windows%29/test_model.py).
+- [Linux five-frame scan](https://github.com/mahostar/EasyShield_v2.5/blob/3afb0fe760e3d57b3a7d3e78d0977ebb9abce1de/Testing%20Code%20%28Linux%29/Raspberry_Pi4_Custom_pipeline_testing_tool.py).
+- [Evaluation script](https://github.com/mahostar/EasyShield_v2.5/blob/3afb0fe760e3d57b3a7d3e78d0977ebb9abce1de/Trained%20TOOL%20for%20YOLO/model_benchmark.py) and [reported comparison](https://github.com/mahostar/EasyShield_v2.5/blob/3afb0fe760e3d57b3a7d3e78d0977ebb9abce1de/README.md).

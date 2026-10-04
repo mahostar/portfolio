@@ -15,55 +15,111 @@ links: {}
 role: ''
 placeholder: false
 pipeline: ["SENSING","ESP32","AQUACULTURE"]
+format: "paper"
+paperTitle: "A connected fish-water system with pulse-linked sensing and separated control state"
 ---
-## Problem
-A fish-water system is only useful when its physical flow, measurements and operating controls are legible in the same place. AquaFlow explored that connection with a small water-tank test bench: make the equipment observable, give an operator clear status signals, and provide a practical control surface rather than treating the hardware as a black box.
+## Abstract
+AquaFlow connects a fish-water prototype, in-house conductivity-based sensing, an Arduino Nano measurement processor, an ESP32 network/controller layer, and a mobile monitoring interface. The supplied firmware implements a framed single-wire pulse handoff for TDS and temperature, local ultrasonic distance sensing, a freshness flag, and separate cloud ownership for measurements and requested relay states. The physical explanation relates feeding, recirculation, filtration, and water-quality interpretation. This paper distinguishes bulk ionic monitoring from ammonia-specific measurement and separates mineral adsorption from biological nitrification. The diagrams describe the prototype and inspected firmware without publishing proprietary sensing parameters or claiming unmeasured water-treatment performance.
 
-The challenge was not only to assemble the plumbing and electronics. The prototype had to make a changing fish-water setup understandable: what the water level and quality readings are saying, which equipment is available to control, and when the system needs attention.
+**Keywords:** aquaculture monitoring; conductivity proxy; single-wire encoding; dual-core controller; state ownership; recirculation; filtration.
 
-That required the same sensing foundation developed for Plantini, but applied to a different operating context. A TDS reading has to be treated as a measurement with uncertainty, not as an unquestioned dashboard number: it needs a calibration context and a controller that can tell the difference between a usable reading and one that is stale, unsettled or implausible.
+## System specification
+### 2.1 Physical loop and operating context
+The evidence includes a tank test bench, controller enclosure, relay/sensor wiring, a system demonstration, and a mobile dashboard. A separate concept image explains a recirculating path from tank through pumping and filter media to aeration/return. The supplied folder also contains filter CAD and fish-feeder components named base, rotor, wall, and lid.
 
-## What I built
-AquaFlow brings together three tangible pieces of the prototype:
+These artifacts establish the physical development work and functional water loop. A filter model does not establish a measured ammonia removal rate; feeder geometry does not establish an implemented feeding controller in the inspected ESP32 revision.
 
-- A **water-tank test bench** with the tank, tubing and connected equipment used to exercise the physical setup.
-- A **controller enclosure** containing the control electronics and a multi-channel relay board for connecting equipment.
-- A **mobile control dashboard** that presents the system state and the operating controls in one interface.
-- A **proprietary AC-based TDS sensing path** and ESP32 control layer, adapted from the in-house technology developed for Plantini.
+### 2.2 Embedded responsibilities
+| Component | Inspected responsibility |
+| --- | --- |
+| Arduino Nano | Acquire a TDS estimate and temperature; encode a sensor packet |
+| One-wire handoff | Transfer framed pulse-width fields to the receiver |
+| ESP32 local loop | Decode readings, assess sensor-link freshness and acquire distance |
+| ESP32 cloud task | Publish sensor state, fetch desired relay state and handle connectivity |
+| Relay layer | Apply pump, compressor and UV output choices |
+| Mobile interface | Present readings, warnings, connection indicators and equipment controls |
 
-The TDS sensor, its AC excitation, analog conditioning, calibration routine and production firmware are proprietary. As with Plantini, the aim is to keep the sensing technology understandable and manufacturable in-house while protecting the implementation details that make it work.
+<ProjectFigure src="/images/evidence/projects/aquaflow/research/recirculation-styled.webp" width={1774} height={887} alt="Fish-water recirculation and equipment" caption="Figure 1. Functional water loop and controller/relay boundary, informed by the prototype and system concept. This figure does not report treatment efficacy." />
 
-The gallery separates the real prototype from the illustrative water-system diagram. The diagram communicates the intended flow path; the bench, wiring, enclosure and demonstration document the hardware that was actually assembled.
+## Method
+### 3.1 Feeding changes both solid and dissolved loads
+Feed supports fish growth, while uneaten material and metabolic waste add loads to the water. Suspended material can be captured mechanically. Dissolved nitrogen requires a different interpretation: ammonium-binding mineral media and biological conversion have distinct mechanisms and operating dependencies.
 
-## How it works
-### From the tank to a readable state
+Mineral adsorption depends on the material and water chemistry. Zeolite and bentonite have been studied for nitrogen-compound adsorption under aquaculture-relevant conditions; that background does not identify AquaFlow's exact filter material or establish its removal capacity. [Şahin et al., mineral adsorption study](https://www.academicoa.com/ILNS.71.34).
 
-The mobile dashboard is organized around the conditions that matter to a fish-water operator: temperature, TDS and water level. In the captured interface, an urgent low-water warning and a high-TDS warning are surfaced before the lower-level controls, so attention is drawn to the condition before an action is taken.
+Biological filtration transforms ammonia through nitrite to nitrate rather than simply trapping it as a solid:
 
-The proprietary sensor measures a property of the water that AquaFlow uses as a TDS proxy. The AC approach avoids a persistent DC bias at the interface with the water. An ESP32 receives the conditioned sensor output, applies the private calibration and decision logic, and exposes a usable state to the rest of the system.
+$$
+\mathrm{NH_3/NH_4^+}\longrightarrow
+\mathrm{NO_2^-}\longrightarrow\mathrm{NO_3^-}.
+\tag{1}
+$$
 
-### From a control screen to hardware
+Biofilter operation and fish welfare also depend on oxygen and other water conditions. Temperature, pH, dissolved oxygen, nitrogen compounds, and species-specific needs therefore cannot be replaced by one TDS threshold. [FAO water-reuse and biological treatment background](https://www.fao.org/4/y5042e/y5042e07.htm).
 
-The same dashboard groups equipment controls into clear cards, including compressor and filter/pump controls. The controller enclosure shows the corresponding physical side of that design: an ESP32-based control board, power hardware and relay wiring are housed together so the prototype can connect interface-level choices to external equipment.
+<ProjectFigure src="/images/evidence/projects/aquaflow/research/feeding-filtration-styled.webp" width={1774} height={887} alt="Feed load and filtration mechanisms" caption="Figure 2. Feeder CAD informs the component inset. Mechanical capture, mineral adsorption and biological nitrification address different loads; no removal rate is inferred." />
 
-The private firmware is responsible for more than passing a number to the screen. A reliable control layer needs to consider whether the reading is fresh, whether the water has settled after an equipment change, and whether a deviation is meaningful enough to surface as an alert. Those decisions remain private; the public design is the path from fish water, through a calibrated sensing layer, to a readable operating state.
+### 3.2 What the TDS path measures
+AquaFlow reuses the in-house sensing foundation developed for Plantini. Its alternating measurement approach yields a conductivity-related response, interpreted through temperature context and calibration. In general,
 
-### A prototype, not a product claim
+$$
+\begin{aligned}
+\kappa_{25}&\approx\frac{\kappa_T}{1+\alpha(T-25)},\\
+C_{\mathrm{TDS}}&\approx f_{\mathrm{solution}}\kappa_{25}.
+\end{aligned}
+\tag{2}
+$$
 
-The concept diagram is an illustrative system view, while the tank, controller and video are the evidence of the working prototype. Together they show the direction of the system without overstating long-term reliability, sensor accuracy or production readiness.
+The conversion factor depends on ionic composition. TDS is useful as a bulk ionic trend and calibrated operating indicator; it is not a direct ammonia, dissolved-oxygen, or individual-contaminant measurement. Filtering solids, adsorbing ammonium, and changing dissolved salt composition may affect different measurements in different ways. [USGS specific-conductance background](https://water.usgs.gov/nwc/NWC/water_quality/tables/quality.abs.html).
 
-## Result
-The result is a documented end-to-end prototype: a physical fish-water setup, a controller enclosure, proprietary in-house sensing technology, a mobile monitoring and control surface, and a demonstration of the assembled system. It gives the project a concrete bridge between the water system, the electronics and the person operating it.
+<ProjectFigure src="/images/evidence/projects/aquaflow/research/conductivity-styled.webp" width={1774} height={887} alt="Fish-water conductivity and measurement context" caption="Figure 3. Bulk ionic interpretation, temperature context and approximate TDS conversion. TDS does not identify ammonia or dissolved oxygen." />
 
-Most importantly, the project evidence now makes the process visible. Rather than presenting only a diagram or only an app screen, AquaFlow shows the proprietary sensing context, the control experience and the hardware it is connected to.
+### 3.3 Framed pulse communication
+The supplied `nano.ino` and `esp.ino` pair use a one-wire pulse-width message, rather than UART or I²C. The semantic order is a start marker, TDS field, separator, temperature field, and end marker. The receiver checks timing boundaries and waits for the required transitions before decoding the two values.
 
-## What I would improve
-The next iteration should turn the prototype record into a measurable operating story:
+The public figure preserves field order and receiver responsibilities, but omits pin assignments, pulse constants, sensing circuitry and calibration coefficients. The transport should not be described as checksum-protected or acknowledged: those guarantees are not implemented in the inspected path.
 
-- Run long-duration sensing tests with raw and calibrated readings, reference checks and maintenance events to understand drift and repeatability in fish water.
-- Document the safe operating ranges and calibration approach behind the temperature, TDS and water-level states.
-- Record time-series telemetry so alerts can be reviewed against real tank behaviour rather than a single screen state.
-- Define safe actuator defaults, manual overrides and interlocks for pump, filter and compressor control.
-- Add a repeatable test plan that covers low-water, high-TDS and connectivity-loss scenarios.
+<ProjectFigure src="/images/evidence/projects/aquaflow/research/controller-link-styled.webp" width={1774} height={887} alt="Nano to ESP32 pulse communication" caption="Figure 4. Source-derived single-wire field order, receiver responsibilities and five-second sensor-link freshness boundary. Pulse widths are schematic." />
 
-Those additions would make it possible to evaluate the system's behaviour as an engineered product, not only as an assembled prototype.
+## Implementation
+### 4.1 Local sensing and freshness
+The ESP32's main loop receives Nano packets and measures ultrasonic distance. Accepted packets update the retained TDS and temperature values and record the last packet time. Let $n_r$ count accepted packets and $\Delta t=t-t_{\mathrm{last}}$ denote their age. The Nano-link flag $a_N$ becomes false after more than five seconds without an accepted packet:
+
+$$
+a_N(t)=\mathbf{1}[n_r>0]\,\mathbf{1}[\Delta t\le5\ \mathrm s].
+\tag{3}
+$$
+
+The stored numeric readings remain available after link loss. The freshness flag must accompany them; a retained value alone should not be presented as a newly measured state. Invalid ultrasonic readings are published as unavailable rather than as a physical distance.
+
+### 4.2 Two execution contexts
+The networking task is pinned to core 0, while the local sensor loop runs on core 1. A critical section protects snapshots of the shared measurement values. This isolates responsibilities and avoids holding that lock through an HTTP request; it does not establish hard real-time behavior or eliminate every timing interaction.
+
+The cloud task targets sensor publication and relay polling at approximately one-second intervals. HTTP duration, reconnects, task scheduling and local acquisition add delay. This interval is a configured cadence, not a measured end-to-end latency guarantee.
+
+### 4.3 Separate measurement and command ownership
+The author describes the applications as Firebase-connected. The supplied ESP32 revision implements that cloud boundary through Firestore REST: it PATCHes a sensor document and GETs a separate relay document. Its data flow is therefore specified from the actual firmware, rather than inferred as a Realtime Database stream or MQTT subscriber.
+
+The separation addresses an explicit source comment about overwritten app changes. The device publishes measurements and listens for requested pump, compressor and UV states; it does not continually republish its old relay choices over the user's desired state. Changed cloud choices trigger local relay application.
+
+Boot initializes relay outputs off, then fetches stored choices if connected. On a later cloud failure, the inspected polling function returns without applying a new state. It does not provide a documented per-command acknowledgement, automatic stale-command shutdown, or verified actuator feedback. Desired state and observed hardware state must therefore remain distinct concepts.
+
+<ProjectFigure src="/images/evidence/projects/aquaflow/research/live-telemetry-styled.webp" width={1774} height={887} alt="ESP32 cloud state ownership" caption="Figure 5. Local sensing and networking responsibilities, sensor publication and requested relay states. The inspected revision uses Firestore REST with a configured one-second cadence." />
+
+## Evidence
+The existing dashboard displays temperature, TDS, water-level status, warnings, pump/compressor controls and separate connection badges. Its captured state shows a Firebase-connected badge alongside a disconnected MQTT badge. These are independent visible interface indicators; the supplied ESP32 file establishes the Firestore HTTP path, while the screenshot alone does not establish a working MQTT transport.
+
+The existing tank, wiring, enclosure and demonstration remain in the gallery. The supplied filter and feeder CAD inform the physical explanation. New diagrams show the recirculating loop, feed/waste/filter mechanisms, conductivity interpretation, pulse handoff, and cloud state ownership. They do not invent treatment measurements, fish-growth outcomes, or an implemented AI feeding policy from interface labels.
+
+## Discussion
+The most substantial software decision is ownership: measurement state flows outward from the device, while desired actuator choices flow inward from the shared cloud state. Separating those paths avoids a common feedback race in which a device overwrites a fresh operator command with its previous local state.
+
+The next evaluation layer would measure packet acceptance, link-loss behavior, cloud-to-output delay and actual output feedback over a recorded run. On the water side, nutrient/contaminant-specific testing, filter loading, oxygen availability and feeding load matter alongside bulk TDS trends. The prototype makes sensing and equipment operation visible; its performance should be assessed against those distinct physical and communication requirements.
+
+## References
+- Owner-supplied controller revision: `codeTDS/nano/esp/esp.ino`; Nano sender: `codeTDS/nano/nano.ino`. Inspected read-only; network credentials and private implementation parameters are not published.
+- Hardware source record: filter CAD, feeder base/rotor/wall/lid models, and existing tank/controller/wiring media retained in the project gallery.
+- In-house TDS research and supplied sensor firmware, shared with the Plantini sensing foundation; public discussion limited to operating principles and interface responsibilities.
+- [USGS water-quality measurement principles](https://water.usgs.gov/nwc/NWC/water_quality/tables/quality.abs.html).
+- [FAO: water reuse and biological treatment](https://www.fao.org/4/y5042e/y5042e07.htm).
+- [Şahin et al. (2018): natural-mineral adsorption of nitrogen compounds](https://www.academicoa.com/ILNS.71.34).

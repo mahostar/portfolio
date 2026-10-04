@@ -21,6 +21,9 @@ export const sections = [
   "Result",
   "What I would improve",
 ];
+export const paperSections = [
+  "Abstract", "System specification", "Method", "Implementation", "Evidence", "Discussion", "References",
+];
 const localImage = z
   .string()
   .regex(/^\/images\/[a-zA-Z0-9/_-]+\.(webp|png|jpg|jpeg|svg)$/);
@@ -155,6 +158,8 @@ export const projectSchema = z
   .object({
     title: z.string().min(1),
     slug: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
+    format: z.enum(["case-study", "paper"]).default("case-study"),
+    paperTitle: z.string().min(1).optional(),
     category: z.string().min(1),
     summary: z.string().min(1).max(100),
     cover: localImage,

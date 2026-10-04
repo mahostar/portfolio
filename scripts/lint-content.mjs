@@ -4,7 +4,7 @@ import matter from 'gray-matter';
 import { site, siteUrl } from '../src/content/site.ts';
 import { technologies } from '../src/content/tech.ts';
 import { journey, impact, interests, certificates, certificateSlots, archive } from '../src/content/expansion.ts';
-import { siteSchema, techSchema, journeySchema, impactSchema, interestSchema, certificateSchema, certificateSlotSchema, archiveEntrySchema, projectSchema, validateEditorial, sections } from '../src/lib/content-schema.ts';
+import { siteSchema, techSchema, journeySchema, impactSchema, interestSchema, certificateSchema, certificateSlotSchema, archiveEntrySchema, projectSchema, validateEditorial, sections, paperSections } from '../src/lib/content-schema.ts';
 
 const errors = [];
 // Validate every content source, including newly added data files, not just
@@ -51,7 +51,7 @@ const projects = fs.readdirSync('src/content/projects').filter((file) => file.en
   if (data.coverVideo && !fs.existsSync(path.join('public', data.coverVideo))) errors.push(`Missing cover video: ${data.coverVideo}`);
   for (const id of data.tech || []) if (!technologies.some((item) => item.id === id)) errors.push(`${file}: unknown technology ${id}`);
   const headings = [...content.matchAll(/^## (.+)$/gm)].map((match) => match[1].trim());
-  if (JSON.stringify(headings) !== JSON.stringify(sections)) errors.push(`${file}: incorrect body section order`);
+  if (JSON.stringify(headings) !== JSON.stringify(data.format === 'paper' ? paperSections : sections)) errors.push(`${file}: incorrect body section order`);
   if (validateEditorial(content).length) errors.push(`${file}: prohibited word in body`);
   return data;
 });

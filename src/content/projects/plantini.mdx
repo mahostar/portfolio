@@ -13,51 +13,133 @@ featuredOrder: 2
 links: {}
 role: "Co-founder · hardware & farm design"
 placeholder: false
+format: "paper"
+paperTitle: "A modular hydroponic tower with buffered root-zone water and connected sensing"
 ---
-## Problem
+## Abstract
+Plantini combines a modular, fabricated hydroponic tower with local root-zone water retention, proprietary conductivity-based sensing, and a connected control interface. The mechanical design separates the shared reservoir from small water pockets at individual plant sites. These pockets buffer the interval between refill pulses, allowing the main pump to operate intermittently while plants retain access to water. The author describes a one-minute-per-hour refill schedule and approximately 10–24 hours of local reserve depending on plant uptake. This paper develops the corresponding water-balance and pump-duty models, relates the functional diagrams to the supplied CAD/video and assembled tower, and describes the measurement-to-interface responsibilities without publishing the sensor's construction or calibration recipe.
 
-In hydroponics, the nutrient reservoir is part of the product. A plant can only receive a consistent recipe if the controller has a credible picture of what is in the water. Plantini needed a sensor path that could turn a changing nutrient solution into a usable signal for its ESP32 controller and dosing decisions.
+**Keywords:** hydroponic tower; local water reserve; intermittent pumping; modular CAD; conductivity sensing; connected control.
 
-Commercial AC TDS options were expensive and difficult to source for the product we were building. That made the sensor a core engineering problem rather than an off-the-shelf purchase: Plantini needed a design it could understand, control, and produce as part of its own hardware.
+## System specification
+### 2.1 Mechanical hierarchy
+The prototype record includes the tower module CAD, base CAD views, printed growing cups, an assembled tower with lighting, and the planted tower. The assembled system uses vertically stacked modules with angled plant sites, a supporting base, and external curved lighting arms. Removable growing cups provide access to individual plants while the tower body organizes the shared physical structure.
 
-The challenge is not merely reading a number. A reading must be repeatable enough to support a target, stable enough to distinguish a real nutrient change from measurement noise, and maintainable enough to work in a real growing system rather than only on a bench.
+The CAD video exposes the angled growing-cup/socket geometry from multiple orientations. It informs the new cutaway drawings, while the water-retention function comes from the author's explanation of the design. A colored CAD selection is not a water simulation. The figures are functional illustrations, with fabrication dimensions and sensor internals omitted.
 
-## What I built
+### 2.2 Three interacting physical domains
+The nutrient reservoir supplies the hydraulic loop; a local water pocket supports the root zone between refill events; external lighting serves the canopy. These have different time scales and power requirements. The pumping schedule therefore should not be read as a lighting schedule or a whole-device energy budget.
 
-As a co-founder, I worked on Plantini's proprietary AC-based TDS sensing work and the ESP32 side that receives and acts on sensor data. **We created proprietary sensing technology and our own TDS sensor, designed so Plantini can fully manufacture it in-house.**
+| Domain | Physical responsibility | Available evidence |
+| --- | --- | --- |
+| Tower / cups / base | Support, plant-site access, modular assembly | CAD, printing and prototype photographs |
+| Shared water loop | Refill and recirculation | Assembled system and author's operating description |
+| Root-zone pocket | Retain a small local water reserve | CAD-informed functional interpretation |
+| Sensing | Conductivity-related response and temperature context | Private research and supplied firmware |
+| Operator interface | Profiles, readings, calibration and equipment state | Existing app screenshots |
 
-Getting there took four months of research and reverse-engineering competitor products. I studied the choices behind commercially available AC TDS solutions, then used that work to define a sensor path that fit Plantini's cost, availability, and manufacturing needs. The sensor design, its excitation method, analog conditioning, calibration routine, and production firmware remain private. This case study focuses on the engineering questions the sensing system had to answer without exposing that implementation.
+<ProjectFigure src="/images/evidence/projects/plantini/research/tower-assembly-styled.webp" width={1774} height={887} alt="Modular hydroponic tower assembly" caption="Figure 1. CAD/photo-informed assembly hierarchy and functional interfaces. The exploded section is schematic, without fabrication dimensions." />
 
-The public project gallery shows the physical context around that work: the controller board concept, the hydroponic architecture, the tower, and the pump configuration. The sensing work connected those physical parts to a control target rather than treating the electronics as an isolated board.
+## Method
+### 3.1 A local reserve changes the hydraulic requirement
+Continuous pumping ties root access to continuous circulation. A retained pocket separates those requirements: a refill pulse replenishes water locally, then plant uptake and losses gradually reduce the reserve while the pump is off. Excess water returns through the shared circulation path; the pocket preserves a smaller volume at the plant site.
 
-## How it works
+Let $V_p$ denote usable retained water, $q_{\mathrm{in}}$ refill flow, $q_u$ uptake, and $q_\ell$ combined evaporation and other losses. A lumped balance is
 
-### From nutrient solution to a control signal
+$$
+\frac{\mathrm dV_p}{\mathrm dt}
+=q_{\mathrm{in}}-q_u-q_\ell.
+\tag{1}
+$$
 
-The sensor measures a property of the circulating solution that Plantini uses as a TDS proxy. An AC approach is appropriate for conductivity-related sensing because it avoids a persistent DC bias at the interface with the solution. The ESP32 then turns the conditioned sensor output into a value that can be compared against a dosing target.
+Between refill events, $q_{\mathrm{in}}=0$. Under an approximately constant demand, the reserve duration is
 
-That value is only useful when it is treated as a measurement, not a fact. The firmware has to decide when a reading is fresh, whether it has settled after a pump or dosing event, and whether a deviation is significant enough to act on. This is where embedded control starts: the measurement closes the loop between reservoir, dosing hardware, and plant environment.
+$$
+\tau_{\mathrm{reserve}}\approx
+\frac{V_{p,\mathrm{usable}}}{q_u+q_\ell}.
+\tag{2}
+$$
 
-### Calibration is the product work
+The author describes roughly 10–24 hours depending on plant absorption. This operating description is conditional: reserve volume, root access, plant size, environment, and losses affect duration. It is not a universal irrigation guarantee or a measured endurance curve. Root aeration and refill distribution remain relevant alongside water availability.
 
-The public record includes calibration around a 1,000 ppm dosing target. Calibration is more than selecting a scale factor. It defines the relationship between the sensor output and the operational value that the product displays or uses to make a decision. A useful procedure needs known reference solutions, repeated readings, and a way to record the conditions under which the reference was taken.
+<ProjectFigure src="/images/evidence/projects/plantini/research/root-pocket-styled.webp" width={1774} height={887} alt="Root-zone water pocket cutaway" caption="Figure 2. CAD-informed growing-cup section showing refill, retained water and root uptake. The 10–24 h reserve is the author’s operating description." />
 
-For a hydroponic device, long-term behavior matters as much as a single calibration point. Deposits, water temperature, mixing, probe aging, cable routing, and the time between dosing and sampling can all change what the controller sees. Designing around these sources of variation is the difference between a sensor demo and a system that can be maintained.
+<ProjectFigure src="/images/evidence/projects/plantini/research/water-circuit-styled.webp" width={1774} height={887} alt="Tower recirculation and local buffering" caption="Figure 3. Functional reservoir–tower recirculation with upward supply, gravity return and local buffering at plant sites. Internal routing is schematic." />
 
-### Sensor data belongs to the system
+### 3.2 Intermittent pumping and the energy model
+For one minute of pump operation in each hour, the duty ratio $D$ and daily pump runtime are
 
-The ESP32 is the boundary between the sensing subsystem and the rest of the tower. It receives the measurement, applies the private calibration and decision logic, and coordinates with the rest of the system. The controller has to preserve safe operating behavior when a reading is missing, implausible, or stale; a dosing action should never depend on a single unexamined sample.
+$$
+\begin{aligned}
+D&=\frac{1\ \mathrm{min}}{60\ \mathrm{min}}=\frac1{60}\approx1.67\%,\\
+t_{\mathrm{on,day}}&=24\ \mathrm{min}.
+\end{aligned}
+\tag{3}
+$$
 
-The specific private code is not published here. The system design is: sense the nutrient solution, give the reading a calibration context, decide whether it is trustworthy, then use it as part of a controlled growing environment.
+At unchanged on-state pump power $P_{\mathrm{on}}$, an idealized daily energy model gives
 
-## Result
+$$
+\begin{aligned}
+E_{\mathrm{pump}}&\approx P_{\mathrm{on}}D\,(24\ \mathrm h),\\
+\frac{E_{\mathrm{pulse}}}{E_{\mathrm{continuous}}}&\approx\frac1{60}.
+\end{aligned}
+\tag{4}
+$$
 
-Plantini brought custom sensing into the same product conversation as the hydroponic tower, controller, dosing workflow, and in-house fabrication. The sensor work gave the system a route from physical water conditions to an embedded decision, with calibration around the 1,000 ppm target as an early operating reference.
+The analytical reduction applies to pump runtime and ideal pump energy. It excludes controller standby, lighting, startup losses, pump operating-point changes, and refill efficacy. No electrical power measurements are inferred from the CAD or screenshots.
 
-It also set a standard for how I approach embedded sensing: protect the parts that are proprietary, document the engineering boundary clearly, and make the measurement's uncertainty part of the design rather than hiding it behind a dashboard value.
+<ProjectFigure src="/images/evidence/projects/plantini/research/pump-duty-styled.webp" width={1774} height={887} alt="Intermittent pump duty-cycle analysis" caption="Figure 4. Analytical one-minute-per-hour schedule: 1.67% duty and 24 min of daily pump runtime. The ideal energy ratio applies only to the pump." />
 
-## What I would improve
+### 3.3 Conductivity sensing as a calibrated proxy
+The in-house sensing work uses an alternating measurement approach to obtain a conductivity-related response while avoiding a persistent DC bias. The research code includes repeated-cycle validation, temperature handling, calibration persistence, and separate invalid/saturated outcomes. Public explanation stops at these operating responsibilities; the excitation circuit, electrode geometry, timings, parts values, and fitted calibration parameters remain private.
 
-The next step would be a long-duration sensing and dosing study. I would log raw and calibrated values, dosing events, settling time, reference checks, and maintenance events across multiple assembled units. That data would show drift, unit-to-unit variation, and the right filtering or confirmation policy for automatic dosing.
+Conductivity reflects the water's combined ionic composition. A general physical representation is
 
-I would also define clear sensor-health states: valid, settling, suspect, and fault. That would make the controller's behavior easier to audit and would keep a bad reading from quietly becoming a bad dosing decision.
+$$
+\begin{aligned}
+\kappa&=K_{\mathrm{cell}}G,\\
+\kappa_{25}&\approx\frac{\kappa_T}{1+\alpha(T-25)},\\
+C_{\mathrm{TDS}}&\approx f_{\mathrm{solution}}\kappa_{25}.
+\end{aligned}
+\tag{5}
+$$
+
+Here $G$ is conductance, $K_{\mathrm{cell}}$ a calibrated cell factor, $\alpha$ a temperature coefficient, and $f_{\mathrm{solution}}$ a composition-dependent conversion factor. These symbolic public relationships are not the proprietary production calibration equation. A TDS estimate cannot identify individual nutrient ions; temperature and composition matter to its interpretation. [USGS water-quality measurement background](https://water.usgs.gov/nwc/NWC/water_quality/tables/quality.abs.html).
+
+<ProjectFigure src="/images/evidence/projects/plantini/research/conductivity-styled.webp" width={1774} height={887} alt="Conductivity sensing and TDS interpretation" caption="Figure 5. Public conductivity and temperature-compensation principles; solution-dependent conversion and measurement context. Private sensor construction remains omitted." />
+
+## Implementation
+### 4.1 Measurement, controller, and cloud responsibilities
+The supplied Plantini firmware examples divide sensor processing from ESP32 control. Their handoff carries a reading together with status, quality, validity, and health information. The example controller requests readings and diagnostics over a serial interface, handles response timeouts, and distinguishes a valid measurement from an error response.
+
+The author describes Firebase as the app/device synchronization layer. The architecture figure therefore separates sensor processing, controller state, shared cloud state, and the mobile interface. The supplied material establishes the sensing handoff and visible interface responsibilities; it does not establish the Flutter application's internal subscriptions or production database schema.
+
+### 4.2 Configuration and observable state
+The existing dashboard presents TDS, temperature, pH, pump state, and lighting state. The configuration screen provides a crop profile, a sensor-calibration action, and Always / Normal / Eco pump-mode choices. The captured numbers are interface states, not universal nutrient targets or plant-growth trial results.
+
+The three mode labels demonstrate a control surface. Their exact production timing rules are not inferred from the labels. The one-minute-per-hour schedule discussed above is the author's hydraulic operating description. Likewise, a pH card does not by itself document a pH sensor implementation in the supplied TDS firmware.
+
+<ProjectFigure src="/images/evidence/projects/plantini/research/growth-lighting-styled.webp" width={1774} height={887} alt="Tower plant sites and external lighting" caption="Figure 6. Source-informed tower, removable plant sites and external curved lighting. Water delivery and canopy lighting are separate coupled requirements." />
+
+<ProjectFigure src="/images/evidence/projects/plantini/research/operator-loop-styled.webp" width={1774} height={887} alt="Plantini sensing and operator loop" caption="Figure 7. Firmware-example sensor handoff, author-described Firebase synchronization and controls visible in the existing app screens." />
+
+## Evidence
+### 5.1 Mechanical and interface record
+The gallery retains original tower and base CAD views, the CAD rotation video, printed cups, assembly photographs, the planted tower, PCB/product media, and app screens. The new figures make the relationships between these artifacts explicit: assembly hierarchy, root-pocket section, recirculation, duty cycle, canopy lighting, measurement interpretation, and the operator loop.
+
+CAD and photographs document geometry and assembly. The CAD-informed cutaway depicts an operating mechanism; it is not finite-element or fluid-dynamics validation. The author-provided refill and reserve durations are distinguished from the analytical duty calculation. Sensor research describes implementation work and validation procedures, without introducing an unsupported accuracy specification.
+
+### 5.2 In-house sensing research
+The author reports four months of sensing research aimed at making the technology understandable and manufacturable in-house. The inspected research and supplied firmware show attention to calibration, measurement status, temperature assumptions, and sensor/controller separation. They are used here to explain engineering decisions without distributing the build details.
+
+## Discussion
+Local buffering is the central mechanical idea: the device can replenish water periodically while maintaining a reserve at each root site. Its benefit depends on distribution across plant sites, usable pocket volume, plant demand, and losses. A useful validation record would pair refill uniformity, reserve depletion, root condition, and measured electrical energy over the same operating interval.
+
+Connected sensing adds a second engineering requirement: the operator must understand whether a number is current, valid, calibrated, and associated with measured or assumed temperature. Bulk TDS trends support solution management, while nutrient-specific composition and crop outcomes require additional evidence. The paper presents the working design and source responsibilities without converting interface values or conceptual diagrams into performance claims.
+
+## References
+- Project CAD/media record: tower module, base front/side, growing-cup rotation video, assembled tower/light and planted tower, retained in the gallery below.
+- Owner-supplied Plantini firmware: `esp32-usage-example.ino`, the paired TDS production examples, and sensor health/validity interfaces; inspected read-only.
+- Private in-house research: measurement library, technical report and validation protocol in the supplied TDS research folder; construction and fitted parameters withheld from the public page.
+- [USGS water-quality measurement principles](https://water.usgs.gov/nwc/NWC/water_quality/tables/quality.abs.html).

@@ -1,0 +1,187 @@
+{
+  "date": "2026-10-04",
+  "encoding": {
+    "format": "WebP",
+    "quality": 92,
+    "effort": 6,
+    "maxWidth": 1920,
+    "withoutEnlargement": true
+  },
+  "totals": {
+    "figures": 17,
+    "webpBytes": 4340216,
+    "selectedPngBytes": 28879097
+  },
+  "assets": [
+    {
+      "slug": "plantini",
+      "key": "tower-assembly",
+      "path": "public/images/evidence/projects/plantini/research/tower-assembly-styled.webp",
+      "width": 1774,
+      "height": 887,
+      "bytes": 271368,
+      "sha256": "1b9331dbbd8ea5b7fbb7543d3d1e543adb5171428f0d8bf83e633417af1e5f04",
+      "role": "Source-informed imagegen-enhanced research figure"
+    },
+    {
+      "slug": "plantini",
+      "key": "root-pocket",
+      "path": "public/images/evidence/projects/plantini/research/root-pocket-styled.webp",
+      "width": 1774,
+      "height": 887,
+      "bytes": 209072,
+      "sha256": "6ae96277ab7cddee87f4f73f92704f6a436d802b8fc0e149b6363018fdf441ee",
+      "role": "Source-informed imagegen-enhanced research figure"
+    },
+    {
+      "slug": "plantini",
+      "key": "water-circuit",
+      "path": "public/images/evidence/projects/plantini/research/water-circuit-styled.webp",
+      "width": 1774,
+      "height": 887,
+      "bytes": 258214,
+      "sha256": "6e663302364e5faa4f75880d4566944ee45714df2e30d5622dd2c63634df4d78",
+      "role": "Source-informed imagegen-enhanced research figure"
+    },
+    {
+      "slug": "plantini",
+      "key": "pump-duty",
+      "path": "public/images/evidence/projects/plantini/research/pump-duty-styled.webp",
+      "width": 1774,
+      "height": 887,
+      "bytes": 191078,
+      "sha256": "de91ed41fcf84e7ec9e042012b865349874f96c982983060bb988860741b10cf",
+      "role": "Source-informed imagegen-enhanced research figure"
+    },
+    {
+      "slug": "plantini",
+      "key": "growth-lighting",
+      "path": "public/images/evidence/projects/plantini/research/growth-lighting-styled.webp",
+      "width": 1774,
+      "height": 887,
+      "bytes": 309536,
+      "sha256": "d90b30ca343a5cf1e624b480c4f2effb64bacb8fd954419980c0786e042d64cb",
+      "role": "Source-informed imagegen-enhanced research figure"
+    },
+    {
+      "slug": "plantini",
+      "key": "conductivity",
+      "path": "public/images/evidence/projects/plantini/research/conductivity-styled.webp",
+      "width": 1774,
+      "height": 887,
+      "bytes": 320562,
+      "sha256": "90fafd5fddf22210e7022ebaa72bbf1b69871db722b53d371e8a1703b5621fd9",
+      "role": "Source-informed imagegen-enhanced research figure"
+    },
+    {
+      "slug": "plantini",
+      "key": "operator-loop",
+      "path": "public/images/evidence/projects/plantini/research/operator-loop-styled.webp",
+      "width": 1774,
+      "height": 887,
+      "bytes": 214966,
+      "sha256": "00d9235d5f662ffc50eb1ed2a022c2582a4a56f220c73c0dc4d3ffb7319896af",
+      "role": "Source-informed imagegen-enhanced research figure"
+    },
+    {
+      "slug": "aquaflow",
+      "key": "recirculation",
+      "path": "public/images/evidence/projects/aquaflow/research/recirculation-styled.webp",
+      "width": 1774,
+      "height": 887,
+      "bytes": 229978,
+      "sha256": "25444048b48f1fdf9cae2791aa828e53e3a62b730259676e45639b3a7b644894",
+      "role": "Source-informed imagegen-enhanced research figure"
+    },
+    {
+      "slug": "aquaflow",
+      "key": "feeding-filtration",
+      "path": "public/images/evidence/projects/aquaflow/research/feeding-filtration-styled.webp",
+      "width": 1774,
+      "height": 887,
+      "bytes": 324664,
+      "sha256": "6e7cb98e101d8f5368fe65d0f31c5c0cf6e4848641ca9b77940f0881887ce432",
+      "role": "Source-informed imagegen-enhanced research figure"
+    },
+    {
+      "slug": "aquaflow",
+      "key": "conductivity",
+      "path": "public/images/evidence/projects/aquaflow/research/conductivity-styled.webp",
+      "width": 1774,
+      "height": 887,
+      "bytes": 277798,
+      "sha256": "4a6185282520d59e0d7cfea268681b909d262bbc6026cd5ccdea20c279460871",
+      "role": "Source-informed imagegen-enhanced research figure"
+    },
+    {
+      "slug": "aquaflow",
+      "key": "controller-link",
+      "path": "public/images/evidence/projects/aquaflow/research/controller-link-styled.webp",
+      "width": 1774,
+      "height": 887,
+      "bytes": 252060,
+      "sha256": "e85b946d8f2aac511d78235f193a2e106d59fb518011807c0e270da910914bf6",
+      "role": "Source-informed imagegen-enhanced research figure"
+    },
+    {
+      "slug": "aquaflow",
+      "key": "live-telemetry",
+      "path": "public/images/evidence/projects/aquaflow/research/live-telemetry-styled.webp",
+      "width": 1774,
+      "height": 887,
+      "bytes": 261642,
+      "sha256": "65d5e165ffb29ddcd0e86aae602b6e859302c86bb80b1b06ac2479ee4c076bf5",
+      "role": "Source-informed imagegen-enhanced research figure"
+    },
+    {
+      "slug": "easyshield",
+      "key": "liveness-gate",
+      "path": "public/images/evidence/projects/easyshield/research/liveness-gate-styled.webp",
+      "width": 1774,
+      "height": 887,
+      "bytes": 269042,
+      "sha256": "5425130feb41ba21d8f41e1fe20298b7439b95ebb6741d314bf7274504d868b4",
+      "role": "Source-informed imagegen-enhanced research figure"
+    },
+    {
+      "slug": "easyshield",
+      "key": "dataset-workflow",
+      "path": "public/images/evidence/projects/easyshield/research/dataset-workflow-styled.webp",
+      "width": 1774,
+      "height": 887,
+      "bytes": 257442,
+      "sha256": "f8da60f210c3a07e960e3f338dfc0f14ff907f75ed32358de628240ae87b889f",
+      "role": "Source-informed imagegen-enhanced research figure"
+    },
+    {
+      "slug": "easyshield",
+      "key": "decision-contract",
+      "path": "public/images/evidence/projects/easyshield/research/decision-contract-styled.webp",
+      "width": 1774,
+      "height": 887,
+      "bytes": 223626,
+      "sha256": "88da1e0516e56ec90927e71f18495880b2caf9b613361e7dcdac6c7f67b308aa",
+      "role": "Source-informed imagegen-enhanced research figure"
+    },
+    {
+      "slug": "smarthart",
+      "key": "sequence-classifier",
+      "path": "public/images/evidence/projects/smarthart/research/sequence-classifier-styled.webp",
+      "width": 1774,
+      "height": 887,
+      "bytes": 231024,
+      "sha256": "d0e60ed77feeb49fe71e04f1453d7fb4a0836643c37cb4e542d49ad5f6d54dc1",
+      "role": "Source-informed imagegen-enhanced research figure"
+    },
+    {
+      "slug": "smarthart",
+      "key": "streaming-dashboard",
+      "path": "public/images/evidence/projects/smarthart/research/streaming-dashboard-styled.webp",
+      "width": 1774,
+      "height": 887,
+      "bytes": 238144,
+      "sha256": "5717871ffc1f0af2d8a8e87fd26da89c87d253b727e9d40662a0ac83f4d391bc",
+      "role": "Source-informed imagegen-enhanced research figure"
+    }
+  ]
+}

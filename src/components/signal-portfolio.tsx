@@ -43,7 +43,8 @@ const chain = [
 export function SignalPortfolio() {
   const site = getSite();
   const projects = getProjects();
-  const featured = projects.filter((project) => project.featured);
+  const homeOrder = ["plantini", "aquaflow", "easyshield", "windweave", "smarthart", "algobrain", "tpms-generator"];
+  const featured = homeOrder.flatMap((slug) => projects.filter((project) => project.slug === slug));
   return (
     <div className={`${styles.site} ${mono.variable}`} data-signal-site>
       <section

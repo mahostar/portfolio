@@ -24,6 +24,8 @@ The project combines a WT32-ETH01 Ethernet-connected ESP32 board, a relay across
 The controller has its own power supply and network connection, so it can receive a request while the PC's operating system is unavailable. This private project exposes no repository link or credentials through the portfolio.
 
 ## How it works
+<ProjectFigure src="/images/projects/remote-control-styled.webp" width={1768} height={889} alt="Independent PC power-button control and dual heartbeat paths" caption="Figure 1. An app command reaches the independently powered Ethernet controller, whose relay briefly bridges the motherboard button contacts. Controller and OS-service heartbeats both write to the database. Hardware and interface drawings are functional schematics." />
+
 ### Translate a request into a physical action
 The control interface sets a cloud command flag. In the continuously connected firmware, a database stream delivers updates to the controller. The callback records a request; the main loop handles a one-second relay pulse and returns the relay to its inactive state.
 
@@ -35,6 +37,8 @@ A successful pulse says the controller acted. It does not establish that the PC 
 The connected firmware blocks relay activation while a command reset remains unconfirmed. On startup, it clears an old pending command before allowing ordinary operation. After a pulse, it resets the flag and retries failed writes.
 
 This matters during reboot and network recovery. A flag left true must not be interpreted as a new click every time a connection returns. The guard is useful, but a boolean still lacks a unique request identity and expiration time.
+
+<ProjectFigure src="/images/projects/remote-pulse-styled.webp" width={1774} height={887} alt="Relay request, timed pulse and confirmed command-reset state machine" caption="Figure 2. The connected production firmware gates new requests until reset is confirmed, times a one-second pulse in the main loop, and retries command-reset writes every second. Relay ON/OFF here describes the contact pulse, not confirmed PC power state." />
 
 ### Observe two independent systems
 The controller publishes its own heartbeat, while the PC service updates a separate timestamp every five seconds. The service uses the database's server timestamp, avoiding dependence on the PC's local clock for the stored value. It sends immediately at startup and continues periodically.

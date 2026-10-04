@@ -1748,5 +1748,117 @@
       "milestone:pcb-training"
     ],
     "folder": "milestones/fablab/pcb-manufacturing"
+  },
+  {
+    "id": "fabriclens-viewer-preview",
+    "src": "/images/evidence/projects/fabric-inspection/viewer-preview.webp",
+    "preview": "/images/evidence/projects/fabric-inspection/viewer-preview.webp",
+    "thumbnail": "/images/evidence/projects/fabric-inspection/viewer-preview-thumb.webp",
+    "type": "image",
+    "caption": "Viewer interface reconstruction",
+    "alt": "Viewer interface reconstruction",
+    "width": 1392,
+    "height": 829,
+    "concept": true,
+    "tags": [
+      "project:fabric-inspection"
+    ],
+    "folder": "projects/fabric-inspection"
+  },
+  {
+    "id": "fabriclens-saved-output-1",
+    "src": "/images/evidence/projects/fabric-inspection/saved-output-1.webp",
+    "preview": "/images/evidence/projects/fabric-inspection/saved-output-1.webp",
+    "thumbnail": "/images/evidence/projects/fabric-inspection/saved-output-1-thumb.webp",
+    "type": "image",
+    "caption": "Saved detection — narrow textile anomaly",
+    "alt": "Saved detection — narrow textile anomaly",
+    "width": 640,
+    "height": 640,
+    "concept": false,
+    "tags": [
+      "project:fabric-inspection"
+    ],
+    "folder": "projects/fabric-inspection"
+  },
+  {
+    "id": "fabriclens-saved-output-2",
+    "src": "/images/evidence/projects/fabric-inspection/saved-output-2.webp",
+    "preview": "/images/evidence/projects/fabric-inspection/saved-output-2.webp",
+    "thumbnail": "/images/evidence/projects/fabric-inspection/saved-output-2-thumb.webp",
+    "type": "image",
+    "caption": "Saved detection — elongated textile anomaly",
+    "alt": "Saved detection — elongated textile anomaly",
+    "width": 640,
+    "height": 640,
+    "concept": false,
+    "tags": [
+      "project:fabric-inspection"
+    ],
+    "folder": "projects/fabric-inspection"
+  },
+  {
+    "id": "fabriclens-saved-output-3",
+    "src": "/images/evidence/projects/fabric-inspection/saved-output-3.webp",
+    "preview": "/images/evidence/projects/fabric-inspection/saved-output-3.webp",
+    "thumbnail": "/images/evidence/projects/fabric-inspection/saved-output-3-thumb.webp",
+    "type": "image",
+    "caption": "Saved detection — frayed textile region",
+    "alt": "Saved detection — frayed textile region",
+    "width": 640,
+    "height": 640,
+    "concept": false,
+    "tags": [
+      "project:fabric-inspection"
+    ],
+    "folder": "projects/fabric-inspection"
+  },
+  {
+    "id": "fabriclens-saved-output-4",
+    "src": "/images/evidence/projects/fabric-inspection/saved-output-4.webp",
+    "preview": "/images/evidence/projects/fabric-inspection/saved-output-4.webp",
+    "thumbnail": "/images/evidence/projects/fabric-inspection/saved-output-4-thumb.webp",
+    "type": "image",
+    "caption": "Saved detection — multiple regions",
+    "alt": "Saved detection — multiple regions",
+    "width": 640,
+    "height": 640,
+    "concept": false,
+    "tags": [
+      "project:fabric-inspection"
+    ],
+    "folder": "projects/fabric-inspection"
+  },
+  {
+    "id": "fabriclens-training-curves",
+    "src": "/images/evidence/projects/fabric-inspection/training-curves.webp",
+    "preview": "/images/evidence/projects/fabric-inspection/training-curves.webp",
+    "thumbnail": "/images/evidence/projects/fabric-inspection/training-curves-thumb.webp",
+    "type": "image",
+    "caption": "Saved training curves",
+    "alt": "Saved training curves",
+    "width": 1600,
+    "height": 800,
+    "concept": false,
+    "tags": [
+      "project:fabric-inspection"
+    ],
+    "folder": "projects/fabric-inspection"
+  },
+  {
+    "id": "fabriclens-confusion-matrix",
+    "src": "/images/evidence/projects/fabric-inspection/confusion-matrix.webp",
+    "preview": "/images/evidence/projects/fabric-inspection/confusion-matrix.webp",
+    "thumbnail": "/images/evidence/projects/fabric-inspection/confusion-matrix-thumb.webp",
+    "type": "image",
+    "caption": "Saved confusion matrix",
+    "alt": "Saved confusion matrix",
+    "width": 1600,
+    "height": 1200,
+    "concept": false,
+    "tags": [
+      "project:fabric-inspection"
+    ],
+    "folder": "projects/fabric-inspection"
   }
 ]
