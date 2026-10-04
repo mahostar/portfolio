@@ -20,6 +20,8 @@ This paper documents a single-class textile defect localization pipeline built a
 
 **Keywords:** textile inspection; object detection; transfer learning; normalized annotations; CPU inference; visual review.
 
+<ProjectAlbum />
+
 ## System specification
 ### 2.1 Detection task and annotation contract
 Given a textile image $I$, the detector returns candidate regions $\{(b_i,q_i)\}$, where $b_i$ is a bounding box and $q_i$ is its confidence score. The dataset uses a single defect class. Labels encode the class identifier and normalized box geometry:
@@ -78,9 +80,7 @@ The inspected Tkinter viewer loads its model on the CPU and runs inference in a 
 The screenshot companion uses a standard-library Python web server to display a browser reconstruction from optimized saved media. It does not import the viewer's automatic dependency installer or execute the inference runner. Original project files remain untouched.
 
 ## Evidence
-The following gallery contains saved project detections, training curves, and a confusion matrix. The viewer preview is explicitly marked as a reconstruction; the cover is concept artwork.
-
-<ProjectMedia />
+The visible album above contains saved project detections, training curves, and a confusion matrix. The viewer preview is explicitly marked as a reconstruction; the cover is concept artwork.
 
 Annotated outputs provide qualitative evidence of localization behavior. Learning curves and the confusion matrix document a saved experiment. A controlled evaluation would additionally require the dataset manifest, held-out labels, checkpoint identity, inference thresholds, and metric calculation procedure. No factory deployment result or cross-fabric accuracy claim is inferred from these images.
 

@@ -2,6 +2,41 @@ import { test, expect } from "@playwright/test";
 
 test.use({ reducedMotion: "reduce" });
 for (const width of [390, 1440]) {
+  for (const [slug, title, total] of [
+    ["plantini", "Plantini", 24],
+    ["aquaflow", "AquaFlow", 7],
+    ["fabric-inspection", "FabricLens", 7],
+    ["tpms-generator", "TPMS Studio", 3],
+    ["algobrain", "AlgoBrain BCI", 4],
+  ] as const) {
+    test(`${slug} shows original project media at ${width}px`, async ({ page }) => {
+      await page.setViewportSize({ width, height: 950 });
+      await page.goto(`/projects/${slug}`);
+      const heading = page.getByRole("heading", { name: `Building and testing ${title}`, exact: true });
+      await expect(heading).toBeVisible();
+      const album = heading.locator("../..");
+      const tiles = album.locator('button[aria-label^="Open "]');
+      await expect(tiles).toHaveCount(Math.min(6, total));
+      if (total > 6) {
+        await album.getByRole("button", { name: "View more", exact: true }).click();
+        await expect(tiles).toHaveCount(total);
+      }
+      for (const image of await album.locator('button[aria-label^="Open "] img').all()) {
+        await image.scrollIntoViewIfNeeded();
+        await image.evaluate((img: HTMLImageElement) => img.decode());
+      }
+      await tiles.first().click();
+      const image = page.locator("dialog[open] img");
+      await expect(image).toHaveAttribute("src", /\/images\/evidence\//);
+      await image.evaluate((img: HTMLImageElement) => img.decode());
+      await page.getByRole("button", { name: "Zoom in", exact: true }).click();
+      await expect(page.locator("dialog[open] [data-image-zoom]")).not.toHaveAttribute("data-image-zoom", "1.00");
+      await page.locator("dialog[open]").press("Escape");
+      await heading.scrollIntoViewIfNeeded();
+      expect(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth)).toBe(false);
+      await page.screenshot({ path: `artifacts/${slug}-visible-album-${width}.png` });
+    });
+  }
   test(`homepage selection and development album at ${width}px`, async ({ page }) => {
     await page.setViewportSize({ width, height: 950 });
     await page.goto("/");

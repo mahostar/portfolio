@@ -96,7 +96,14 @@ export default async function CaseStudy({
   const components = { ...mdxComponents,
     ProjectFigure: (props: Omit<ComponentPropsWithoutRef<typeof ProjectFigure>, "items">) => <ProjectFigure {...props} items={galleryItems} />,
     ProjectMedia: () => <MediaGallery items={evidence} title="Inspection artifacts" headingLevel={3} />,
-    ProjectAlbum: () => <MediaGallery items={evidence} title="Building and testing EasyShield" headingLevel={3} moreLabel="View more" />,
+    ProjectAlbum: () => <MediaGallery
+      items={[...evidence].sort((a, b) => {
+        const priority = (item: EvidenceItem) => item.concept ? 3
+          : /\/milestones\/|\/certificates\//.test(item.src) ? 2
+          : /\/hardware\/|\/prototype[s]?\/|\/manufacturing\/|\/models\/|\/saved-output-/.test(item.src) ? 0 : 1;
+        return priority(a) - priority(b);
+      })}
+      title={`Building and testing ${project.title}`} headingLevel={3} moreLabel="View more" />,
   };
   const coverImage = <Image src={project.cover} style={{ objectFit: project.coverFit }} fill preload
     sizes="(max-width: 767px) 100vw, 1200px"
