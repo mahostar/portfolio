@@ -9,6 +9,7 @@ import { BlueNavigationBackdrop, BlueNavigationGlass } from "./blue-navigation-g
 import { BrandLogo } from "./brand-logo";
 import { LiquidGlassLink } from "./liquid-glass";
 import styles from "./signal-navigation.module.css";
+import { ThemeSwitch } from "./theme-switch";
 
 const items = [
   { id: "home", label: "Home", Icon: Home },
@@ -38,13 +39,19 @@ export function Navigation({ monogram, name }: { monogram: string; name: string 
         (element) => element !== brand && getComputedStyle(element).display !== "none",
       );
       const rowStyle = getComputedStyle(row);
-      const required = logo.getBoundingClientRect().width
-        + parseFloat(getComputedStyle(brand).columnGap)
-        + label.getBoundingClientRect().width
-        + siblings.reduce((width, element) => width + element.getBoundingClientRect().width, 0)
-        + siblings.length * parseFloat(rowStyle.columnGap);
-      const available = row.getBoundingClientRect().width
-        - parseFloat(rowStyle.paddingLeft) - parseFloat(rowStyle.paddingRight);
+      const required =
+        logo.getBoundingClientRect().width +
+        parseFloat(getComputedStyle(brand).columnGap) +
+        label.getBoundingClientRect().width +
+        siblings.reduce(
+          (width, element) => width + element.getBoundingClientRect().width,
+          0,
+        ) +
+        siblings.length * parseFloat(rowStyle.columnGap);
+      const available =
+        row.getBoundingClientRect().width -
+        parseFloat(rowStyle.paddingLeft) -
+        parseFloat(rowStyle.paddingRight);
       row.dataset.nameFits = String(required + 1 <= available);
     };
     const observer = new ResizeObserver(measure);
@@ -104,8 +111,7 @@ export function Navigation({ monogram, name }: { monogram: string; name: string 
         .at(-1);
       // A short final section may never reach the anchor on a tall viewport.
       const atEnd =
-        window.scrollY + window.innerHeight >=
-        document.documentElement.scrollHeight - 2;
+        window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 2;
       const group =
         window.scrollY <= 2
           ? "home"
@@ -174,10 +180,13 @@ export function Navigation({ monogram, name }: { monogram: string; name: string 
               </Link>
             ))}
           </nav>
-          <LiquidGlassLink className="nav-cta" href={href("contact")}>
-            Let’s build
-            <ArrowRight size={18} />
-          </LiquidGlassLink>
+          <div className="nav-actions">
+            <ThemeSwitch />
+            <LiquidGlassLink className="nav-cta" href={href("contact")}>
+              Let’s build
+              <ArrowRight size={18} />
+            </LiquidGlassLink>
+          </div>
         </div>
       </header>
       <nav
@@ -192,11 +201,7 @@ export function Navigation({ monogram, name }: { monogram: string; name: string 
             className={active === id ? "active" : ""}
             aria-current={active === id ? "page" : undefined}
           >
-            <Icon
-              size={22}
-              strokeWidth={1.7}
-              fill="none"
-            />
+            <Icon size={22} strokeWidth={1.7} fill="none" />
             <span>{label}</span>
           </Link>
         ))}

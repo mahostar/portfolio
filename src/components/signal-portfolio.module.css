@@ -55,7 +55,7 @@
   justify-content: space-between;
   gap: 20px;
   align-items: center;
-  color: #596b8e;
+  color: var(--theme-muted, #596b8e);
   border-top: 1px solid var(--line);
   padding-top: 16px;
   font:
@@ -93,7 +93,7 @@
 }
 .headingSide p,
 .headingDescription {
-  color: #596b8e;
+  color: var(--theme-muted, #596b8e);
   font-size: 13px;
   line-height: 1.8;
 }
@@ -130,7 +130,7 @@
 }
 .workEnd > span {
   font-size: 11px;
-  color: #596b8e;
+  color: var(--theme-muted, #596b8e);
 }
 .motionControl {
   display: flex;
@@ -146,7 +146,7 @@
   font:
     8px var(--font-signal-mono),
     monospace;
-  color: #596b8e;
+  color: var(--theme-muted, #596b8e);
   letter-spacing: 0.08em;
 }
 .motionControl button {
@@ -156,13 +156,13 @@
   font: inherit;
   letter-spacing: 0;
   background: none;
-  border: 1px solid #d6deef;
+  border: 1px solid var(--theme-line, #d6deef);
   border-radius: 4px;
   padding: 6px 9px;
-  color: #52638c;
+  color: var(--theme-muted, #52638c);
 }
 .about.about {
-  background: white;
+  background: var(--theme-surface, white);
   border-bottom: 0;
 }
 .aboutGrid {
@@ -176,12 +176,12 @@
   font:
     10px/1.7 var(--font-signal-mono),
     monospace;
-  color: #52638c;
+  color: var(--theme-muted, #52638c);
   border-left: 2px solid var(--signal-400);
   padding-left: 13px;
 }
 .biography > p {
-  color: #52638c;
+  color: var(--theme-muted, #52638c);
   font-size: 14px;
   line-height: 1.95;
   margin-top: 3px;
@@ -198,7 +198,7 @@
   font:
     8px var(--font-signal-mono),
     monospace;
-  color: #596b8e;
+  color: var(--theme-muted, #596b8e);
   letter-spacing: 0.1em;
   margin-bottom: 8px;
 }
@@ -239,14 +239,14 @@
 }
 .chain p {
   font-size: 10px;
-  color: #596b8e;
+  color: var(--theme-muted, #596b8e);
 }
 .chainArrow {
   position: absolute;
   right: -9px;
   top: 50%;
   color: var(--cobalt-700);
-  background: white;
+  background: var(--theme-surface, white);
   z-index: 1;
 }
 .site :global(.journey-section) {
@@ -268,7 +268,7 @@
 }
 .site :global(.journey-intro > p) {
   font-size: 13px;
-  color: #52638c;
+  color: var(--theme-muted, #52638c);
   max-width: 290px;
   line-height: 1.9;
 }
@@ -311,7 +311,7 @@
 .site :global(.journey-entry > p) {
   font-size: 12px;
   line-height: 1.8;
-  color: #52638c;
+  color: var(--theme-muted, #52638c);
 }
 .site :global(.journey-organization) {
   color: var(--cobalt-700) !important;
@@ -413,7 +413,7 @@
   background-size: 15px 15px;
 }
 .site :global(.archive-section) {
-  background: white;
+  background: var(--theme-surface, white);
 }
 .site :global(.archive-heading) {
   display: flex;
@@ -428,7 +428,7 @@
   margin-top: 16px;
 }
 .site :global(.archive-heading > p) {
-  color: #596b8e;
+  color: var(--theme-muted, #596b8e);
   font-size: 12px;
   max-width: 300px;
   line-height: 1.8;
@@ -509,14 +509,14 @@
 .site :global(.archive-copy > p) {
   font-size: 11px;
   line-height: 1.8;
-  color: #52638c;
+  color: var(--theme-muted, #52638c);
 }
 .site :global(.archive-copy details) {
   margin-top: 14px;
   border-top: 1px solid var(--line);
   padding-top: 12px;
   font-size: 11px;
-  color: #52638c;
+  color: var(--theme-muted, #52638c);
 }
 .site :global(.archive-copy summary) {
   cursor: pointer;
@@ -532,7 +532,7 @@
   border-block: 1px solid var(--line);
 }
 .site :global(.certificates-section) {
-  background: white;
+  background: var(--theme-surface, white);
 }
 .site :global(.certificates-heading) {
   display: flex;
@@ -547,7 +547,7 @@
 .site :global(.certificates-heading > p) {
   max-width: 300px;
   font-size: 12px;
-  color: #596b8e;
+  color: var(--theme-muted, #596b8e);
   line-height: 1.8;
 }
 .site :global(.certificate-grid) {
@@ -609,7 +609,7 @@
 .site :global(.certificate-placeholder) {
   height: 220px;
   color: #9baccb;
-  background: linear-gradient(135deg, #edf2fb, #f7f9fe);
+  background: linear-gradient(135deg, #edf2fb, var(--theme-surface, #f7f9fe));
   border-bottom: 1px dashed var(--line);
 }
 .site :global(.certificate-placeholder svg) {

@@ -2,11 +2,11 @@
   --accent: #9bd2ff;
   display: block;
   position: relative;
-  border: 1px solid #d6deef;
+  border: 1px solid var(--theme-line, #d6deef);
   border-radius: 9px;
   overflow: hidden;
-  background: #fff;
-  color: #0b1944;
+  background: var(--theme-surface, #fff);
+  color: var(--theme-text, #0b1944);
   transition:
     transform 380ms cubic-bezier(0.16, 1, 0.3, 1),
     border-color 160ms,
@@ -47,7 +47,7 @@
 }
 .card[data-project="niotoshield"] .cover,
 .card[data-project="easyshield"] .cover {
-  background: #fff;
+  background: var(--theme-surface, #fff);
 }
 .year.year {
   position: absolute;
@@ -75,7 +75,7 @@
   text-transform: uppercase;
   letter-spacing: 0.08em;
   margin-bottom: 12px;
-  color: #52638c;
+  color: var(--theme-muted, #52638c);
 }
 .category::before {
   content: "";
@@ -90,12 +90,12 @@
   letter-spacing: -0.035em;
   word-spacing: 0.06em;
   margin-bottom: 12px;
-  color: #0b1944;
+  color: var(--theme-text, #0b1944);
 }
 .summary.summary {
   font-size: 13px;
   line-height: 1.7;
-  color: #52638c;
+  color: var(--theme-muted, #52638c);
   min-height: 44px;
   max-width: 440px;
 }
@@ -119,7 +119,7 @@
   display: flex;
   gap: 13px;
   align-items: center;
-  color: #0139b4;
+  color: var(--theme-link, #0139b4);
   font-size: 11px;
   font-weight: 600;
 }
@@ -127,7 +127,8 @@
   width: 30px;
   height: 30px;
   background: #eff3fc;
-  border: 1px solid #d6deef;
+  color: #0139b4;
+  border: 1px solid var(--theme-line, #d6deef);
   border-radius: 50%;
 }
 .card:hover .open :global(.arrow-circle) {

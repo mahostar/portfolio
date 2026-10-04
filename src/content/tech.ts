@@ -22,5 +22,5 @@ export const technologies = [
   { id: "nodejs", name: "Node.js", group: "Full-stack", logo: "simple:nodedotjs", placeholder: false },
   { id: "blender", name: "Blender", group: "3D and Design", logo: "simple:blender", placeholder: false },
   { id: "cad", name: "3D printing", group: "3D and Design", logo: "simple:bambulab", placeholder: false },
-  { id: "solidworks", name: "SOLIDWORKS", group: "3D and Design", logo: "local:solidworks-cube", placeholder: false },
+  { id: "solidworks", name: "SOLIDWORKS", group: "3D and Design", logo: "local:solidworks-cube-transparent", placeholder: false },
 ];

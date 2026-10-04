@@ -1,6 +1,6 @@
 .bottom {
-  background: #fff;
-  border-top: 1px solid #e3e6ec;
+  background: var(--theme-surface, #fff);
+  border-top: 1px solid var(--theme-line, #e3e6ec);
   isolation: isolate;
 }
 .bottom::before {
@@ -8,13 +8,13 @@
 }
 .bottom :global(a),
 .bottom :global(a.active) {
-  color: #46516a;
+  color: var(--theme-muted, #46516a);
   background: transparent;
   border-color: transparent;
   box-shadow: none;
 }
 .bottom :global(a.active) {
-  color: #0b1944;
-  background: #eef0f4;
+  color: var(--theme-text, #0b1944);
+  background: var(--theme-raised, #eef0f4);
   border-radius: 8px;
 }

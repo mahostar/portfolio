@@ -6,11 +6,13 @@ import { MotionProvider } from "@/components/motion-provider";
 import { PortfolioMotion } from "@/components/portfolio-motion";
 import { WelcomeScreen } from "@/components/welcome-screen";
 import { GlassLab } from "@/components/glass-lab";
+import { ThemeProvider } from "@/components/theme-provider";
 import { fullName, monogram, site, siteUrl } from "@/content/site";
 import "./globals.css";
 import "./motion-design.css";
 import "./refinement.css";
 import "./pcb-motion.css";
+import "./themes.css";
 
 const archivo = Archivo({
   subsets: ["latin"],
@@ -51,19 +53,22 @@ export default function RootLayout({
         <script async src="/welcome-startup.js" fetchPriority="high" />
       </head>
       <body className={`${archivo.variable} ${inter.variable}`}>
-        <MotionProvider>
-          <WelcomeScreen name={fullName} />
-          <PortfolioMotion />
-          <a className="skip-link" href="#main">
-            Skip to content
-          </a>
-          <Navigation monogram={monogram} name={`${site.firstName} ${site.lastName}`} />
-          <main id="main" tabIndex={-1}>
-            {children}
-          </main>
-          <Footer />
-          {process.env.NODE_ENV === "development" && process.env.NEXT_PUBLIC_GLASS_LAB === "1" && <GlassLab />}
-        </MotionProvider>
+        <ThemeProvider>
+          <MotionProvider>
+            <WelcomeScreen name={fullName} />
+            <PortfolioMotion />
+            <a className="skip-link" href="#main">
+              Skip to content
+            </a>
+            <Navigation monogram={monogram} name={`${site.firstName} ${site.lastName}`} />
+            <main id="main" tabIndex={-1}>
+              {children}
+            </main>
+            <Footer />
+            {process.env.NODE_ENV === "development" &&
+              process.env.NEXT_PUBLIC_GLASS_LAB === "1" && <GlassLab />}
+          </MotionProvider>
+        </ThemeProvider>
       </body>
     </html>
   );
