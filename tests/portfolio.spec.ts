@@ -131,7 +131,7 @@ test("case-study routes and unfiltered project list", async ({ page }) => {
     .evaluateAll((cards) => cards.map((card) => card.getAttribute("href")!));
   expect(slugs.slice(-4)).toEqual([
     "/projects/algobrain",
-    "/projects/cleenolve",
+    "/projects/cleanoov",
     "/projects/eazycode",
     "/projects/faza3d",
   ]);

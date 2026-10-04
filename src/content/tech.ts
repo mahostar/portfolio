@@ -7,6 +7,7 @@ export const technologies = [
   { id: "tauri", name: "Tauri", group: "Full-stack", logo: "simple:tauri", placeholder: false },
   { id: "ffmpeg", name: "FFmpeg", group: "Full-stack", logo: "simple:ffmpeg", placeholder: false },
   { id: "python", name: "Python", group: "AI and Agents", logo: "simple:python", placeholder: false },
+  { id: "yolo", name: "YOLO", group: "AI and Agents", logo: "simple:yolo", placeholder: false },
   { id: "pytorch", name: "PyTorch", group: "AI and Agents", logo: "simple:pytorch", placeholder: false },
   { id: "tensorflow", name: "TensorFlow", group: "AI and Agents", logo: "simple:tensorflow", placeholder: false },
   { id: "opencv", name: "OpenCV", group: "AI and Agents", logo: "simple:opencv", placeholder: false },

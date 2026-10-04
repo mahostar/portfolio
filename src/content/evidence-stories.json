@@ -12,6 +12,18 @@
       "url": "https://ielts.org/organisations/ielts-for-organisations/verifying-ielts-results"
     },
     {
+      "id": "solar-master-repair",
+      "title": "Solar training · Master Repair",
+      "issuer": "Orange / Master Repair",
+      "date": "",
+      "summary": "Certificate of participation in the training programme.",
+      "image": "/images/evidence/certificates/solar-training/orange-master-repair-participation--121.webp",
+      "alt": "Solar training · Master Repair certificate scan",
+      "url": "",
+      "width": 1424,
+      "height": 936
+    },
+    {
       "id": "agrinova",
       "title": "Hydroponics training",
       "issuer": "Agrinova",
@@ -24,40 +36,16 @@
       "height": 1073
     },
     {
-      "id": "algobrain-recognition",
-      "title": "AlgoBrain · recognition certificate",
-      "issuer": "",
-      "date": "",
-      "summary": "Recognition documented in the supplied project certificate.",
-      "image": "/images/evidence/certificates/algobrain/award-certificate--024.webp",
-      "alt": "AlgoBrain · recognition certificate certificate scan",
-      "url": "",
-      "width": 1464,
-      "height": 1058
-    },
-    {
-      "id": "algobrain-participation",
-      "title": "AlgoBrain · participation certificate",
-      "issuer": "",
-      "date": "",
-      "summary": "Participation documented in the supplied project certificate.",
-      "image": "/images/evidence/certificates/algobrain/participation-certificate--025.webp",
-      "alt": "AlgoBrain · participation certificate certificate scan",
-      "url": "",
-      "width": 1527,
-      "height": 1056
-    },
-    {
-      "id": "soft-skills",
-      "title": "Soft skills bootcamp",
+      "id": "solar-commercial",
+      "title": "Photovoltaics · technical and commercial training",
       "issuer": "BOOTCAMP",
       "date": "",
       "summary": "Certificate of participation.",
-      "image": "/images/evidence/certificates/soft-skills/bootcamp-participation--119.webp",
-      "alt": "Soft skills bootcamp certificate scan",
+      "image": "/images/evidence/certificates/solar-commercial/bootcamp-participation--125.webp",
+      "alt": "Photovoltaics · technical and commercial training certificate scan",
       "url": "",
-      "width": 1060,
-      "height": 1528
+      "width": 1567,
+      "height": 1101
     },
     {
       "id": "solar-installation",
@@ -72,28 +60,40 @@
       "height": 1097
     },
     {
-      "id": "solar-master-repair",
-      "title": "Solar training · Master Repair",
-      "issuer": "Orange / Master Repair",
-      "date": "",
-      "summary": "Certificate of participation in the training programme.",
-      "image": "/images/evidence/certificates/solar-training/orange-master-repair-participation--121.webp",
-      "alt": "Solar training · Master Repair certificate scan",
-      "url": "",
-      "width": 1424,
-      "height": 936
-    },
-    {
-      "id": "solar-commercial",
-      "title": "Photovoltaics · technical and commercial training",
+      "id": "soft-skills",
+      "title": "Soft skills bootcamp",
       "issuer": "BOOTCAMP",
       "date": "",
       "summary": "Certificate of participation.",
-      "image": "/images/evidence/certificates/solar-commercial/bootcamp-participation--125.webp",
-      "alt": "Photovoltaics · technical and commercial training certificate scan",
+      "image": "/images/evidence/certificates/soft-skills/bootcamp-participation--119.webp",
+      "alt": "Soft skills bootcamp certificate scan",
       "url": "",
-      "width": 1567,
-      "height": 1101
+      "width": 1060,
+      "height": 1528
+    },
+    {
+      "id": "algobrain-participation",
+      "title": "AlgoBrain · participation certificate",
+      "issuer": "",
+      "date": "",
+      "summary": "Participation documented in the supplied project certificate.",
+      "image": "/images/evidence/certificates/algobrain/participation-certificate--025.webp",
+      "alt": "AlgoBrain · participation certificate certificate scan",
+      "url": "",
+      "width": 1527,
+      "height": 1056
+    },
+    {
+      "id": "algobrain-recognition",
+      "title": "AlgoBrain · recognition certificate",
+      "issuer": "",
+      "date": "",
+      "summary": "Recognition documented in the supplied project certificate.",
+      "image": "/images/evidence/certificates/algobrain/award-certificate--024.webp",
+      "alt": "AlgoBrain · recognition certificate certificate scan",
+      "url": "",
+      "width": 1464,
+      "height": 1058
     }
   ],
   "milestoneStories": [

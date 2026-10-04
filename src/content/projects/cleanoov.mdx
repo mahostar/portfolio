@@ -1,11 +1,11 @@
 ---
-slug: cleenolve
-title: Cleenolve
+slug: cleanoov
+title: Cleanoov
 category: AI + Hardware
 summary: 'A thermal-inspection interface for locating possible solar-panel hotspots.'
-tech: []
-cover: >-
-  /images/evidence/projects/cleenolve/software/thermal-hotspot-detector-interface--036.webp
+tech: ["python", "yolo", "cad", "pcb", "pytorch"]
+cover: "/images/projects/cleanoov.webp"
+coverFit: "contain"
 year: null
 featured: false
 links: {}
@@ -19,7 +19,7 @@ Solar installations are large, repetitive, and difficult to inspect panel by pan
 The useful outcome is not simply a colourful thermal frame. It is a short, reviewable list of locations that may need a technician to inspect.
 
 ## What I built
-Cleenolve brings that review process into a focused thermal hotspot detector. The recorded interface accepts a video file or a live stream, displays the thermal image, draws candidate boxes, and reports the number of current candidates.
+Cleanoov brings that review process into a focused thermal hotspot detector. The recorded interface accepts a video file or a live stream, displays the thermal image, draws candidate boxes, and reports the number of current candidates.
 
 The controls expose the decisions that change a detector's behaviour: sensitivity, the largest permitted box as a percentage of the frame, minimum spot size, texture filtering, and a cluster filter. That makes the tool an inspection aid with visible tuning controls rather than a black box that silently decides what is faulty.
 

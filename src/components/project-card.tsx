@@ -47,7 +47,7 @@ export function ProjectCard({
         <p className={`project-summary ${styles.summary}`}>{project.summary}</p>
         <div className={`project-bottom ${styles.bottom}`}>
           <div className="tech-row">
-            {project.tech.slice(0, 4).map((id) => (
+            {project.tech.slice(0, project.slug === "cleanoov" ? 5 : 4).map((id) => (
               <TechLogo id={id} key={id} />
             ))}
           </div>

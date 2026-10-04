@@ -29,7 +29,7 @@ const catalogueOrder = [
   "shrinkify",
   "tpms-generator",
   "algobrain",
-  "cleenolve",
+  "cleanoov",
   "eazycode",
   "faza3d",
 ];
