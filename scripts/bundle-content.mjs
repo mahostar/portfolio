@@ -16,7 +16,7 @@ console.log(`Bundled ${projects.length} projects for deployment.`);
 const pdfjs = path.join(root, 'node_modules/pdfjs-dist');
 const pdfAssets = path.join(root, 'public/pdfjs');
 fs.mkdirSync(pdfAssets, { recursive: true });
-fs.copyFileSync(path.join(pdfjs, 'build/pdf.worker.min.mjs'), path.join(pdfAssets, 'pdf.worker.min.mjs'));
+fs.copyFileSync(path.join(pdfjs, 'legacy/build/pdf.worker.min.mjs'), path.join(pdfAssets, 'pdf.worker.legacy.min.mjs'));
 for (const folder of ['cmaps', 'standard_fonts', 'wasm']) {
   fs.cpSync(path.join(pdfjs, folder), path.join(pdfAssets, folder), { recursive: true });
 }

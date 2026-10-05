@@ -48,5 +48,5 @@ const netlifyUrl = process.env.NETLIFY === "true"
   ? (process.env.CONTEXT === "production" ? process.env.URL : process.env.DEPLOY_PRIME_URL || process.env.URL)
   : undefined;
 export const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || netlifyUrl || (process.env.NODE_ENV === "production"
-  ? "https://mohamedwassimmbarek.darkcompiler.workers.dev"
+  ? "https://mohamedwassim.mbarek.workers.dev"
   : "http://localhost:3000");

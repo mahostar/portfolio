@@ -95,7 +95,7 @@ function PdfPage({
       });
       await render.promise;
       if (cancelled) return;
-      const pdfjs = await import("pdfjs-dist");
+      const pdfjs = await import("pdfjs-dist/legacy/build/pdf.mjs");
       const content = await pdfPage.getTextContent();
       if (cancelled) return;
       text = new pdfjs.TextLayer({
@@ -166,11 +166,11 @@ export function ResearchReader({ paper }: { paper: ResearchPaper }) {
 
   useEffect(() => {
     let cancelled = false;
-    let loading: ReturnType<typeof import("pdfjs-dist").getDocument> | undefined;
-    void import("pdfjs-dist")
+    let loading: ReturnType<typeof import("pdfjs-dist/legacy/build/pdf.mjs").getDocument> | undefined;
+    void import("pdfjs-dist/legacy/build/pdf.mjs")
       .then(async (pdfjs) => {
         if (cancelled) return;
-        pdfjs.GlobalWorkerOptions.workerSrc = "/pdfjs/pdf.worker.min.mjs";
+        pdfjs.GlobalWorkerOptions.workerSrc = "/pdfjs/pdf.worker.legacy.min.mjs";
         loading = pdfjs.getDocument({
           url: paper.file,
           cMapUrl: "/pdfjs/cmaps/",
