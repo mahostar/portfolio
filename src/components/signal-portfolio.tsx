@@ -21,6 +21,7 @@ import { ProjectCard } from "./project-card";
 import { Journey, BeyondEngineering } from "./story-sections";
 import { ExperienceArchive } from "./experience-archive";
 import { CertificateGallery } from "./certificate-gallery";
+import { ResearchJournal } from "./research-journal";
 import { ContactForm } from "./contact-form";
 import { ContactHeading } from "./contact-heading";
 import { LiquidGlassPanel } from "./liquid-glass";
@@ -161,6 +162,7 @@ export function SignalPortfolio() {
         </div>
       </section>
       <CertificateGallery items={getCertificates()} slots={getCertificateSlots()} />
+      <ResearchJournal />
       <section
         id="contact"
         className={`section contact-section ${styles.contact}`}

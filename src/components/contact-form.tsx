@@ -123,7 +123,6 @@ export function ContactForm({ email, note }: { email: string; note: string }) {
             Send message
             <ArrowUpRight size={18} />
       </LiquidGlassButton>
-      <p className="form-note">Opens a draft in Gmail. Review it and press Send there.</p>
     </form>
   );
 }

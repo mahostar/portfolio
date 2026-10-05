@@ -24,7 +24,7 @@ export function Navigation({ monogram, name }: { monogram: string; name: string 
   const onHome = pathname === "/";
   const [section, setSection] = useState("home");
   const rowRef = useRef<HTMLDivElement>(null);
-  const active = onHome ? section : "work";
+  const active = onHome ? section : pathname.startsWith("/research/") ? "impact" : "work";
   useEffect(() => {
     const row = rowRef.current;
     const brand = row?.querySelector<HTMLElement>(".nav-brand");
@@ -92,6 +92,7 @@ export function Navigation({ monogram, name }: { monogram: string; name: string 
       impact: "impact",
       skills: "impact",
       certificates: "impact",
+      research: "impact",
       contact: "contact",
     };
     const sections = Object.keys(groups)
