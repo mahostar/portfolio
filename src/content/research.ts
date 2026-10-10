@@ -22,6 +22,16 @@ export const researchPapers = [
     file: "/research/ai-overwhelm.pdf",
     logo: "/images/research/ai-overwhelm-logo.webp",
   },
+  {
+    slug: "sarlin-persona",
+    title: "Sarlin: Transferring Claude’s Conversational Persona Across Models",
+    date: "October 2026",
+    dateTime: "2026-10-09",
+    kind: "Independent Research Report",
+    description: "A study of conversational persona transfer across models, separating style resemblance from general response quality.",
+    file: "/research/sarlin-persona.pdf",
+    logo: "/images/research/sarlin-persona-logo.svg",
+  },
 ] as const;
 
 export type ResearchPaper = (typeof researchPapers)[number];

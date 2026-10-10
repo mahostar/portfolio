@@ -16,7 +16,7 @@ for (const width of [320, 390, 1440, 2560]) {
     await expect(
       section.getByRole("heading", { name: "Research Journal" }),
     ).toBeVisible();
-    await expect(section.locator("a")).toHaveCount(2);
+    await expect(section.locator("a")).toHaveCount(3);
     for (const card of await section.locator("a").all()) {
       const title = await card.locator("h3").boundingBox();
       const description = await card.locator("p").boundingBox();
@@ -200,12 +200,12 @@ test("Real research cards expose the supplied dates and distinct loaded logos", 
   await expect(page.locator("[data-welcome-screen]")).toBeHidden();
   const section = page.locator("#research");
   await section.scrollIntoViewIfNeeded();
-  await expect(section.locator("time")).toHaveText(["November 2025", "October 2026"]);
+  await expect(section.locator("time")).toHaveText(["November 2025", "October 2026", "October 2026"]);
   await expect(section.locator("a").first()).toHaveAttribute(
     "href",
     "/research/easyshield",
   );
-  await expect(section.locator("a").last()).toHaveAttribute(
+  await expect(section.locator("a").nth(1)).toHaveAttribute(
     "href",
     "/research/ai-overwhelm",
   );
@@ -221,7 +221,7 @@ test("Real research cards expose the supplied dates and distinct loaded logos", 
   const sources = await section
     .locator("img")
     .evaluateAll((images) => images.map((image) => image.getAttribute("src")));
-  expect(new Set(sources).size).toBe(2);
+  expect(new Set(sources).size).toBe(3);
   expect(
     await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth),
   ).toBe(true);
