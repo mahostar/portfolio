@@ -30,7 +30,7 @@ export const researchPapers = [
     kind: "Independent Research Report",
     description: "A study of conversational persona transfer across models, separating style resemblance from general response quality.",
     file: "/research/sarlin-persona.pdf",
-    logo: "/images/research/sarlin-persona-logo.svg",
+    logo: "/images/research/sarlin-persona-logo-v2.webp",
   },
 ] as const;
 
