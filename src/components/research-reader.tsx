@@ -141,6 +141,36 @@ function PdfPage({
 }
 
 export function ResearchReader({ paper }: { paper: ResearchPaper }) {
+  const versions = "versions" in paper ? paper.versions : undefined;
+  const [file, setFile] = useState<string>(paper.file);
+  const selected = versions?.find((version) => version.file === file) ?? paper;
+
+  return (
+    <DocumentReader
+      key={selected.file}
+      paper={selected}
+      versionControl={versions ? (
+        <select
+          aria-label="Paper version"
+          className={styles.versionSelect}
+          value={file}
+          onChange={(event) => setFile(event.target.value)}
+        >
+          {versions.map((version) => (
+            <option key={version.file} value={version.file}>
+              {version.label}
+            </option>
+          ))}
+        </select>
+      ) : null}
+    />
+  );
+}
+
+function DocumentReader({ paper, versionControl }: {
+  paper: { title: string; file: string };
+  versionControl: React.ReactNode;
+}) {
   const stage = useRef<HTMLDivElement>(null);
   const lastScroll = useRef(0);
   const jumping = useRef(false);
@@ -245,7 +275,8 @@ export function ResearchReader({ paper }: { paper: ResearchPaper }) {
           </Link>
         </div>
       </div>
-      <div className={styles.toolbar} role="group" aria-label="PDF reader controls">
+      <div className={`${styles.toolbar} ${versionControl ? styles.versionToolbar : ""}`} role="group" aria-label="PDF reader controls">
+        {versionControl}
         <label className={styles.pageLabel}>
           <input
             aria-label="Page number"

@@ -2,6 +2,47 @@ import { test, expect } from "@playwright/test";
 
 test.use({ reducedMotion: "reduce" });
 
+for (const width of [320, 1440]) {
+  test(`Sarlin versions keep V1 default and switch PDFs at ${width}px`, async ({ page }) => {
+    await page.setViewportSize({ width, height: 900 });
+    const errors: string[] = [];
+    page.on("pageerror", (error) => errors.push(error.message));
+    await page.goto("/research/sarlin-persona");
+    const version = page.getByLabel("Paper version");
+    const stage = page.getByRole("region", { name: "PDF pages", exact: true });
+    const first = stage.locator('[data-pdf-page="1"]');
+    const download = page.getByRole("link", { name: "Download PDF", exact: true });
+    await expect(version).toHaveValue("/research/sarlin-persona.pdf");
+    await expect(first).toHaveAttribute("aria-busy", "false");
+    await expect(stage.locator("[data-pdf-page]")).toHaveCount(41);
+    await expect(download).toHaveAttribute("href", "/research/sarlin-persona.pdf");
+    await page.getByLabel("Page number").fill("3");
+    await page.getByLabel("Page number").press("Enter");
+    await page.getByLabel("Zoom level").selectOption("125");
+    await version.selectOption("/research/sarlin-persona-v2.pdf");
+    await expect(first).toHaveAttribute("aria-busy", "false");
+    await expect(first.locator(".textLayer")).toContainText("Preserving a way of being");
+    await expect(stage.locator("[data-pdf-page]")).toHaveCount(16);
+    await expect(page.getByLabel("Page number")).toHaveValue("1");
+    await expect(page.getByLabel("Zoom level")).toHaveValue("100");
+    await expect(download).toHaveAttribute("href", "/research/sarlin-persona-v2.pdf");
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+    await page.screenshot({ path: `artifacts/research/sarlin-v2-${width}.png` });
+    const event = page.waitForEvent("download");
+    await download.click();
+    expect((await event).suggestedFilename()).toBe("sarlin-persona-v2.pdf");
+    await version.selectOption("/research/sarlin-persona.pdf");
+    await expect(first).toHaveAttribute("aria-busy", "false");
+    await expect(stage.locator("[data-pdf-page]")).toHaveCount(41);
+    await version.selectOption("/research/sarlin-persona-v2.pdf");
+    await expect(first).toHaveAttribute("aria-busy", "false");
+    await page.reload();
+    await expect(version).toHaveValue("/research/sarlin-persona.pdf");
+    await expect(first).toHaveAttribute("aria-busy", "false");
+    expect(errors).toEqual([]);
+  });
+}
+
 for (const width of [320, 390, 1440, 2560]) {
   test(`Research Journal continuous reader works at ${width}px`, async ({ page }) => {
     await page.setViewportSize({ width, height: 900 });

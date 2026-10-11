@@ -30,6 +30,18 @@ export const researchPapers = [
     kind: "Independent Research Report",
     description: "A study of conversational persona transfer across models, separating style resemblance from general response quality.",
     file: "/research/sarlin-persona.pdf",
+    versions: [
+      {
+        label: "V1 — Original",
+        title: "Sarlin: Transferring Claude’s Conversational Persona Across Models",
+        file: "/research/sarlin-persona.pdf",
+      },
+      {
+        label: "V2 — Personal design",
+        title: "Sarlin: Preserving a Way of Being in Conversation",
+        file: "/research/sarlin-persona-v2.pdf",
+      },
+    ],
     logo: "/images/research/sarlin-persona-logo-v2.webp",
   },
 ] as const;
